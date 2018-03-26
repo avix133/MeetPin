@@ -11,11 +11,12 @@
         android:id="@+id/mapButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginBottom="4dp"
         android:layout_marginTop="16dp"
         android:text="Map"
+        app:layout_constraintBottom_toTopOf="@+id/joey"
         app:layout_constraintEnd_toStartOf="@+id/friendsListButton"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,36 +24,19 @@
         android:id="@+id/friendsListButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
-        android:layout_marginEnd="1dp"
+        android:layout_marginEnd="3dp"
         android:text="Friends"
-        app:layout_constraintBottom_toTopOf="@+id/joey"
-        app:layout_constraintEnd_toStartOf="@+id/settingsButton"
-        app:layout_constraintStart_toEndOf="@+id/mapButton"
-        app:layout_constraintTop_toBottomOf="@+id/settingsButton" />
-
-    <Button
-        android:id="@+id/settingsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="14dp"
-        android:layout_marginTop="16dp"
-        android:text="Settings"
-        app:layout_constraintBottom_toTopOf="@+id/friendsListButton"
+        app:layout_constraintBaseline_toBaselineOf="@+id/mapButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/friendsListButton"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/mapButton" />
 
     <WebView
         android:id="@+id/joey"
-        android:layout_width="0dp"
+        android:layout_width="395dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/friendsListButton" />
+        app:layout_constraintEnd_toEndOf="@+id/mapButton"
+        app:layout_constraintStart_toEndOf="@+id/mapButton"
+        app:layout_constraintTop_toBottomOf="@+id/mapButton" />
 
 </android.support.constraint.ConstraintLayout>

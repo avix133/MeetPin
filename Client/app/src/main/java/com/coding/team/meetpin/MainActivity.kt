@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
 
         mapButton = findViewById(R.id.mapButton)
         friendsButton = findViewById(R.id.friendsListButton)
-        settingsButton = findViewById(R.id.settingsButton)
         joey = findViewById(R.id.joey)
         joey.loadUrl("file:///android_asset/Joey.html")
 
@@ -35,11 +34,7 @@ class MainActivity : AppCompatActivity() {
             val intent : Intent = Intent(applicationContext, FriendsListActivity::class.java)
             startActivity(intent)
         })
-        settingsButton.setOnClickListener(
-        {
-            val intent : Intent = Intent(applicationContext, MapActivity::class.java)
-            startActivity(intent)
-        })
+
 
 
     }
