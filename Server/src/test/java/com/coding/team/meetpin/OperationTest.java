@@ -1,3 +1,6 @@
+package com.coding.team.meetpin;
+
+import com.coding.team.meetpin.Operation;
 import org.junit.Assert;
 import org.junit.Test;
 
