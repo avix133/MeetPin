@@ -26,12 +26,12 @@ class MainActivity : AppCompatActivity() {
 
         mapButton.setOnClickListener(
         {
-            val intent : Intent = Intent(applicationContext, MapActivity::class.java)
+            val intent = Intent(applicationContext, MapActivity::class.java)
             startActivity(intent)
         })
         friendsButton.setOnClickListener(
         {
-            val intent : Intent = Intent(applicationContext, FriendsListActivity::class.java)
+            val intent = Intent(applicationContext, FriendsListActivity::class.java)
             startActivity(intent)
         })
 
