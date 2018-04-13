@@ -1,10 +1,11 @@
-package com.coding.team.meetpin
+package com.coding.team.meetpin.activities
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import com.coding.team.meetpin.R
 
 class FriendsListActivity : AppCompatActivity() {
     lateinit var resultTextView : TextView
@@ -18,7 +19,7 @@ class FriendsListActivity : AppCompatActivity() {
 
         returnButton.setOnClickListener(
                 {
-                    val intent : Intent = Intent(applicationContext,MainActivity::class.java)
+                    val intent : Intent = Intent(applicationContext, MainActivity::class.java)
                     startActivity(intent)
                 }
         )

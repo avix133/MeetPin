@@ -1,4 +1,4 @@
-package com.coding.team.meetpin
+package com.coding.team.meetpin.activities
 
 import android.content.res.Configuration
 import android.os.Bundle
