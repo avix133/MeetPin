@@ -24,6 +24,7 @@
         </activity>
         <activity android:name=".activities.MapActivity" />
         <activity android:name=".activities.FriendsListActivity" />
+        <activity android:name=".activities.AuthenticationActivity" />
 
         <meta-data
             android:name="com.google.android.gms.version"
