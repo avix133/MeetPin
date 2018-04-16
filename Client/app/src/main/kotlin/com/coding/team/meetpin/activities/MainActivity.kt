@@ -13,6 +13,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var friendsButton : Button
     lateinit var settingsButton : Button
     lateinit var joey : WebView
+    lateinit var logOutButton : Button
+    lateinit var testButton : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         mapButton = findViewById(R.id.mapButton)
         friendsButton = findViewById(R.id.friendsListButton)
+        logOutButton = findViewById(R.id.logOutButton)
         joey = findViewById(R.id.joey)
         joey.loadUrl("file:///android_asset/Joey.html")
 
@@ -34,6 +37,13 @@ class MainActivity : AppCompatActivity() {
                     val intent : Intent = Intent(applicationContext, FriendsListActivity::class.java)
                     startActivity(intent)
                 })
+        logOutButton.setOnClickListener(
+                {
+                    val intent : Intent = Intent(applicationContext, LoginActivity::class.java)
+                    startActivity(intent)
+                }
+        )
+
 
     }
 
