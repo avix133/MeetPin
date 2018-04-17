@@ -1,6 +1,5 @@
 package com.coding.team.meetpin;
 
-import com.coding.team.meetpin.Operation;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,9 +12,9 @@ public class OperationTest {
     }
 
     @Test
-    public void substract()
+    public void subtract()
     {
         Operation operation = new Operation();
-        Assert.assertEquals(3,operation.substract(8,5));
+        Assert.assertEquals(3,operation.subtract(8,5));
     }
 }
