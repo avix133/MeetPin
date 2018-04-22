@@ -31,8 +31,8 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        btnLogin = findViewById(R.id.btnLogin)
-        btnLogout = findViewById(R.id.btnLogout)
+//        btnLogin = findViewById(R.id.btnLogin)
+//        btnLogout = findViewById(R.id.btnLogout)
 
         updateUI(false)
 //Sign in

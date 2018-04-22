@@ -2,6 +2,9 @@ package com.coding.team.meetpin.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.ImageButton
 import com.coding.team.meetpin.R
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -14,13 +17,16 @@ import com.google.android.gms.maps.model.MarkerOptions
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
+    lateinit var pinButton : ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_maps)
+        setContentView(R.layout.activity_map_2)
         val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map) as SupportMapFragment
+                .findFragmentById(R.id.map2) as SupportMapFragment
+
         mapFragment.getMapAsync(this)
+        pinButton = findViewById(R.id.pinButton)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
