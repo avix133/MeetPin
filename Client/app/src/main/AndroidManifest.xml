@@ -37,8 +37,6 @@
 
         <activity android:name=".activities.NewPinActivity">
         </activity>
-        <activity android:name=".activities.PickDateActivity">
-        </activity>
     </application>
 
 </manifest>

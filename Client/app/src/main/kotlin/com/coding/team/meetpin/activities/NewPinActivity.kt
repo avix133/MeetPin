@@ -16,12 +16,16 @@ import javax.xml.datatype.DatatypeConstants.MONTHS
 class NewPinActivity : AppCompatActivity() {
     lateinit var messageBox : EditText
     lateinit var pickDateButton : Button
+    lateinit var getTextButton : Button
+    lateinit var getTextTextView : EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_pin)
         pickDateButton = findViewById(R.id.pickDateButton)
         messageBox = findViewById(R.id.message)
+        getTextButton = findViewById(R.id.getTextButton)
+        getTextTextView = findViewById(R.id.getTextTextView)
 
 
         @SuppressLint("SetTextI18n")
@@ -41,9 +45,13 @@ class NewPinActivity : AppCompatActivity() {
         pickDateButton.setOnClickListener {
             pickDate(this.findViewById(android.R.id.content))
         }
-//        messageBox.get
+
+        getTextButton.setOnClickListener {
+            getTextTextView.text = messageBox.text
         }
+        }
+}
 
 
-    }
+
 
