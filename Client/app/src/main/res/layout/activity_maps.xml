@@ -1,21 +1,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <com.google.android.gms.maps.SupportMapFragment
+    <!--<com.google.android.gms.maps.SupportMapFragment-->
+            <!--android:id="@+id/map"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="434dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:orientation="vertical"/>-->
+
+    <fragment
             android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="434dp"
-            android:layout_weight="1"
-            android:orientation="vertical"/>
-    <Button
+            android:layout_height="400dp" />
+    <ImageView
             android:id="@+id/pin"
-            android:layout_width="wrap_content"
+            android:layout_width="180dp"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="#e40d05"
-            android:text="Pin"/>
+            android:background="#e40d05"/>
+    <!--android:layout_marginBottom="8dp"/>-->
+
 
 
 </LinearLayout>
