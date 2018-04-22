@@ -11,10 +11,8 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var mapButton : Button
     lateinit var friendsButton : Button
-    lateinit var settingsButton : Button
     lateinit var joey : WebView
     lateinit var logOutButton : Button
-    lateinit var testButton : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
