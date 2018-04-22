@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:layout_marginTop="16dp"
-        android:text="Map"
+        android:text="@string/map"
         app:layout_constraintBottom_toTopOf="@+id/joey"
         app:layout_constraintEnd_toStartOf="@+id/friendsListButton"
         app:layout_constraintHorizontal_chainStyle="packed"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="3dp"
         android:layout_marginRight="3dp"
-        android:text="Friends"
+        android:text="@string/friends"
         app:layout_constraintBaseline_toBaselineOf="@+id/mapButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/mapButton" />

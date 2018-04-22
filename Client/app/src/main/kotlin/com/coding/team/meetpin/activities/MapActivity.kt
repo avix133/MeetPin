@@ -1,5 +1,6 @@
 package com.coding.team.meetpin.activities
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -27,6 +28,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         mapFragment.getMapAsync(this)
         pinButton = findViewById(R.id.pinButton)
+
+        pinButton.setOnClickListener {
+            val intent : Intent = Intent(applicationContext, NewPinActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

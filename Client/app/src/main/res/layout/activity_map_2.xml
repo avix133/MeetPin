@@ -16,6 +16,9 @@
     <ImageButton
             android:src="@drawable/pin"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" tools:layout_editor_absoluteY="432dp" tools:layout_editor_absoluteX="297dp"
-            android:id="@+id/pinButton"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/pinButton" android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/map2"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+            app:layout_constraintHorizontal_bias="0.973"/>
 </android.support.constraint.ConstraintLayout>

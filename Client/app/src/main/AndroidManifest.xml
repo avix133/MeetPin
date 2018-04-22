@@ -35,8 +35,10 @@
                 android:name="com.google.android.geo.API_KEY"
                 android:value="AIzaSyD8QIWSUULWroQ-wwWWGpSIZP6AxJHq5gM"/>
 
-
-
+        <activity android:name=".activities.NewPinActivity">
+        </activity>
+        <activity android:name=".activities.PickDateActivity">
+        </activity>
     </application>
 
 </manifest>
