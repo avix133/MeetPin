@@ -1,34 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.coding.team.meetpin.activities.FriendsListActivity">
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             tools:context="com.coding.team.meetpin.activities.FriendsListActivity"
+                                             tools:layout_editor_absoluteY="81dp">
 
     <TextView
-        android:id="@+id/resultTextView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="25dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="36dp"
-        android:text="Elo elo 3 2 0 tu friends"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        app:layout_constraintBottom_toTopOf="@+id/returnButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/resultTextView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="Elo elo 3 2 0 tu friends"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="15dp" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/returnButton" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
     <Button
-        android:id="@+id/returnButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="422dp"
-        android:text="Return"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resultTextView" />
+            android:id="@+id/returnButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Return"
+            app:layout_constraintTop_toBottomOf="@+id/resultTextView" android:layout_marginBottom="336dp"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 </android.support.constraint.ConstraintLayout>
