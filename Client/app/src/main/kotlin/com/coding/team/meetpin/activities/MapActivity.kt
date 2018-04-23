@@ -1,6 +1,5 @@
 package com.coding.team.meetpin.activities
 
-import android.content.ClipData
 import android.graphics.Point
 import android.location.Address
 import android.location.Geocoder
@@ -9,7 +8,6 @@ import android.os.Bundle
 import android.view.DragEvent
 import android.view.MotionEvent
 import android.view.View
-import android.widget.ImageView
 import com.coding.team.meetpin.R
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -28,7 +26,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback { //
     var dropY : Float = 0.0f
     lateinit var shadowBuilder: View.DragShadowBuilder
     lateinit var coord : LatLng
-    var geocoder = Geocoder(this, Locale.getDefault())
+//    var geocoder = Geocoder(this, Locale.getDefault())
     lateinit var address : List<Address>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,10 +38,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback { //
             if (motionEvent.action == MotionEvent.ACTION_DOWN) {
                 shadowBuilder = View.DragShadowBuilder(view)
                 view.startDrag(null, shadowBuilder, view, 0)
-
+//                dropX = motionEvent.rawX
+//                dropY= motionEvent.rawY
                 return@OnTouchListener true
             } else {
-
+//                dropX = motionEvent.rawX
+//                dropY= motionEvent.rawY
                 return@OnTouchListener false
             }
         })
@@ -63,8 +63,10 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback { //
 //                dropY = dragEvent.y
 
                 println(dropX.toString() +" " + dropY.toString())
-                coord = pointToCoord(dropX.toInt(), dropY.toInt())
-                address = geocoder.getFromLocation(coord.latitude, coord.longitude,1)
+                coord = mMap.getProjection().fromScreenLocation(Point(dropX.toInt(), dropY.toInt()))
+                println(coord.latitude.toString() +" " + coord.longitude.toString())
+                var geocoder = Geocoder(applicationContext)
+                address = geocoder.getFromLocation((coord.latitude), (coord.longitude),1)
                 println(address.get(0).getAddressLine(0))
                 return@OnDragListener false
             }else
@@ -84,9 +86,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback { //
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cracow, 15f))
     }
 
-    fun pointToCoord(x: Int,y: Int): LatLng{
-        var projection = mMap.getProjection()
-        return projection.fromScreenLocation(Point(x, y))
-    }
+//    fun pointToCoord(x: Int,y: Int): LatLng{
+//        var projection = mMap.getProjection()
+//        return projection.fromScreenLocation(Point(x, y))
+//    }
 
 }
