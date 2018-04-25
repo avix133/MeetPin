@@ -15,6 +15,10 @@
     <uses-permission android:name="android.permission.READ_PROFILE"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
+    <!-- Include required permissions for Google Mobile Ads to run. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -28,6 +32,9 @@
         <activity android:name=".activities.FriendsListActivity" />
         <activity android:name=".activities.AuthenticationActivity" />
         <activity android:name=".activities.DebugActivity" />
+        <activity android:name=".activities.PinWindowActivity"
+            android:theme="@style/AppTheme.PinPopupWindow"
+        />
 
         <meta-data
                 android:name="com.google.android.gms.version"
@@ -47,5 +54,4 @@
         </activity>
 
     </application>
-
 </manifest>
