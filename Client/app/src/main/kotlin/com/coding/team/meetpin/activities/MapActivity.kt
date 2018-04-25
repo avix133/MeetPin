@@ -41,38 +41,23 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         pin.setOnTouchListener(View.OnTouchListener(function = { view, motionEvent ->
             if (motionEvent.action == MotionEvent.ACTION_DOWN) {
                 shadowBuilder = View.DragShadowBuilder(view)
-                view.startDragAndDrop(null, shadowBuilder, view, 0)
+                view.startDrag(null, shadowBuilder, view, 0)
 
                 return@OnTouchListener true
             } else {
-
+                dropX = motionEvent.x
+                dropY =  motionEvent.y
                 return@OnTouchListener false
             }
         })
         )
         pin.setOnDragListener(View.OnDragListener(function = { view, dragEvent ->
             if (dragEvent.action == DragEvent.ACTION_DROP) {
-                var array: IntArray = intArrayOf(0,0)
-                view.getLocationOnScreen(array)
-                dropX = array.get(0).toFloat()
-                dropY = array.get(1).toFloat()
-//
-//                println(dropX.toString() +" " + dropY.toString())
-                coord = mMap.getProjection().fromScreenLocation(Point(dropX.toInt(), dropY.toInt()))
-//                println(coord.latitude.toString() +" " + coord.longitude.toString())
-                var geocoder = Geocoder(applicationContext)
-                address = geocoder.getFromLocation((coord.latitude), (coord.longitude), 1)
-
-                Toast.makeText(applicationContext, address.get(0).getAddressLine(0), Toast.LENGTH_SHORT).show()
-                return@OnDragListener false
-
-            } else if (dragEvent.action == DragEvent.ACTION_DRAG_ENDED) {
-//                println("hehe")
-//                var location: IntArray= intArrayOf(0,1)
-
-
-//                dropX = dragEvent.x
-//                dropY = dragEvent.y
+                Toast.makeText(applicationContext, "DropEvent", Toast.LENGTH_SHORT).show()
+//                var array: IntArray = intArrayOf(0,0)
+//                view.getLocationOnScreen(array)
+//                dropX = array.get(0).toFloat()
+//                dropY = array.get(1).toFloat()
 ////
 ////                println(dropX.toString() +" " + dropY.toString())
 //                coord = mMap.getProjection().fromScreenLocation(Point(dropX.toInt(), dropY.toInt()))
@@ -81,6 +66,23 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 //                address = geocoder.getFromLocation((coord.latitude), (coord.longitude), 1)
 //
 //                Toast.makeText(applicationContext, address.get(0).getAddressLine(0), Toast.LENGTH_SHORT).show()
+                return@OnDragListener false
+
+            } else if (dragEvent.action == DragEvent.ACTION_DRAG_ENDED) {
+//                println("hehe")
+//                var location: IntArray= intArrayOf(0,1)
+                Toast.makeText(applicationContext, "DragEndedt", Toast.LENGTH_SHORT).show()
+
+
+//
+//                println(dropX.toString() +" " + dropY.toString())
+                coord = mMap.getProjection().fromScreenLocation(Point(dropX.toInt(), dropY.toInt()))
+                mMap.addMarker(MarkerOptions().position(coord).title("Marker"))
+//                println(coord.latitude.toString() +" " + coord.longitude.toString())
+                var geocoder = Geocoder(applicationContext)
+                address = geocoder.getFromLocation((coord.latitude), (coord.longitude), 1)
+
+                Toast.makeText(applicationContext, address.get(0).getAddressLine(0), Toast.LENGTH_SHORT).show()
                 return@OnDragListener false
             } else
 
