@@ -10,7 +10,7 @@ class PinWindowActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_pin_popip_window)
+        setContentView(R.layout.activity_pin_popup_window)
 
         val dm = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(dm)
@@ -18,6 +18,6 @@ class PinWindowActivity : AppCompatActivity() {
         val width = dm.widthPixels
         val height = dm.heightPixels
 
-        window.setLayout((width * .6).toInt(), (height * .3).toInt())
+        window.setLayout((width * .8).toInt(), (height * .4).toInt())
     }
 }
