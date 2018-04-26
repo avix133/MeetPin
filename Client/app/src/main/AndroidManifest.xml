@@ -15,6 +15,13 @@
     <uses-permission android:name="android.permission.READ_PROFILE"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
+    <!-- Include required permissions for Google Mobile Ads to run. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-feature
+            android:glEsVersion="0x00020000"
+            android:required="true"/>
+
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -23,11 +30,19 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity android:name=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity android:name=".activities.MapActivity" />
         <activity android:name=".activities.FriendsListActivity" />
         <activity android:name=".activities.AuthenticationActivity" />
         <activity android:name=".activities.DebugActivity" />
+        <activity android:name=".activities.PinWindowActivity"
+            android:theme="@style/AppTheme.PinPopupWindow"
+        />
 
         <meta-data
                 android:name="com.google.android.gms.version"
@@ -35,17 +50,7 @@
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
                 android:value="AIzaSyD8QIWSUULWroQ-wwWWGpSIZP6AxJHq5gM"/>
-
-        <activity
-                android:name=".activities.LoginActivity"
-                android:label="@string/title_activity_login">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-
     </application>
 
 </manifest>
+

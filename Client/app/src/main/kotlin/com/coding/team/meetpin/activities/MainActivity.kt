@@ -11,13 +11,24 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var mapButton: Button
-    lateinit var friendsButton: Button
-    lateinit var debugButton: Button
-    lateinit var joey: WebView
-    lateinit var logOutButton : Button
+    private lateinit var mapButton: Button
+    private lateinit var friendsButton: Button
+    private lateinit var debugButton: Button
+    private lateinit var joey: WebView
+    private lateinit var logOutButton : Button
+
+    var authenticated = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        if (!authenticated) {
+            val intent = Intent(applicationContext, AuthenticationActivity::class.java)
+            println("Starting authentication")
+            startActivity(intent)
+            println("Here")
+            authenticated = true
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -32,13 +43,13 @@ class MainActivity : AppCompatActivity() {
 
         mapButton.setOnClickListener(
                 {
-                    val intent: Intent = Intent(applicationContext, MapActivity::class.java)
+                    val intent = Intent(applicationContext, MapActivity::class.java)
                     startActivity(intent)
                 })
         friendsButton.setOnClickListener(
                 {
                     println("Friends")
-                    val intent: Intent = Intent(applicationContext, FriendsListActivity::class.java)
+                    val intent = Intent(applicationContext, FriendsListActivity::class.java)
                     startActivity(intent)
                 })
         mainDebugButton.setOnClickListener(
@@ -49,8 +60,7 @@ class MainActivity : AppCompatActivity() {
         )
         logOutButton.setOnClickListener(
                 {
-                    val intent : Intent = Intent(applicationContext, LoginActivity::class.java)
-                    startActivity(intent)
+                    //TO DO
                 }
         )
     }

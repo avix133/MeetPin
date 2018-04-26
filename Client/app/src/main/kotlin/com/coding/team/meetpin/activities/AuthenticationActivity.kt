@@ -17,10 +17,10 @@ import com.google.android.gms.common.api.Status
 class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener {
 
     private val RC_SIGN_IN = 9001
-    private var mGoogleApiClient: GoogleApiClient? = null
+    private lateinit var mGoogleApiClient: GoogleApiClient
 
-    private var btnLogin: Button? = null
-    private var btnLogout: Button? = null
+    private lateinit var logInButton: Button
+    private lateinit var logOutButton: Button
 
 
     override fun onConnectionFailed(connectionResult: ConnectionResult) {
@@ -29,10 +29,10 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_authentication)
 
-        //btnLogin = findViewById(R.id.btnLogin)
-       // btnLogout = findViewById(R.id.btnLogout)
+        logInButton = findViewById(R.id.logInButton)
+        logOutButton = findViewById(R.id.logOutButton)
 
         updateUI(false)
 //Sign in
@@ -45,16 +45,16 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build()
 
-        btnLogin?.setOnClickListener(View.OnClickListener {
-            var signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
+        logInButton.setOnClickListener(View.OnClickListener {
+            val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
             startActivityForResult(signInIntent, RC_SIGN_IN)
         })
 //Sign out
-        btnLogout?.setOnClickListener(View.OnClickListener {
+        logOutButton.setOnClickListener(View.OnClickListener {
             Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                     object : ResultCallback<Status> {
                         override fun onResult(status: Status) {
-                            updateUI(status.isSuccess)
+                            updateUI(!status.isSuccess)
                         }
                     }
             )
@@ -67,7 +67,7 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == RC_SIGN_IN) {
-            var result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
             updateUI(result.isSuccess)
         }
 
@@ -75,11 +75,14 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
 
     private fun updateUI(isLogin: Boolean) {
         if (isLogin) {
-            btnLogin?.visibility = View.GONE
-            btnLogout?.visibility = View.VISIBLE
+            logInButton.visibility = View.GONE
+            logOutButton.visibility = View.VISIBLE
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            println("Starting main")
+            startActivity(intent)
         } else {
-            btnLogin?.visibility = View.VISIBLE
-            btnLogout?.visibility = View.GONE
+            logInButton.visibility = View.VISIBLE
+            logOutButton.visibility = View.GONE
         }
     }
 }
