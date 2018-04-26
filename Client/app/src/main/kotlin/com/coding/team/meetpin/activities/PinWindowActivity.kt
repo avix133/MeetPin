@@ -12,12 +12,12 @@ class PinWindowActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_pin_popup_window)
 
-        val dm = DisplayMetrics()
+        val dm = DisplayMetrics() //dm = displayMetrics
         windowManager.defaultDisplay.getMetrics(dm)
 
         val width = dm.widthPixels
         val height = dm.heightPixels
 
-        window.setLayout((width * .8).toInt(), (height * .4).toInt())
+        window.setLayout((width * .8).toInt(), (height * .4).toInt()) //pass .8 and .4 as val
     }
 }

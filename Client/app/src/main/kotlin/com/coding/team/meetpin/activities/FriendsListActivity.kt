@@ -32,7 +32,6 @@ class FriendsListActivity : AppCompatActivity() {
                 {
                     val intent : Intent = Intent(applicationContext, MainActivity::class.java)
                     startActivity(intent)
-                    sendNotification(resultTextView)
                 }
         )
     }
@@ -48,7 +47,7 @@ class FriendsListActivity : AppCompatActivity() {
                 .setSmallIcon(android.R.drawable.ic_dialog_info)
                 .setChannelId(channelID)
                 .build()
-        var notificationManager =
+        val notificationManager =
                 getSystemService(
                         Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.notify(101, notification)
