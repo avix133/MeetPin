@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedList
             Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback (
                     object : ResultCallback<Status> {
                         override fun onResult(status: Status) {
-                            updateUI(status.isSuccess)
+                            updateUI(!status.isSuccess)
                         }
                     }
             )
@@ -71,7 +71,8 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedList
 
     }
 
-    private fun updateUI(isLogin: Boolean) {
+    private fun updateUI(isLogin: Boolean) {:q
+
         if(isLogin) {
             btnLogin?.visibility = View.GONE
             btnLogout?.visibility = View.VISIBLE
