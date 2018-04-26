@@ -54,7 +54,7 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
             Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                     object : ResultCallback<Status> {
                         override fun onResult(status: Status) {
-                            updateUI(status.isSuccess)
+                            updateUI(!status.isSuccess)
                         }
                     }
             )
@@ -77,6 +77,9 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
         if (isLogin) {
             logInButton.visibility = View.GONE
             logOutButton.visibility = View.VISIBLE
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            println("Starting main")
+            startActivity(intent)
         } else {
             logInButton.visibility = View.VISIBLE
             logOutButton.visibility = View.GONE

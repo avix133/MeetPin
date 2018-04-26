@@ -17,7 +17,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var joey: WebView
     private lateinit var logOutButton : Button
 
+    var authenticated = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        if (!authenticated) {
+            val intent = Intent(applicationContext, AuthenticationActivity::class.java)
+            println("Starting authentication")
+            startActivity(intent)
+            println("Here")
+            authenticated = true
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
