@@ -35,6 +35,7 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
         logOutButton = findViewById(R.id.logOutButton)
 
         updateUI(false)
+
 //Sign in
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -78,11 +79,14 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
             logInButton.visibility = View.GONE
             logOutButton.visibility = View.VISIBLE
             val intent = Intent(applicationContext, MainActivity::class.java)
-            println("Starting main")
+            intent.putExtra("FROM_ACTIVITY", "AuthenticationActivity")
+            intent.putExtra("LoggedIn", true)
             startActivity(intent)
         } else {
+
             logInButton.visibility = View.VISIBLE
             logOutButton.visibility = View.GONE
         }
     }
+
 }

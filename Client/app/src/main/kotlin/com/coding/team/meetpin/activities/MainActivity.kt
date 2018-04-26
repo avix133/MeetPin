@@ -17,52 +17,56 @@ class MainActivity : AppCompatActivity() {
     private lateinit var joey: WebView
     private lateinit var logOutButton : Button
 
-    var authenticated = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        if (!authenticated) {
-            val intent = Intent(applicationContext, AuthenticationActivity::class.java)
-            println("Starting authentication")
-            startActivity(intent)
-            println("Here")
-            authenticated = true
-        }
-
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val extras = intent.extras
+
+        if ( extras==null) {
+            val intent = Intent(applicationContext, AuthenticationActivity::class.java)
+            intent.putExtra("FROM_ACTIVITY", "MainActivity")
+            startActivity(intent)
+
+        } else {
+
+            setContentView(R.layout.activity_main)
 
 
-        mapButton = findViewById(R.id.mapButton)
-        friendsButton = findViewById(R.id.friendsListButton)
-        debugButton = findViewById(R.id.mainDebugButton)
-        logOutButton = findViewById(R.id.logOutButton)
-        joey = findViewById(R.id.joey)
-        joey.loadUrl("file:///android_asset/Joey.html")
+            mapButton = findViewById(R.id.mapButton)
+            friendsButton = findViewById(R.id.friendsListButton)
+            debugButton = findViewById(R.id.mainDebugButton)
+            logOutButton = findViewById(R.id.logOutButton)
+            joey = findViewById(R.id.joey)
+            joey.loadUrl("file:///android_asset/Joey.html")
 
 
-        mapButton.setOnClickListener(
-                {
-                    val intent = Intent(applicationContext, MapActivity::class.java)
-                    startActivity(intent)
-                })
-        friendsButton.setOnClickListener(
-                {
-                    println("Friends")
-                    val intent = Intent(applicationContext, FriendsListActivity::class.java)
-                    startActivity(intent)
-                })
-        mainDebugButton.setOnClickListener(
-                {
-                    val intent = Intent(applicationContext, DebugActivity::class.java)
-                    startActivity(intent)
-                }
-        )
-        logOutButton.setOnClickListener(
-                {
-                    //TO DO
-                }
-        )
+            mapButton.setOnClickListener(
+                    {
+                        val intent = Intent(applicationContext, MapActivity::class.java)
+                        intent.putExtra("FROM_ACTIVITY", "MainActivity")
+                        startActivity(intent)
+                    })
+            friendsButton.setOnClickListener(
+                    {
+                        println("Friends")
+                        val intent = Intent(applicationContext, FriendsListActivity::class.java)
+                        intent.putExtra("FROM_ACTIVITY", "MainActivity")
+                        startActivity(intent)
+                    })
+            mainDebugButton.setOnClickListener(
+                    {
+                        val intent = Intent(applicationContext, DebugActivity::class.java)
+                        intent.putExtra("FROM_ACTIVITY", "MainActivity")
+                        startActivity(intent)
+                    }
+            )
+            logOutButton.setOnClickListener(
+                    {
+                        //TO DO
+                    }
+            )
+        }
     }
-
 }

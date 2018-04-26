@@ -67,6 +67,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
 
     override fun onMarkerClick(p0: Marker?): Boolean {
         val intent = Intent(this, PinWindowActivity::class.java)
+        intent.putExtra("FROM_ACTIVITY", "MapActivity")
         startActivity(intent)
         return false
     }
@@ -82,7 +83,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
         marker = mMap.addMarker(mOption)
         marker.position = getMarkerPosition()
         val geocoder = Geocoder(applicationContext)
-        address = geocoder.getFromLocation(p0!!.position.latitude, p0!!.position.longitude, 1)
+        address = geocoder.getFromLocation(p0!!.position.latitude, p0.position.longitude, 1)
         Toast.makeText(applicationContext, address.get(0).getAddressLine(0), Toast.LENGTH_SHORT).show()
     }
 

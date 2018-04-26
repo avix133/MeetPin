@@ -30,7 +30,8 @@ class FriendsListActivity : AppCompatActivity() {
 
         returnButton.setOnClickListener(
                 {
-                    val intent : Intent = Intent(applicationContext, MainActivity::class.java)
+                    val intent = Intent(applicationContext, MainActivity::class.java)
+                    intent.putExtra("FROM_ACTIVITY", "FriendsListActivity")
                     startActivity(intent)
                 }
         )
