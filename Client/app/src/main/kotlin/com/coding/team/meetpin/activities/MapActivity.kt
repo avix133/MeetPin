@@ -1,15 +1,13 @@
 package com.coding.team.meetpin.activities
 
-import android.content.Intent
-import android.graphics.Point
-import android.location.Address
-import android.location.Geocoder
-import android.os.Bundle
 import android.Manifest
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Point
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
@@ -19,7 +17,6 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.DisplayMetrics
-import android.widget.Toast
 import android.widget.Toast
 import com.coding.team.meetpin.R
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -34,11 +31,15 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 
 
-class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnMarkerDragListener, GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveListener, GoogleMap.OnCameraMoveStartedListener {
-
-
-class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener,
-        ActivityCompat.OnRequestPermissionsResultCallback {
+class MapActivity : AppCompatActivity(),
+        OnMapReadyCallback,
+        GoogleMap.OnMyLocationButtonClickListener,
+        ActivityCompat.OnRequestPermissionsResultCallback,
+        GoogleMap.OnMarkerClickListener,
+        GoogleMap.OnMarkerDragListener,
+        GoogleMap.OnCameraIdleListener,
+        GoogleMap.OnCameraMoveListener,
+        GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnMyLocationClickListener {
 
     // Default location (Cracow, Poland)
     private val mDefaultZoom = 15.0f
@@ -54,16 +55,16 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocat
     private lateinit var address: List<Address>
     private lateinit var mOption: MarkerOptions
     private lateinit var marker: Marker
-    private lateinit var mfusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var mLastKnownLocation: Location
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_maps)
+        setContentView(R.layout.activity_map)
 
-        mfusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
@@ -84,8 +85,10 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocat
 
         mMap.setOnMyLocationButtonClickListener(this)
         mMap.setOnMyLocationClickListener(this)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
         marker = mMap.addMarker(mOption)
+        mOption = MarkerOptions().position(getMarkerPosition()).draggable(true)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+
         mMap.setOnMarkerDragListener(this)
         mMap.setOnCameraMoveStartedListener(this)
         mMap.setOnCameraMoveListener(this)
@@ -93,7 +96,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocat
 
 
         mMap.setOnMarkerClickListener(this)
-        mOption = MarkerOptions().position(getMarkerPosition()).draggable(true)
     }
 
 
@@ -150,7 +152,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocat
     private fun getUserLocation() {
         if(mLocationPermissionGranted) {
 
-            val userLocation = mfusedLocationProviderClient.lastLocation
+            val userLocation = mFusedLocationProviderClient.lastLocation
             userLocation.addOnCompleteListener(this, { task ->
                 if (task.isSuccessful) {
                     mLastKnownLocation = task.result
