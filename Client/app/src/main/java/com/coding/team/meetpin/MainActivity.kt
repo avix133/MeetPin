@@ -71,8 +71,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedList
 
     }
 
-    private fun updateUI(isLogin: Boolean) {:q
-
+    private fun updateUI(isLogin: Boolean) {
         if(isLogin) {
             btnLogin?.visibility = View.GONE
             btnLogout?.visibility = View.VISIBLE
