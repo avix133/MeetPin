@@ -57,7 +57,7 @@ class MapActivity : AppCompatActivity(),
     private val mDefaultZoom = 15.0f
     private val mDefaultLocation = LatLng(50.06, 19.94)
     private val LOCATION_PERMISSION_REQUEST_CODE = 1
-    private var mLocationPermissionGranted: Boolean = true
+    private var mLocationPermissionGranted: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
