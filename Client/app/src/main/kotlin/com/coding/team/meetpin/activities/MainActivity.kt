@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         if ( extras==null) {
             val intent = Intent(applicationContext, AuthenticationActivity::class.java)
             intent.putExtra("FROM_ACTIVITY", "MainActivity")
+
             startActivity(intent)
 
         } else {
@@ -64,7 +65,10 @@ class MainActivity : AppCompatActivity() {
             )
             logOutButton.setOnClickListener(
                     {
-                        //TO DO
+                        val intent = Intent(applicationContext, AuthenticationActivity::class.java)
+                        intent.putExtra("FROM_ACTIVITY", "MainActivity")
+                        intent.putExtra("LOGGED_IN", true)
+                        startActivity(intent)
                     }
             )
         }
