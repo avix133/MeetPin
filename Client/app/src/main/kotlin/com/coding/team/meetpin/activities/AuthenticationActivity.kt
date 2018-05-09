@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.Task
 class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
     private val RC_SIGN_IN = 9001
+    private val DEBUG = true
     private lateinit var mGoogleSignInClient: GoogleSignInClient
 
     private lateinit var logInButton: Button
@@ -52,25 +53,33 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
 
     override fun onStart() {
         super.onStart()
-        var account= GoogleSignIn.getLastSignedInAccount(this)
+        val account = GoogleSignIn.getLastSignedInAccount(this)
+        println("In onStart -> Account email:" + account?.email.toString())
+        if(DEBUG && account == null) {
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            intent.putExtra("FROM_ACTIVITY", "AuthenticationActivity")
+            intent.putExtra("LoggedIn", true)
+            startActivity(intent)
+        }
         updateUI(account)
     }
 
-    override fun onClick(v:View){
-        when(v.id){
-            R.id.logInButton->
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.logInButton ->
                 signIn()
-            R.id.logOutButton->
+            R.id.logOutButton ->
                 signOut()
         }
     }
 
-    private fun signIn(){
+    private fun signIn() {
+        println("In signIn")
         val signInIntent = mGoogleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
-    private fun signOut(){
+    private fun signOut() {
         mGoogleSignInClient.signOut().addOnCompleteListener(this, {
             val intent = Intent(applicationContext, AuthenticationActivity::class.java)
             intent.putExtra("FROM_ACTIVITY", "AuthenticationActivity")
@@ -78,7 +87,7 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
         })
     }
 
-    private fun revokeAccess(){
+    private fun revokeAccess() {
         mGoogleSignInClient.revokeAccess().addOnCompleteListener(this, OnCompleteListener {
 
         })
@@ -86,30 +95,40 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        println("In onActivityResult")
         if (requestCode == RC_SIGN_IN) {
-            var task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            println("In onActivityResult -> Request code is RC_SIGN_IN ")
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            println("In onActivityResult -> " + task.toString())
             handleSignInResult(task)
+        } else {
+            println("In onActivityResult -> Request code is: " + requestCode)
         }
     }
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
-            var account = completedTask.getResult(ApiException::class.java)
+            println("In handleSignInResult")
+            val account = completedTask.getResult(ApiException::class.java)
             updateUI(account)
-        }catch (e: ApiException){
+        } catch (e: ApiException) {
             updateUI(null)
         }
     }
 
     private fun updateUI(account: GoogleSignInAccount?) {
         val extras = intent.extras
-        if (account==null){
+        println("In updateUI")
+        if (account == null) {
+            println("In updateUI: Account is null")
             logInButton.visibility = View.VISIBLE
             logOutButton.visibility = View.GONE
-        }else if(extras!=null && extras.getBoolean("LOGGED_IN")){
+        } else if (extras != null && extras.getBoolean("LOGGED_IN")) {
+            println("In updateUI: LOGGED IN")
             logInButton.visibility = View.GONE
             logOutButton.visibility = View.VISIBLE
-        }else{
+        } else {
+            println("In updateUI: starting activity")
             val intent = Intent(applicationContext, MainActivity::class.java)
             intent.putExtra("FROM_ACTIVITY", "AuthenticationActivity")
             intent.putExtra("LoggedIn", true)

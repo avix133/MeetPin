@@ -23,14 +23,17 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         val extras = intent.extras
+        println("In MainActivity")
 
         if ( extras==null) {
+            println("In MainActivity: starting AuthenticationActivity")
             val intent = Intent(applicationContext, AuthenticationActivity::class.java)
             intent.putExtra("FROM_ACTIVITY", "MainActivity")
 
             startActivity(intent)
 
         } else {
+            println("In MainActivity: starting MAIN")
 
             setContentView(R.layout.activity_main)
 
