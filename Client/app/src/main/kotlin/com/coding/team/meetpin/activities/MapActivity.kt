@@ -45,8 +45,8 @@ class MapActivity : AppCompatActivity(),
     private lateinit var mMap: GoogleMap
     private var maxY: Int = 0
     private var maxX: Int = 0
-    private val MARKER_POS_X = 80
-    private val MARKER_POS_Y = 180
+    private val PERSENTAGE_POS_X = 0.1667
+    private val PERSENTAGE_POS_Y = 0.775
     private lateinit var address: List<Address>
     private lateinit var mOption: MarkerOptions
     private lateinit var marker: Marker
@@ -70,6 +70,9 @@ class MapActivity : AppCompatActivity(),
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         maxY = displayMetrics.heightPixels
         maxX = displayMetrics.widthPixels
+        //println( maxX )
+        //println( maxX )
+
 
     }
 
@@ -124,6 +127,7 @@ class MapActivity : AppCompatActivity(),
 
     override fun onCameraMoveStarted(p0: Int) {
         marker.position = getMarkerPosition()
+
     }
 
     override fun onCameraMove() {
@@ -135,7 +139,8 @@ class MapActivity : AppCompatActivity(),
     }
 
     private fun getMarkerPosition(): LatLng {
-        return mMap.projection.fromScreenLocation(Point(MARKER_POS_X, maxY - MARKER_POS_Y))
+        return mMap.projection.fromScreenLocation(Point((PERSENTAGE_POS_X *maxX).toInt(), (PERSENTAGE_POS_Y*maxY).toInt()))
+        //return mMap.projection.fromScreenLocation(Point(MARKER_POS_X, maxY - MARKER_POS_Y))
     }
     private fun getLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
