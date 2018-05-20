@@ -45,8 +45,8 @@ class MapActivity : AppCompatActivity(),
     private lateinit var mMap: GoogleMap
     private var maxY: Int = 0
     private var maxX: Int = 0
-    private val PERSENTAGE_POS_X = 0.1667
-    private val PERSENTAGE_POS_Y = 0.775
+    private val PERSENTAGE_POS_X = 0.1
+    private val PERSENTAGE_POS_Y = 0.83
     private lateinit var address: List<Address>
     private lateinit var mOption: MarkerOptions
     private lateinit var marker: Marker
