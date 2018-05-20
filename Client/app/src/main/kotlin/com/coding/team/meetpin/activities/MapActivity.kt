@@ -1,6 +1,10 @@
 package com.coding.team.meetpin.activities
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.DialogInterface
+import android.Manifest
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -50,14 +54,19 @@ class MapActivity : AppCompatActivity(),
     private lateinit var mMap: GoogleMap
     private var maxY: Int = 0
     private var maxX: Int = 0
-    private val MARKER_POS_X = 80
-    private val MARKER_POS_Y = 180
+    private val PERSENTAGE_POS_X = 0.1667
+    private val PERSENTAGE_POS_Y = 0.775
     private lateinit var address: List<Address>
     private lateinit var mOption: MarkerOptions
     private lateinit var marker: Marker
     private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var mLastKnownLocation: Location
 
+    // Default location (Cracow, Poland)
+    private val mDefaultZoom = 15.0f
+    private val mDefaultLocation = LatLng(50.06, 19.94)
+    private val LOCATION_PERMISSION_REQUEST_CODE = 1
+    private var mLocationPermissionGranted: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +75,7 @@ class MapActivity : AppCompatActivity(),
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -86,9 +96,19 @@ class MapActivity : AppCompatActivity(),
         mMap.setOnMyLocationButtonClickListener(this)
         mMap.setOnMyLocationClickListener(this)
         marker = mMap.addMarker(mOption)
+        val cracow = LatLng(50.06, 19.94)
+        getLocationPermission()
+        getUserLocation()
+
+        mMap.setOnMyLocationButtonClickListener(this)
+        mMap.setOnMyLocationClickListener(this)
+
+
+//        mMap.addMarker(MarkerOptions().position(cracow).title("Marker in Cracow"))
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cracow, 15f))
         mOption = MarkerOptions().position(getMarkerPosition()).draggable(true)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
-
+        marker = mMap.addMarker(mOption)
         mMap.setOnMarkerDragListener(this)
         mMap.setOnCameraMoveStartedListener(this)
         mMap.setOnCameraMoveListener(this)
@@ -123,6 +143,7 @@ class MapActivity : AppCompatActivity(),
 
     override fun onCameraMoveStarted(p0: Int) {
         marker.position = getMarkerPosition()
+
     }
 
     override fun onCameraMove() {
@@ -134,10 +155,9 @@ class MapActivity : AppCompatActivity(),
     }
 
     private fun getMarkerPosition(): LatLng {
-        return mMap.projection.fromScreenLocation(Point(MARKER_POS_X, maxY - MARKER_POS_Y))
+        return mMap.projection.fromScreenLocation(Point((PERSENTAGE_POS_X *maxX).toInt(), (PERSENTAGE_POS_Y*maxY).toInt()))
+        //return mMap.projection.fromScreenLocation(Point(MARKER_POS_X, maxY - MARKER_POS_Y))
     }
-
-
     private fun getLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
@@ -150,9 +170,9 @@ class MapActivity : AppCompatActivity(),
         }
     }
 
+    @SuppressLint("MissingPermission")
     private fun getUserLocation() {
         if(mLocationPermissionGranted) {
-
             val userLocation = mFusedLocationProviderClient.lastLocation
             userLocation.addOnCompleteListener(this, { task ->
                 if (task.isSuccessful) {
@@ -171,7 +191,7 @@ class MapActivity : AppCompatActivity(),
         }
     }
 
-     override fun onMyLocationClick(location: Location) {
+    override fun onMyLocationClick(location: Location) {
         Toast.makeText(this, "Current location:\n$location", Toast.LENGTH_LONG).show()
     }
 
