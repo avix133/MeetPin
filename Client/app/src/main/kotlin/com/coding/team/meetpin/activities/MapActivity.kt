@@ -4,9 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
-import android.Manifest
-import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Point
@@ -45,12 +42,6 @@ class MapActivity : AppCompatActivity(),
         GoogleMap.OnCameraMoveListener,
         GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnMyLocationClickListener {
 
-    // Default location (Cracow, Poland)
-    private val mDefaultZoom = 15.0f
-    private val mDefaultLocation = LatLng(50.06, 19.94)
-    private val LOCATION_PERMISSION_REQUEST_CODE = 1
-
-    private var mLocationPermissionGranted: Boolean = false
     private lateinit var mMap: GoogleMap
     private var maxY: Int = 0
     private var maxX: Int = 0
@@ -70,11 +61,7 @@ class MapActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_map)
-
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
@@ -83,6 +70,9 @@ class MapActivity : AppCompatActivity(),
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         maxY = displayMetrics.heightPixels
         maxX = displayMetrics.widthPixels
+        //println( maxX )
+        //println( maxX )
+
 
     }
 
@@ -90,12 +80,6 @@ class MapActivity : AppCompatActivity(),
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        getLocationPermission()
-        getUserLocation()
-
-        mMap.setOnMyLocationButtonClickListener(this)
-        mMap.setOnMyLocationClickListener(this)
-        marker = mMap.addMarker(mOption)
         val cracow = LatLng(50.06, 19.94)
         getLocationPermission()
         getUserLocation()
