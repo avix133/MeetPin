@@ -2,6 +2,7 @@ package com.coding.team.meetpin.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -13,15 +14,20 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.DisplayMetrics
+import android.util.Log
 import android.widget.Toast
 import com.coding.team.meetpin.R
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException
+import com.google.android.gms.common.GooglePlayServicesRepairableException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.places.ui.PlacePicker
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -30,7 +36,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-
 
 class MapActivity : AppCompatActivity(),
         OnMapReadyCallback,
@@ -41,6 +46,11 @@ class MapActivity : AppCompatActivity(),
         GoogleMap.OnCameraIdleListener,
         GoogleMap.OnCameraMoveListener,
         GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnMyLocationClickListener {
+
+    companion object {
+        private const val PLACE_PICKER_REQUEST = 3
+        private const val REQUEST_CHECK_SETTINGS = 2
+    }
 
     private lateinit var mMap: GoogleMap
     private var maxY: Int = 0
@@ -72,6 +82,10 @@ class MapActivity : AppCompatActivity(),
         maxX = displayMetrics.widthPixels
         //println( maxX )
         //println( maxX )
+        val fab = findViewById<FloatingActionButton>(R.id.fab)
+        fab.setOnClickListener {
+            loadPlacePicker()
+        }
 
 
     }
@@ -206,6 +220,44 @@ class MapActivity : AppCompatActivity(),
         }
     }
 
+    private fun loadPlacePicker() {
+        val builder = PlacePicker.IntentBuilder()
+
+        try {
+            startActivityForResult(builder.build(this@MapActivity), PLACE_PICKER_REQUEST)
+        }
+        catch (ex: GooglePlayServicesRepairableException){
+            ex.printStackTrace()
+        }
+        catch (ex: GooglePlayServicesNotAvailableException){
+            ex.printStackTrace()
+        }
+    }
+
+    private fun changeMapPosition(location: LatLng) {
+//        val searchBarMarker = MarkerOptions().position(location)
+        val xD = CameraUpdateFactory.newLatLng(location)
+        Log.d("cameraMove: ", location.toString())
+        val posit = LatLng(52.237049, 21.017532)
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(posit))
+//        mMap.moveCamera(location)
+//        mMap.addMarker(searchBarMarker)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == REQUEST_CHECK_SETTINGS) {
+            if(resultCode == Activity.RESULT_OK){
+                val place = PlacePicker.getPlace(this,data)
+                var addressText = place.name.toString()
+                Log.d("place", place.toString())
+                changeMapPosition(place.latLng)
+
+            }
+        }
+
+
+    }
 }
 
 
