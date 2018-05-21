@@ -17,7 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="112dp"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:src="@android:drawable/ic_menu_search"/>
+
 
 </android.support.design.widget.CoordinatorLayout>

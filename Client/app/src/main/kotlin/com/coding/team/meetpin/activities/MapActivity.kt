@@ -20,7 +20,6 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.DisplayMetrics
-import android.util.Log
 import android.widget.Toast
 import com.coding.team.meetpin.R
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
@@ -235,22 +234,17 @@ class MapActivity : AppCompatActivity(),
     }
 
     private fun changeMapPosition(location: LatLng) {
-//        val searchBarMarker = MarkerOptions().position(location)
-        val xD = CameraUpdateFactory.newLatLng(location)
-        Log.d("cameraMove: ", location.toString())
-        val posit = LatLng(52.237049, 21.017532)
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(posit))
-//        mMap.moveCamera(location)
-//        mMap.addMarker(searchBarMarker)
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(location))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == REQUEST_CHECK_SETTINGS) {
+        if(requestCode == PLACE_PICKER_REQUEST) {
             if(resultCode == Activity.RESULT_OK){
+
                 val place = PlacePicker.getPlace(this,data)
-                var addressText = place.name.toString()
-                Log.d("place", place.toString())
+                val toastMsg = String.format("%s", place.name)
+                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show()
                 changeMapPosition(place.latLng)
 
             }
