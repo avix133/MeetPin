@@ -48,7 +48,6 @@ class MapActivity : AppCompatActivity(),
 
     companion object {
         private const val PLACE_PICKER_REQUEST = 3
-        private const val REQUEST_CHECK_SETTINGS = 2
     }
 
     private lateinit var mMap: GoogleMap
@@ -241,7 +240,6 @@ class MapActivity : AppCompatActivity(),
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == PLACE_PICKER_REQUEST) {
             if(resultCode == Activity.RESULT_OK){
-
                 val place = PlacePicker.getPlace(this,data)
                 val toastMsg = String.format("%s", place.name)
                 Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show()
