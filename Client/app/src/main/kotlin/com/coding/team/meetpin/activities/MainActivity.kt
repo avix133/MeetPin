@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.webkit.WebView
 import android.widget.Button
+import com.coding.team.meetpin.client.NettyClient
+import com.coding.team.meetpin.client.NettyClientHandler
 import com.coding.team.meetpin.R
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -16,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var debugButton: Button
     private lateinit var joey: WebView
     private lateinit var logOutButton : Button
+    private lateinit var clientHandler : NettyClientHandler
 
 
 
@@ -36,6 +39,7 @@ class MainActivity : AppCompatActivity() {
             println("In MainActivity: starting MAIN")
 
             setContentView(R.layout.activity_main)
+            clientHandler = initClient()
 
 
             mapButton = findViewById(R.id.mapButton)
@@ -44,6 +48,8 @@ class MainActivity : AppCompatActivity() {
             logOutButton = findViewById(R.id.logOutButton)
             joey = findViewById(R.id.joey)
             joey.loadUrl("file:///android_asset/Joey.html")
+
+
 
 
             mapButton.setOnClickListener(
@@ -75,5 +81,19 @@ class MainActivity : AppCompatActivity() {
                     }
             )
         }
+    }
+
+    fun initClient(): NettyClientHandler {
+        val client = NettyClient("192.168.1.139", 8080)
+        val clientHandler = NettyClientHandler.getInstance()
+
+        println("Initializing client...")
+        Thread({
+            client.start(clientHandler)
+        }).start()
+        println("Returning clientHandler")
+
+
+        return clientHandler
     }
 }

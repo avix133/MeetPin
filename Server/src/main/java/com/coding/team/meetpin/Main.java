@@ -1,13 +1,23 @@
 package com.coding.team.meetpin;
 
-import com.coding.team.meetpin.server.MultiThreadedServer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import com.coding.team.meetpin.server.NettyServer;
 
 public class Main {
+
+    private static final Logger logger = LogManager.getLogger();
+
     public static void main(String[] args)
     {
-        System.out.println("Server: Elo wariaty!");
+        logger.info("Elo wariaty");
 
-        MultiThreadedServer server = new MultiThreadedServer(8080);
-        server.run();
+//        MultiThreadedServer server = new MultiThreadedServer(8080);
+        NettyServer server = new NettyServer(8080);
+        try {
+            server.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
