@@ -1,18 +1,27 @@
 package com.coding.team.meetpin.dao.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
+@IdClass(PinToFriend.class)
 @Table(name = "pin_to_friend")
-public class PinToFriend {
+public class PinToFriend implements Serializable {
 
     private User user;
 
     private Pin pin;
 
+    protected PinToFriend() {}
+
+    public PinToFriend(Pin pin, User user) {
+        this.pin = pin;
+        this.user = user;
+    }
+
     @Id
-    @OneToMany
-    @JoinColumn(name = "user_id")
+    @OneToOne
+    @JoinColumn(name = "to_user_id")
     public User getUser() {
         return user;
     }
@@ -22,7 +31,7 @@ public class PinToFriend {
     }
 
     @Id
-    @OneToMany
+    @OneToOne
     @JoinColumn(name = "pin_id")
     public Pin getPin() {
         return pin;

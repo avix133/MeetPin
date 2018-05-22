@@ -6,14 +6,27 @@ import javax.persistence.*;
 @Table(name = "relationship")
 public class Relationship {
 
+    public Relationship(User user_one, User user_two, User action_user, boolean status) {
+        this.user_one = user_one;
+        this.user_two = user_two;
+        this.action_user = action_user;
+        this.status = status;
+    }
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @OneToOne
+    @JoinColumn(name = "user_one_id")
     private User user_one;
 
+    @OneToOne
+    @JoinColumn(name = "user_two_id")
     private User user_two;
 
+    @OneToOne
+    @JoinColumn(name = "action_user_id")
     private User action_user;
 
     private boolean status;
@@ -26,8 +39,6 @@ public class Relationship {
         this.id = id;
     }
 
-    @OneToOne
-    @JoinColumn(name = "user_one_id")
     public User getUser_one() {
         return user_one;
     }
@@ -36,8 +47,6 @@ public class Relationship {
         this.user_one = user_one;
     }
 
-    @OneToOne
-    @JoinColumn(name = "user_two_id")
     public User getUser_two() {
         return user_two;
     }
@@ -46,8 +55,6 @@ public class Relationship {
         this.user_two = user_two;
     }
 
-    @OneToOne
-    @JoinColumn(name = "action_user_id")
     public User getAction_user() {
         return action_user;
     }

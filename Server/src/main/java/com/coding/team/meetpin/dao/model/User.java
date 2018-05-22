@@ -1,18 +1,21 @@
 package com.coding.team.meetpin.dao.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String username;
 
     private String email;
+
+    protected User() {}
 
     public User(String username, String email) {
         this.username = username;

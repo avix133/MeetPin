@@ -1,18 +1,19 @@
 package com.coding.team.meetpin.dao.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "pin")
-public class Pin {
+public class Pin implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     private String message;
@@ -25,11 +26,11 @@ public class Pin {
 
     private Timestamp expire;
 
-    private Set<PinAnswer> pinAnswers;
-
-    private Set<PinToFriend> pinToFriends;
-
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
+    @PrimaryKeyJoinColumn
     private PinToGlobal pinToGlobal;
+
+    protected Pin() {}
 
     public Pin(String message, User user, Double map_latitude, Double map_longitude, Timestamp meeting_date, Timestamp expire) {
         this.message = message;
@@ -38,8 +39,6 @@ public class Pin {
         this.map_longitude = map_longitude;
         this.meeting_date = meeting_date;
         this.expire = expire;
-        pinAnswers = new HashSet<>();
-        pinToFriends = new HashSet<>();
     }
 
     public int getId() {
@@ -50,8 +49,6 @@ public class Pin {
         this.id = id;
     }
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
     public User getUser() { return user; }
 
     public void setUser(User user) { this.user = user; }
@@ -92,33 +89,23 @@ public class Pin {
         return expire;
     }
 
-
     public void setExpire(Timestamp expire) {
         this.expire = expire;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pin")
-    public Set<PinAnswer> getPinAnswers() {
-        return pinAnswers;
+    public PinToGlobal getPinToGlobal() {
+        return pinToGlobal;
     }
-
-    public void setPinAnswers(Set<PinAnswer> pinAnswers) {
-        this.pinAnswers = pinAnswers;
-    }
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pin")
-    public Set<PinToFriend> getPinToFriends() {
-        return pinToFriends;
-    }
-
-    public void setPinToFriends(Set<PinToFriend> pinToFriends) {
-        this.pinToFriends = pinToFriends;
-    }
-
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "pin")
-    public PinToGlobal getPinToGlobal() { return pinToGlobal; }
 
     public void setPinToGlobal(PinToGlobal pinToGlobal) {
+
+        if (pinToGlobal == null) {
+            if (this.pinToGlobal != null) {
+                this.pinToGlobal.setPin_id(this.getId());
+            }
+        } else {
+            pinToGlobal.setPin_id(this.getId());
+        }
         this.pinToGlobal = pinToGlobal;
     }
 
@@ -132,9 +119,6 @@ public class Pin {
                 ", map_longitude=" + map_longitude +
                 ", meeting_date=" + meeting_date +
                 ", expire=" + expire +
-                ", pinAnswers=" + pinAnswers +
-                ", pinToFriends=" + pinToFriends +
-                ", pinToGlobal=" + pinToGlobal +
                 '}';
     }
 }

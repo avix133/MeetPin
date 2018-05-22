@@ -1,16 +1,26 @@
 package com.coding.team.meetpin.dao.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
+@IdClass(PinAnswer.class)
 @Table(name = "pin_answer")
-public class PinAnswer {
+public class PinAnswer implements Serializable {
 
     private Pin pin_id;
 
     private User user_id;
 
     private boolean answer;
+
+    protected PinAnswer() {}
+
+    public PinAnswer(Pin pin_id, User user_id, boolean answer) {
+        this.pin_id = pin_id;
+        this.user_id = user_id;
+        this.answer = answer;
+    }
 
     @Id
     @OneToOne
