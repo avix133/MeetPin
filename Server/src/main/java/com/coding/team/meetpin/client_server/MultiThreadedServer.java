@@ -1,4 +1,4 @@
-package com.coding.team.meetpin.server;
+package com.coding.team.meetpin.client_server;
 
 import java.io.IOException;
 import java.net.ServerSocket;

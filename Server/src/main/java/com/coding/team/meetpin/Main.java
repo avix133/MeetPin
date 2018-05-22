@@ -2,7 +2,7 @@ package com.coding.team.meetpin;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import com.coding.team.meetpin.server.NettyServer;
+import com.coding.team.meetpin.client_server.NettyServer;
 
 public class Main {
 

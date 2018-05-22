@@ -1,4 +1,4 @@
-package com.coding.team.meetpin.client;
+package com.coding.team.meetpin.client_server;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -22,7 +22,7 @@ public final class NettyClient {
         this.port = port;
     }
 
-    public void start(final NettyClientHandler nettyClientHandler) throws Exception {
+    public void start(final ClientHandler clientHandler) throws Exception {
 
         EventLoopGroup group = new NioEventLoopGroup();
         try {
@@ -37,7 +37,7 @@ public final class NettyClient {
                             pipeline.addLast(
                                     new ObjectEncoder(),
                                     new ObjectDecoder(ClassResolvers.cacheDisabled(null)),
-                                    nettyClientHandler);
+                                    clientHandler);
                         }
                     });
 

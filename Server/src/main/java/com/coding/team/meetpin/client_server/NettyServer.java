@@ -1,4 +1,4 @@
-package com.coding.team.meetpin.server;
+package com.coding.team.meetpin.client_server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -41,7 +41,8 @@ public class NettyServer {
                             ChannelPipeline pipeline = channel.pipeline();
                             pipeline.addLast(
                                     new ObjectEncoder(),
-                                    new ObjectDecoder(ClassResolvers.cacheDisabled(null)),
+//                                    new ObjectDecoder(ClassResolvers.cacheDisabled(null))
+                                    new ObjectDecoder(ClassResolvers.cacheDisabled(getClass().getClassLoader())),
                                     new ServerHandler());
                         }
                     });
