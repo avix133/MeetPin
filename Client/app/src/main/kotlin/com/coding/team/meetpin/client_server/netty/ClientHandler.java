@@ -1,15 +1,16 @@
-package com.coding.team.meetpin.client_server;
+package com.coding.team.meetpin.client_server.netty;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import com.coding.team.meetpin.client_server.communication.Request;
-import com.coding.team.meetpin.client_server.communication.RequestType;
-import com.coding.team.meetpin.client_server.communication.Response;
-import com.coding.team.meetpin.client_server.communication.requests.AuthenticationRequest;
-import com.coding.team.meetpin.client_server.communication.requests.PinDataRequest;
+import com.coding.team.meetpin.client_server.MeetPinService;
+import com.coding.team.meetpin.client_server.request.Request;
+import com.coding.team.meetpin.client_server.request.RequestType;
+import com.coding.team.meetpin.client_server.response.impl.DefaultResponse;
+import com.coding.team.meetpin.client_server.request.impl.AuthenticationRequest;
+import com.coding.team.meetpin.client_server.request.impl.PinDataRequest;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.concurrent.Future;
@@ -22,7 +23,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
     private ChannelHandlerContext ctx;
     private static ClientHandler instance = null;
     private int clientId = -1;
-    private ConcurrentHashMap<RequestType, Promise<Response>> messageMap = new ConcurrentHashMap<>(16);
+    private ConcurrentHashMap<RequestType, Promise<DefaultResponse>> messageMap = new ConcurrentHashMap<>();
 
 
     private ClientHandler() {
@@ -44,7 +45,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         System.out.println("Client read: " + msg);
-        Response response = (Response) msg;
+        DefaultResponse response = (DefaultResponse) msg;
         synchronized (this) {
             if (messageMap != null) {
                 messageMap.get(response.getType()).setSuccess(response);
@@ -63,8 +64,8 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
         instance.ctx.close();
     }
 
-    private Future<Response> sendRequest(Request request) {
-        Promise<Response> promise = GlobalEventExecutor.INSTANCE.newPromise();
+    private Future<DefaultResponse> sendRequest(Request request) {
+        Promise<DefaultResponse> promise = GlobalEventExecutor.INSTANCE.newPromise();
         synchronized (this) {
             if (messageMap == null) {
                 promise.setFailure(new IllegalStateException());
@@ -79,9 +80,9 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
     @Override
     public boolean authenticate(String email) {
         Request request = new AuthenticationRequest(email);
-        Future<Response> future = sendRequest(request);
+        Future<DefaultResponse> future = sendRequest(request);
         try {
-            Response response = future.get(10, TimeUnit.SECONDS);
+            DefaultResponse response = future.get(10, TimeUnit.SECONDS);
             clientId = (int) response.getPayload();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -94,7 +95,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
     }
 
     @Override
-    public Future<Response> getPinData(int pinId) {
+    public Future<DefaultResponse> getPinData(int pinId) {
         Request request = new PinDataRequest(clientId, pinId);
 
         return sendRequest(request);

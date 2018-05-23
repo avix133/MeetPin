@@ -1,10 +1,11 @@
-package com.coding.team.meetpin.client_server.communication.requests;
+package com.coding.team.meetpin.client_server.request.impl;
 
-
-import com.coding.team.meetpin.client_server.communication.Request;
-import com.coding.team.meetpin.client_server.communication.RequestType;
+import com.coding.team.meetpin.client_server.request.Request;
+import com.coding.team.meetpin.client_server.request.RequestType;
 
 public class AuthenticationRequest implements Request {
+
+    private static final long serialVersionUID = 4819832149859783402L;
 
     private static final RequestType REQUEST_TYPE = RequestType.AUTHENTICATE;
     private String email;

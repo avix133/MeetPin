@@ -6,9 +6,8 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import com.coding.team.meetpin.client_server.ClientHandler
 import com.coding.team.meetpin.R
-import com.coding.team.meetpin.client_server.communication.requests.PinDataRequest
+import com.coding.team.meetpin.client_server.netty.ClientHandler
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
@@ -39,20 +38,15 @@ class DebugActivity : AppCompatActivity() {
 
         sendButton.setOnClickListener(
                 {
-                    println("Im here!")
                     println("Sending: " + sendEditText.text.toString())
-//                    ClientHandler.getInstance().sendMessage(PinDataRequest(1, 2))
-                    val x = ClientHandler.getInstance().getPinData(sendEditText.text.toString().toInt())
+                    val future = ClientHandler.getInstance().getPinData(sendEditText.text.toString().toInt())
+
                     try {
-                        val response = x.get(5, TimeUnit.SECONDS)
+                        val response = future.get(5, TimeUnit.SECONDS)
                         sendTextView.text = response.payload as String
                     } catch (e : TimeoutException) {
                         println("Timeout!")
                     }
-//                    val response = client.sendRequest(sendEditText.text.toString())
-
-
-                    println("Sent!")
 
                 })
 

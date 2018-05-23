@@ -1,8 +1,11 @@
 package com.coding.team.meetpin;
 
+import com.coding.team.meetpin.client_server.netty.ServerHandler;
+import com.coding.team.meetpin.client_server.request.RequestResolver;
+import com.coding.team.meetpin.client_server.request.impl.DefaultRequestResolver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import com.coding.team.meetpin.client_server.NettyServer;
+import com.coding.team.meetpin.client_server.netty.Server;
 
 public class Main {
 
@@ -12,8 +15,10 @@ public class Main {
     {
         logger.info("Elo wariaty");
 
-//        MultiThreadedServer server = new MultiThreadedServer(8080);
-        NettyServer server = new NettyServer(8080);
+        RequestResolver requestResolver = new DefaultRequestResolver();
+
+        ServerHandler serverHandler = new ServerHandler(requestResolver);
+        Server server = new Server(8080, serverHandler);
         try {
             server.start();
         } catch (Exception e) {

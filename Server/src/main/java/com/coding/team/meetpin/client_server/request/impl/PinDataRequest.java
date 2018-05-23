@@ -1,12 +1,10 @@
-package com.coding.team.meetpin.client_server.communication.requests;
+package com.coding.team.meetpin.client_server.request.impl;
 
 
-import java.io.Serializable;
+import com.coding.team.meetpin.client_server.request.Request;
+import com.coding.team.meetpin.client_server.request.RequestType;
 
-import com.coding.team.meetpin.client_server.communication.Request;
-import com.coding.team.meetpin.client_server.communication.RequestType;
-
-public class PinDataRequest implements Request, Serializable {
+public class PinDataRequest implements Request {
 
     private static final long serialVersionUID = -7980643157731081443L;
 

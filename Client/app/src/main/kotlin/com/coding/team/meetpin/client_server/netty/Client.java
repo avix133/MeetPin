@@ -1,4 +1,4 @@
-package com.coding.team.meetpin.client_server;
+package com.coding.team.meetpin.client_server.netty;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -12,12 +12,12 @@ import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 
 
-public final class NettyClient {
+public final class Client {
 
     private String host;
     private int port;
 
-    public NettyClient(String host, int port) {
+    public Client(String host, int port) {
         this.host = host;
         this.port = port;
     }

@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.webkit.WebView
 import android.widget.Button
-import com.coding.team.meetpin.client_server.NettyClient
-import com.coding.team.meetpin.client_server.ClientHandler
+import com.coding.team.meetpin.client_server.netty.Client
+import com.coding.team.meetpin.client_server.netty.ClientHandler
 import com.coding.team.meetpin.R
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun initClient(): ClientHandler {
-        val client = NettyClient("192.168.1.139", 8080)
+        val client = Client("192.168.1.139", 8080)
         val clientHandler = ClientHandler.getInstance()
 
         println("Initializing client...")

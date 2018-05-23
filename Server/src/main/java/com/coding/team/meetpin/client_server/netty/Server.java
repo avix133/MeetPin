@@ -1,6 +1,7 @@
-package com.coding.team.meetpin.client_server;
+package com.coding.team.meetpin.client_server.netty;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
@@ -15,14 +16,17 @@ import io.netty.handler.logging.LoggingHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class NettyServer {
-
-    private int port;
+public class Server {
 
     private static final Logger logger = LogManager.getLogger();
 
-    public NettyServer(final int port) {
+    private int port;
+    private ChannelHandler channelHandler;
+
+
+    public Server(final int port, ChannelHandler channelHandler) {
         this.port = port;
+        this.channelHandler = channelHandler;
     }
 
     public void start() throws Exception {
@@ -43,7 +47,7 @@ public class NettyServer {
                                     new ObjectEncoder(),
 //                                    new ObjectDecoder(ClassResolvers.cacheDisabled(null))
                                     new ObjectDecoder(ClassResolvers.cacheDisabled(getClass().getClassLoader())),
-                                    new ServerHandler());
+                                    channelHandler);
                         }
                     });
 
