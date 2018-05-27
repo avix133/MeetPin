@@ -92,11 +92,11 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        println("In onActivityResult")
+        println("In onActivityResult...")
         if (requestCode == RC_SIGN_IN) {
-            println("In onActivityResult -> Request code is RC_SIGN_IN ")
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             println("In onActivityResult -> " + task.toString())
+            println("Task success: "+ task.isSuccessful)
             handleSignInResult(task)
         } else {
             println("In onActivityResult -> Request code is: " + requestCode)
@@ -107,11 +107,15 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
         try {
             println("In handleSignInResult")
             val account = completedTask.getResult(ApiException::class.java)
+            println("In handleSignInResult, account = " + account.toString())
             val intent = Intent(applicationContext, MainActivity::class.java)
             intent.putExtra("FROM_ACTIVITY", "AuthenticationActivity")
             intent.putExtra("LoggedIn", true)
             startActivity(intent)
+            updateUI(account)
         } catch (e: ApiException) {
+            println("Api exception: ")
+            e.printStackTrace()
             updateUI(null)
         }
     }

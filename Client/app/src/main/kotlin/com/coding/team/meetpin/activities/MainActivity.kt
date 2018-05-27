@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         mapButton = findViewById(R.id.mapButton)
         friendsButton = findViewById(R.id.friendsListButton)
-        debugButton = findViewById(R.id.mainDebugButton)
+        debugButton = findViewById(R.id.debugButton)
         logOutButton = findViewById(R.id.logOutButton)
         joey = findViewById(R.id.joey)
         joey.loadUrl("file:///android_asset/Joey.html")
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                     intent.putExtra("FROM_ACTIVITY", "MainActivity")
                     startActivity(intent)
                 })
-        mainDebugButton.setOnClickListener(
+        debugButton.setOnClickListener(
                 {
                     val intent = Intent(applicationContext, DebugActivity::class.java)
                     intent.putExtra("FROM_ACTIVITY", "MainActivity")
