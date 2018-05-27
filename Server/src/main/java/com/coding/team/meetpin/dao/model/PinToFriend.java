@@ -22,7 +22,7 @@ public class PinToFriend implements Serializable {
     @Id
     @OneToOne
     @JoinColumn(name = "to_user_id")
-    public User getUser() {
+    public User  getUser() {
         return user;
     }
 

@@ -8,8 +8,8 @@ import java.util.concurrent.TimeoutException;
 import com.coding.team.meetpin.client_server.MeetPinService;
 import com.coding.team.meetpin.client_server.request.Request;
 import com.coding.team.meetpin.client_server.request.RequestType;
+import com.coding.team.meetpin.client_server.request.impl.AddressedToMePinRequest;
 import com.coding.team.meetpin.client_server.request.impl.GlobalPinRequest;
-import com.coding.team.meetpin.client_server.response.Response;
 import com.coding.team.meetpin.client_server.response.impl.DefaultResponse;
 import com.coding.team.meetpin.client_server.request.impl.AuthenticationRequest;
 import com.coding.team.meetpin.client_server.request.impl.PinDataRequest;
@@ -106,6 +106,13 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
     @Override
     public Future<DefaultResponse> getGlobalPins() {
         Request request = new GlobalPinRequest(clientId);
+
+        return sendRequest(request);
+    }
+
+    @Override
+    public Future<DefaultResponse> getPinsAddressedToMe(int pinId) {
+        Request request = new AddressedToMePinRequest(clientId, pinId);
 
         return sendRequest(request);
     }

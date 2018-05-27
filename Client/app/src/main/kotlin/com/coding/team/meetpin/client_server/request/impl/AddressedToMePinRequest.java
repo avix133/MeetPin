@@ -3,14 +3,14 @@ package com.coding.team.meetpin.client_server.request.impl;
 import com.coding.team.meetpin.client_server.request.Request;
 import com.coding.team.meetpin.client_server.request.RequestType;
 
-public class PinDataRequest implements Request {
+public class AddressedToMePinRequest implements Request {
 
-    private static final long serialVersionUID = -7980643157731081443L;
+    private static final long serialVersionUID = 7726095073783947094L;
 
     private int clientId;
     private int pinId;
 
-    public PinDataRequest(final int clientId, final int pinId) {
+    public AddressedToMePinRequest(int clientId, final int pinId) {
         this.clientId = clientId;
         this.pinId = pinId;
     }
@@ -22,7 +22,7 @@ public class PinDataRequest implements Request {
 
     @Override
     public RequestType getType() {
-        return RequestType.PIN_DATA;
+        return RequestType.ADDRESSED_TO_ME_PINS;
     }
 
     public int getPinId() {

@@ -10,9 +10,7 @@ import com.coding.team.meetpin.dao.repository.PinRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 
 /**
  * Description of class:
@@ -40,7 +38,7 @@ public class DefaultRequestResolver implements RequestResolver {
                 break;
             }
             case ADD_PIN: {
-//                response = addPin((AddPinRequest)request)
+//                response = addPin(Pin pin);
                 break;
             }
             case AUTHENTICATE: {
@@ -49,6 +47,11 @@ public class DefaultRequestResolver implements RequestResolver {
             }
             case GLOBAL_PINS: {
                 response = getGlobalPins();
+                break;
+            }
+
+            case ADDRESSED_TO_ME_PINS: {
+                response = getPinsAddressedToMe((AddressedToMePinRequest) request);
                 break;
             }
         }
@@ -62,7 +65,14 @@ public class DefaultRequestResolver implements RequestResolver {
     }
 
     private Response getGlobalPins() {
-        logger.info("PIN REPOSITORY " + pinRepository);
         return new DefaultResponse(RequestType.GLOBAL_PINS, pinRepository.fetchGlobalPins().toString());
+    }
+
+    private Response addPin(Pin pin) {
+        return new DefaultResponse(RequestType.ADD_PIN, pinRepository.save(pin));
+    }
+
+    private Response getPinsAddressedToMe(AddressedToMePinRequest addressed) {
+        return new DefaultResponse(RequestType.ADDRESSED_TO_ME_PINS, pinRepository.fetchPinsAddressedToMe(addressed.getPinId()).toString());
     }
 }

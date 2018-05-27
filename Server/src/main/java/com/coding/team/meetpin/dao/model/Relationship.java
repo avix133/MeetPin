@@ -1,17 +1,12 @@
 package com.coding.team.meetpin.dao.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "relationship")
-public class Relationship {
+public class Relationship implements Serializable {
 
-    public Relationship(User user_one, User user_two, User action_user, boolean status) {
-        this.user_one = user_one;
-        this.user_two = user_two;
-        this.action_user = action_user;
-        this.status = status;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +26,12 @@ public class Relationship {
 
     private boolean status;
 
+    public Relationship(User user_one, User user_two, User action_user, boolean status) {
+        this.user_one = user_one;
+        this.user_two = user_two;
+        this.action_user = action_user;
+        this.status = status;
+    }
     public int getId() {
         return id;
     }

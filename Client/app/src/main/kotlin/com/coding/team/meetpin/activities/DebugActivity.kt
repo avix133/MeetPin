@@ -41,7 +41,7 @@ class DebugActivity : AppCompatActivity() {
                     println("Sending: " + sendEditText.text.toString())
 //                    val future = ClientHandler.getInstance().getPinData(sendEditText.text.toString().toInt())
 
-                    val future = ClientHandler.getInstance().getGlobalPins()
+                    val future = ClientHandler.getInstance().getPinsAddressedToMe(sendEditText.text.toString().toInt())
                     try {
                         val response = future.get(5, TimeUnit.SECONDS)
                         sendTextView.text = response.payload as String
