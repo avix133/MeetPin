@@ -1,0 +1,12 @@
+package com.coding.team.meetpin.dao.repository;
+
+import com.coding.team.meetpin.dao.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import javax.transaction.Transactional;
+import java.util.List;
+
+@Transactional
+public interface UserRepository extends JpaRepository<User, Integer> {
+    List<User> findUserByUsername(String username);
+}

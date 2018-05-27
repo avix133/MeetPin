@@ -6,6 +6,7 @@ import com.coding.team.meetpin.client_server.request.RequestType;
 
 public class AuthenticationRequest implements Request {
 
+    private static final long serialVersionUID = 988094335343464151L;
     private static final RequestType REQUEST_TYPE = RequestType.AUTHENTICATE;
     private String email;
     private int clientId = -1;

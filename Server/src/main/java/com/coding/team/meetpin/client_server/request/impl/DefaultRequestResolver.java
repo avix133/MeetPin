@@ -5,8 +5,14 @@ import com.coding.team.meetpin.client_server.request.RequestResolver;
 import com.coding.team.meetpin.client_server.request.RequestType;
 import com.coding.team.meetpin.client_server.response.Response;
 import com.coding.team.meetpin.client_server.response.impl.DefaultResponse;
+import com.coding.team.meetpin.dao.model.Pin;
+import com.coding.team.meetpin.dao.repository.PinRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 /**
  * Description of class:
@@ -15,14 +21,15 @@ import org.apache.logging.log4j.Logger;
  *
  * @author dawid
  */
+@Component
 public class DefaultRequestResolver implements RequestResolver {
     private static final Logger logger = LogManager.getLogger();
 
 
     //needs to have DataService
+    @Autowired
+    private PinRepository pinRepository;
 
-    public DefaultRequestResolver( /*DataService dataService*/) {
-    }
 
     @Override
     public Response resolve(final Request request) {
@@ -40,6 +47,10 @@ public class DefaultRequestResolver implements RequestResolver {
 //                response = authenticate((AuthenticationRequest)request);
                 break;
             }
+            case GLOBAL_PINS: {
+                response = getGlobalPins();
+                break;
+            }
         }
 
         return response;
@@ -47,7 +58,11 @@ public class DefaultRequestResolver implements RequestResolver {
     }
 
     private Response getPinData(PinDataRequest pinDataRequest) {
-//        return new DefaultResponse(RequestType.PIN_DATA, dataService.fetchPinForId());
-        return new DefaultResponse(RequestType.PIN_DATA, "Some pin payload " + pinDataRequest.getPinId());
+        return new DefaultResponse(RequestType.PIN_DATA, pinRepository.findPinById(pinDataRequest.getPinId()));
+    }
+
+    private Response getGlobalPins() {
+        logger.info("PIN REPOSITORY " + pinRepository);
+        return new DefaultResponse(RequestType.GLOBAL_PINS, pinRepository.fetchGlobalPins().toString());
     }
 }

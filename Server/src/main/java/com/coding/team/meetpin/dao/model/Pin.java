@@ -113,7 +113,7 @@ public class Pin implements Serializable {
     public String toString() {
         return "Pin{" +
                 "id=" + id +
-                ", user=" + user +
+                ", user=" + user.getId() +
                 ", message='" + message + '\'' +
                 ", map_latitude=" + map_latitude +
                 ", map_longitude=" + map_longitude +
