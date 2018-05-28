@@ -3,6 +3,8 @@ package com.coding.team.meetpin.dao.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "pin")
@@ -26,9 +28,15 @@ public class Pin implements Serializable {
 
     private Timestamp expire;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = true)
+    @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private PinToGlobal pinToGlobal;
+
+    @OneToMany(mappedBy = "pin", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PinToFriend> pinToFriend;
+
+    @OneToMany(mappedBy = "pin", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PinAnswer> pinAnswer;
 
     protected Pin() {}
 
@@ -39,6 +47,8 @@ public class Pin implements Serializable {
         this.map_longitude = map_longitude;
         this.meeting_date = meeting_date;
         this.expire = expire;
+        pinToFriend = new HashSet<>();
+        pinAnswer = new HashSet<>();
     }
 
     public int getId() {
@@ -109,6 +119,21 @@ public class Pin implements Serializable {
         this.pinToGlobal = pinToGlobal;
     }
 
+    public Set<PinToFriend> getPinToFriend() {
+        return pinToFriend;
+    }
+
+    public void setPinToFriend(Set<PinToFriend> pinToFriend) {
+        this.pinToFriend = pinToFriend;
+    }
+
+    public Set<PinAnswer> getPinAnswer() {
+        return pinAnswer;
+    }
+
+    public void setPinAnswer(Set<PinAnswer> pinAnswer) {
+        this.pinAnswer = pinAnswer;
+    }
 
     @Override
     public String toString() {

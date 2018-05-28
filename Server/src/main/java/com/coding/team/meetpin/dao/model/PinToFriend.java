@@ -12,7 +12,7 @@ public class PinToFriend implements Serializable {
 
     private Pin pin;
 
-    protected PinToFriend() {}
+    public PinToFriend() {}
 
     public PinToFriend(Pin pin, User user) {
         this.pin = pin;
@@ -20,7 +20,7 @@ public class PinToFriend implements Serializable {
     }
 
     @Id
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "to_user_id")
     public User  getUser() {
         return user;
@@ -31,7 +31,7 @@ public class PinToFriend implements Serializable {
     }
 
     @Id
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "pin_id")
     public Pin getPin() {
         return pin;
