@@ -17,7 +17,7 @@ import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 
-class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
+class AuthenticationActivity : MenuActivity(), GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
     private val RC_SIGN_IN = 9001
     private val DEBUG = true

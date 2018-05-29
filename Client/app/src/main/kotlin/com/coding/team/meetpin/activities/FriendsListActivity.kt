@@ -17,7 +17,7 @@ import android.widget.Button
 import android.widget.TextView
 import com.coding.team.meetpin.R
 
-class FriendsListActivity : AppCompatActivity() {
+class FriendsListActivity : MenuActivity() {
     lateinit var resultTextView : TextView
     lateinit var returnButton : Button
 

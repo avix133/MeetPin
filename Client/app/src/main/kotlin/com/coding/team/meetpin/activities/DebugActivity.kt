@@ -16,7 +16,7 @@ import java.util.concurrent.TimeoutException
  */
 
 
-class DebugActivity : AppCompatActivity() {
+class DebugActivity : MenuActivity() {
 
     lateinit var sendButton: Button
     lateinit var sendEditText: EditText
