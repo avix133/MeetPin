@@ -7,6 +7,7 @@ import com.coding.team.meetpin.client_server.response.Response;
 import com.coding.team.meetpin.client_server.response.impl.DefaultResponse;
 import com.coding.team.meetpin.dao.model.Pin;
 import com.coding.team.meetpin.dao.repository.PinRepository;
+import com.coding.team.meetpin.dao.repository.UserRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class DefaultRequestResolver implements RequestResolver {
     //needs to have DataService
     @Autowired
     private PinRepository pinRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
 
     @Override
@@ -54,6 +58,26 @@ public class DefaultRequestResolver implements RequestResolver {
                 response = getPinsAddressedToMe((AddressedToMePinRequest) request);
                 break;
             }
+
+            case FRIEND_LIST: {
+                response = getFriendList((FriendListRequest) request);
+                break;
+            }
+
+            case PENDING_INVITATIONS: {
+                response = getPendingInvitations((PendingInvitationsRequest) request);
+                break;
+            }
+
+            case INVITE_FRIEND: {
+                response = inviteFriend((InviteFriendRequest) request);
+                break;
+            }
+
+            case REMOVE_FRIEND: {
+                response = removeFriend((RemoveFriendRequest) request);
+                break;
+            }
         }
 
         return response;
@@ -61,7 +85,7 @@ public class DefaultRequestResolver implements RequestResolver {
     }
 
     private Response getPinData(PinDataRequest pinDataRequest) {
-        return new DefaultResponse(RequestType.PIN_DATA, pinRepository.findPinById(pinDataRequest.getPinId()));
+        return new DefaultResponse(RequestType.PIN_DATA, pinRepository.findPinById(pinDataRequest.getPinId()).toString());
     }
 
     private Response getGlobalPins() {
@@ -75,4 +99,21 @@ public class DefaultRequestResolver implements RequestResolver {
     private Response getPinsAddressedToMe(AddressedToMePinRequest addressed) {
         return new DefaultResponse(RequestType.ADDRESSED_TO_ME_PINS, pinRepository.fetchPinsAddressedToMe(addressed.getPinId()).toString());
     }
+
+    private Response getFriendList(FriendListRequest friendList) {
+        return new DefaultResponse(RequestType.FRIEND_LIST, userRepository.fetchFriendList(friendList.getClientId()).toString());
+    }
+
+    private Response getPendingInvitations(PendingInvitationsRequest pendingInvitations) {
+        return new DefaultResponse(RequestType.PENDING_INVITATIONS, userRepository.fetchPendingInvitations(pendingInvitations.getClientId()).toString());
+    }
+
+    private Response inviteFriend(InviteFriendRequest inviteFriend) {
+        return new DefaultResponse(RequestType.INVITE_FRIEND, userRepository.inviteFriend(inviteFriend.getClientId(), inviteFriend.getUserId()));
+    }
+
+    private Response removeFriend(RemoveFriendRequest removeFriend) {
+        return new DefaultResponse(RequestType.REMOVE_FRIEND, userRepository.removeFriend(removeFriend.getClientId(), removeFriend.getUserId()));
+    }
+
 }
