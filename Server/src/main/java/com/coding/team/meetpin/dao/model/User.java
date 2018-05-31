@@ -2,7 +2,6 @@ package com.coding.team.meetpin.dao.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -15,15 +14,6 @@ public class User implements Serializable {
     private String username;
 
     private String email;
-
-    @OneToMany(mappedBy = "user")
-    private Set<PinToFriend> pinToFriend;
-
-    @OneToMany(mappedBy = "user")
-    private Set<PinAnswer> pinAnswer;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Relationship> relationship;
 
     protected User() {}
 
@@ -54,30 +44,6 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Set<PinToFriend> getPinToFriend() {
-        return pinToFriend;
-    }
-
-    public void setPinToFriend(Set<PinToFriend> pinToFriend) {
-        this.pinToFriend = pinToFriend;
-    }
-
-    public Set<PinAnswer> getPinAnswer() {
-        return pinAnswer;
-    }
-
-    public void setPinAnswer(Set<PinAnswer> pinAnswer) {
-        this.pinAnswer = pinAnswer;
-    }
-
-    public Set<Relationship> getRelationship() {
-        return relationship;
-    }
-
-    public void setRelationship(Set<Relationship> relationship) {
-        this.relationship = relationship;
     }
 
     @Override

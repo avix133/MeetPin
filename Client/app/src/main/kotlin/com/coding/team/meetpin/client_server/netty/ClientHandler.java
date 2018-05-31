@@ -121,6 +121,8 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
         return sendRequest(request);
     }
 
+
+    // from this point on clientId is hardcoded (to be changed later)
     @Override
     public Future<DefaultResponse> getFriendList() {
         Request request = new FriendListRequest(1);

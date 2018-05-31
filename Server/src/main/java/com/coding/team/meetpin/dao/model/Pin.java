@@ -32,12 +32,6 @@ public class Pin implements Serializable {
     @PrimaryKeyJoinColumn
     private PinToGlobal pinToGlobal;
 
-    @OneToMany(mappedBy = "pin", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<PinToFriend> pinToFriend;
-
-    @OneToMany(mappedBy = "pin", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<PinAnswer> pinAnswer;
-
     protected Pin() {}
 
     public Pin(String message, User user, Double map_latitude, Double map_longitude, Timestamp meeting_date, Timestamp expire) {
@@ -47,8 +41,6 @@ public class Pin implements Serializable {
         this.map_longitude = map_longitude;
         this.meeting_date = meeting_date;
         this.expire = expire;
-        pinToFriend = new HashSet<>();
-        pinAnswer = new HashSet<>();
     }
 
     public int getId() {
@@ -117,22 +109,6 @@ public class Pin implements Serializable {
             pinToGlobal.setPin_id(this.getId());
         }
         this.pinToGlobal = pinToGlobal;
-    }
-
-    public Set<PinToFriend> getPinToFriend() {
-        return pinToFriend;
-    }
-
-    public void setPinToFriend(Set<PinToFriend> pinToFriend) {
-        this.pinToFriend = pinToFriend;
-    }
-
-    public Set<PinAnswer> getPinAnswer() {
-        return pinAnswer;
-    }
-
-    public void setPinAnswer(Set<PinAnswer> pinAnswer) {
-        this.pinAnswer = pinAnswer;
     }
 
     @Override

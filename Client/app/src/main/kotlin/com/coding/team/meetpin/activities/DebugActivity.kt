@@ -44,6 +44,7 @@ class DebugActivity : AppCompatActivity() {
                     try {
                         val response = future.get(5, TimeUnit.SECONDS)
                         sendTextView.text = response.payload as String
+                        System.out.println(response.payload as String)
                     } catch (e : TimeoutException) {
                         println("Timeout!")
                     }

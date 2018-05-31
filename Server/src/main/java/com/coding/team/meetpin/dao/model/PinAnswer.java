@@ -8,8 +8,14 @@ import java.io.Serializable;
 @Table(name = "pin_answer")
 public class PinAnswer implements Serializable {
 
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "pin_id")
     private Pin pin;
 
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     private boolean answer;
@@ -22,9 +28,6 @@ public class PinAnswer implements Serializable {
         this.answer = answer;
     }
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "pin_id")
     public Pin getPin() {
         return pin;
     }
@@ -33,9 +36,6 @@ public class PinAnswer implements Serializable {
         this.pin = pin_id;
     }
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "user_id")
     public User getUser() {
         return user;
     }

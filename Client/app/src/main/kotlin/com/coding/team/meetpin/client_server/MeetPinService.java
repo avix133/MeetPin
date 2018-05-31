@@ -13,4 +13,5 @@ public interface MeetPinService {
     Future<DefaultResponse> getPendingInvitations();
     Future<DefaultResponse> inviteFriend(int friendId);
     Future<DefaultResponse> removeFriend(int friendId);
+
 }

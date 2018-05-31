@@ -6,7 +6,9 @@ import com.coding.team.meetpin.client_server.request.RequestType;
 import com.coding.team.meetpin.client_server.response.Response;
 import com.coding.team.meetpin.client_server.response.impl.DefaultResponse;
 import com.coding.team.meetpin.dao.model.Pin;
+import com.coding.team.meetpin.dao.repository.FriendRepository;
 import com.coding.team.meetpin.dao.repository.PinRepository;
+import com.coding.team.meetpin.dao.repository.RelationshipRepository;
 import com.coding.team.meetpin.dao.repository.UserRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,6 +33,9 @@ public class DefaultRequestResolver implements RequestResolver {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RelationshipRepository relationshipRepository;
 
 
     @Override
@@ -101,19 +106,19 @@ public class DefaultRequestResolver implements RequestResolver {
     }
 
     private Response getFriendList(FriendListRequest friendList) {
-        return new DefaultResponse(RequestType.FRIEND_LIST, userRepository.fetchFriendList(friendList.getClientId()).toString());
+        return new DefaultResponse(RequestType.FRIEND_LIST, relationshipRepository.fetchFriendList(friendList.getClientId()).toString());
     }
 
     private Response getPendingInvitations(PendingInvitationsRequest pendingInvitations) {
-        return new DefaultResponse(RequestType.PENDING_INVITATIONS, userRepository.fetchPendingInvitations(pendingInvitations.getClientId()).toString());
+        return new DefaultResponse(RequestType.PENDING_INVITATIONS, relationshipRepository.fetchPendingInvitations(pendingInvitations.getClientId()).toString());
     }
 
     private Response inviteFriend(InviteFriendRequest inviteFriend) {
-        return new DefaultResponse(RequestType.INVITE_FRIEND, userRepository.inviteFriend(inviteFriend.getClientId(), inviteFriend.getUserId()));
+        return new DefaultResponse(RequestType.INVITE_FRIEND, relationshipRepository.inviteFriend(inviteFriend.getClientId(), inviteFriend.getUserId()));
     }
 
     private Response removeFriend(RemoveFriendRequest removeFriend) {
-        return new DefaultResponse(RequestType.REMOVE_FRIEND, userRepository.removeFriend(removeFriend.getClientId(), removeFriend.getUserId()));
+        return new DefaultResponse(RequestType.REMOVE_FRIEND, relationshipRepository.removeFriend(removeFriend.getClientId(), removeFriend.getUserId()));
     }
 
 }
