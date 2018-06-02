@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import com.coding.team.meetpin.R
 import com.coding.team.meetpin.client_server.netty.ClientHandler
 import java.util.concurrent.TimeUnit
@@ -40,14 +41,20 @@ class DebugActivity : AppCompatActivity() {
                 {
                     println("Sending: " + sendEditText.text.toString())
                     val future = ClientHandler.getInstance().getPinData(sendEditText.text.toString().toInt())
+                    if (future != null) {
+                        try {
+                            val response = future.get(5, TimeUnit.SECONDS)
+                            sendTextView.text = response.payload as String
+                            System.out.println(response.payload as String)
+                        } catch (e : TimeoutException) {
+                            println("Timeout!")
+                        }
 
-                    try {
-                        val response = future.get(5, TimeUnit.SECONDS)
-                        sendTextView.text = response.payload as String
-                        System.out.println(response.payload as String)
-                    } catch (e : TimeoutException) {
-                        println("Timeout!")
                     }
+                    else {
+                        Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+                    }
+
 
                 })
 

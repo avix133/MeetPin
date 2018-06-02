@@ -77,7 +77,12 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
                 promise.setFailure(new IllegalStateException());
             } else {
                 messageMap.put(request.getType(), promise);
-                instance.ctx.writeAndFlush(request);
+                try {
+                    instance.ctx.writeAndFlush(request);
+                }
+                catch (Exception e) {
+                    return null;
+                }
             }
         }
         return promise;
@@ -148,7 +153,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
     public Future<DefaultResponse> removeFriend(int friend_id) {
         Request request = new RemoveFriendRequest(1, friend_id);
 
-        return  sendRequest(request);
+        return sendRequest(request);
     }
 
 

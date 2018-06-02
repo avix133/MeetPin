@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.webkit.WebView
 import android.widget.Button
+import android.widget.Toast
 import com.coding.team.meetpin.R
 import com.coding.team.meetpin.client_server.netty.Client
 import com.coding.team.meetpin.client_server.netty.ClientHandler
@@ -68,7 +69,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initClient(): ClientHandler {
-        val client = Client("192.168.0.199", 8081)
+        val client = Client("192.168.1.139", 8081)
         val clientHandler = ClientHandler.getInstance()
 
         println("Initializing client...")
@@ -76,7 +77,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 client.start(clientHandler)
             } catch (e : Exception) {
-                println(e.stackTrace)
+                println("Couldn't connect to server")
             }
         }).start()
 
