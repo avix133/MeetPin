@@ -20,7 +20,6 @@ import com.google.android.gms.tasks.Task
 class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
     private val RC_SIGN_IN = 9001
-    private val DEBUG = true
     private lateinit var mGoogleSignInClient: GoogleSignInClient
 
     private lateinit var logInButton: Button
@@ -55,7 +54,7 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
         super.onStart()
         val account = GoogleSignIn.getLastSignedInAccount(this)
         println("In onStart -> Account email:" + account?.email.toString())
-        if(DEBUG && account == null) {
+        if(account != null && intent.extras==null) {
             val intent = Intent(applicationContext, MainActivity::class.java)
             intent.putExtra("FROM_ACTIVITY", "AuthenticationActivity")
             intent.putExtra("LoggedIn", true)
@@ -81,9 +80,7 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
 
     private fun signOut() {
         mGoogleSignInClient.signOut().addOnCompleteListener(this, {
-            val intent = Intent(applicationContext, AuthenticationActivity::class.java)
-            intent.putExtra("FROM_ACTIVITY", "AuthenticationActivity")
-            startActivity(intent)
+            updateUI(null)
         })
     }
 
@@ -95,11 +92,11 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        println("In onActivityResult")
+        println("In onActivityResult...")
         if (requestCode == RC_SIGN_IN) {
-            println("In onActivityResult -> Request code is RC_SIGN_IN ")
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             println("In onActivityResult -> " + task.toString())
+            println("Task success: "+ task.isSuccessful)
             handleSignInResult(task)
         } else {
             println("In onActivityResult -> Request code is: " + requestCode)
@@ -110,8 +107,15 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
         try {
             println("In handleSignInResult")
             val account = completedTask.getResult(ApiException::class.java)
+            println("In handleSignInResult, account = " + account.toString())
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            intent.putExtra("FROM_ACTIVITY", "AuthenticationActivity")
+            intent.putExtra("LoggedIn", true)
+            startActivity(intent)
             updateUI(account)
         } catch (e: ApiException) {
+            println("Api exception: ")
+            e.printStackTrace()
             updateUI(null)
         }
     }
@@ -119,7 +123,7 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
     private fun updateUI(account: GoogleSignInAccount?) {
         val extras = intent.extras
         println("In updateUI")
-        if (account == null) {
+        if (account == null ){
             println("In updateUI: Account is null")
             logInButton.visibility = View.VISIBLE
             logOutButton.visibility = View.GONE
