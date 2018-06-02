@@ -5,10 +5,9 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.webkit.WebView
 import android.widget.Button
+import com.coding.team.meetpin.R
 import com.coding.team.meetpin.client_server.netty.Client
 import com.coding.team.meetpin.client_server.netty.ClientHandler
-import com.coding.team.meetpin.R
-import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -17,9 +16,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var friendsButton: Button
     private lateinit var debugButton: Button
     private lateinit var joey: WebView
-    private lateinit var logOutButton : Button
-    private lateinit var clientHandler : ClientHandler
-
+    private lateinit var logOutButton: Button
+    private lateinit var clientHandler: ClientHandler
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,16 +25,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         println("In MainActivity: starting MAIN")
 
-            setContentView(R.layout.activity_main)
-            clientHandler = initClient()
+        setContentView(R.layout.activity_main)
+        clientHandler = initClient()
 
 
-            mapButton = findViewById(R.id.mapButton)
-            friendsButton = findViewById(R.id.friendsListButton)
-            debugButton = findViewById(R.id.debugButton)
-            logOutButton = findViewById(R.id.logOutButton)
-            joey = findViewById(R.id.joey)
-            joey.loadUrl("file:///android_asset/Joey.html")
+        mapButton = findViewById(R.id.mapButton)
+        friendsButton = findViewById(R.id.friendsListButton)
+        debugButton = findViewById(R.id.debugButton)
+        logOutButton = findViewById(R.id.logOutButton)
+        joey = findViewById(R.id.joey)
+        joey.loadUrl("file:///android_asset/Joey.html")
 
 
         mapButton.setOnClickListener(
@@ -75,8 +73,13 @@ class MainActivity : AppCompatActivity() {
 
         println("Initializing client...")
         Thread({
-            client.start(clientHandler)
+            try {
+                client.start(clientHandler)
+            } catch (e : Exception) {
+                println(e.stackTrace)
+            }
         }).start()
+
         println("Returning clientHandler")
 
 
