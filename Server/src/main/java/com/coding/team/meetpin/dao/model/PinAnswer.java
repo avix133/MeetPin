@@ -8,40 +8,40 @@ import java.io.Serializable;
 @Table(name = "pin_answer")
 public class PinAnswer implements Serializable {
 
-    private Pin pin_id;
-
-    private User user_id;
-
-    private boolean answer;
-
-    protected PinAnswer() {}
-
-    public PinAnswer(Pin pin_id, User user_id, boolean answer) {
-        this.pin_id = pin_id;
-        this.user_id = user_id;
-        this.answer = answer;
-    }
-
     @Id
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "pin_id")
-    public Pin getPin() {
-        return pin_id;
-    }
-
-    public void setPin(Pin pin_id) {
-        this.pin_id = pin_id;
-    }
+    private Pin pin;
 
     @Id
     @ManyToOne
     @JoinColumn(name = "user_id")
+    private User user;
+
+    private boolean answer;
+
+    public PinAnswer() {}
+
+    public PinAnswer(Pin pin, User user, boolean answer) {
+        this.pin = pin;
+        this.user = user;
+        this.answer = answer;
+    }
+
+    public Pin getPin() {
+        return pin;
+    }
+
+    public void setPin(Pin pin_id) {
+        this.pin = pin_id;
+    }
+
     public User getUser() {
-        return user_id;
+        return user;
     }
 
     public void setUser(User user_id) {
-        this.user_id = user_id;
+        this.user = user_id;
     }
 
     public boolean getAnswer() {
@@ -52,10 +52,11 @@ public class PinAnswer implements Serializable {
         this.answer = answer;
     }
 
+    @Override
     public String toString() {
         return "Pin Answer {" +
-                "pin_id = " + pin_id +
-                ", user_id = " + user_id +
+                "pin = " + pin +
+                ", user = " + user +
                 ", answer = " + answer +
                 "}";
     }

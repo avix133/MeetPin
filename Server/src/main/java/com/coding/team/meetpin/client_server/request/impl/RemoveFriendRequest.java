@@ -3,16 +3,15 @@ package com.coding.team.meetpin.client_server.request.impl;
 import com.coding.team.meetpin.client_server.request.Request;
 import com.coding.team.meetpin.client_server.request.RequestType;
 
-public class PinDataRequest implements Request {
+public class RemoveFriendRequest implements Request {
 
-    private static final long serialVersionUID = -7980643157731081443L;
-
+    private static final long serialVersionUID = 239748610650618403L;
     private int clientId;
-    private int pinId;
+    private int userId;
 
-    public PinDataRequest(final int clientId, final int pinId) {
+    public RemoveFriendRequest(final int clientId, final int userId) {
         this.clientId = clientId;
-        this.pinId = pinId;
+        this.userId = userId;
     }
 
     @Override
@@ -22,10 +21,10 @@ public class PinDataRequest implements Request {
 
     @Override
     public RequestType getType() {
-        return RequestType.PIN_DATA;
+        return RequestType.REMOVE_FRIEND;
     }
 
-    public int getPinId() {
-        return pinId;
+    public int getUserId() {
+        return userId;
     }
 }

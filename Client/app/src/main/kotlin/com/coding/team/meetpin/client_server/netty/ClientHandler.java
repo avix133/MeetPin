@@ -8,6 +8,12 @@ import java.util.concurrent.TimeoutException;
 import com.coding.team.meetpin.client_server.MeetPinService;
 import com.coding.team.meetpin.client_server.request.Request;
 import com.coding.team.meetpin.client_server.request.RequestType;
+import com.coding.team.meetpin.client_server.request.impl.AddressedToMePinRequest;
+import com.coding.team.meetpin.client_server.request.impl.FriendListRequest;
+import com.coding.team.meetpin.client_server.request.impl.GlobalPinRequest;
+import com.coding.team.meetpin.client_server.request.impl.InviteFriendRequest;
+import com.coding.team.meetpin.client_server.request.impl.PendingInvitationsRequest;
+import com.coding.team.meetpin.client_server.request.impl.RemoveFriendRequest;
 import com.coding.team.meetpin.client_server.response.impl.DefaultResponse;
 import com.coding.team.meetpin.client_server.request.impl.AuthenticationRequest;
 import com.coding.team.meetpin.client_server.request.impl.PinDataRequest;
@@ -100,6 +106,51 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
 
         return sendRequest(request);
     }
+
+    @Override
+    public Future<DefaultResponse> getGlobalPins() {
+        Request request = new GlobalPinRequest(clientId);
+
+        return sendRequest(request);
+    }
+
+    @Override
+    public Future<DefaultResponse> getPinsAddressedToMe(int userId) {
+        Request request = new AddressedToMePinRequest(clientId, userId);
+
+        return sendRequest(request);
+    }
+
+
+    // from this point on clientId is hardcoded (to be changed later)
+    @Override
+    public Future<DefaultResponse> getFriendList() {
+        Request request = new FriendListRequest(1);
+
+        return sendRequest(request);
+    }
+
+    @Override
+    public Future<DefaultResponse> getPendingInvitations() {
+        Request request = new PendingInvitationsRequest(4);
+
+        return sendRequest(request);
+    }
+
+    @Override
+    public Future<DefaultResponse> inviteFriend(int friend_id) {
+        Request request = new InviteFriendRequest(1, friend_id);
+
+        return sendRequest(request);
+    }
+
+    @Override
+    public Future<DefaultResponse> removeFriend(int friend_id) {
+        Request request = new RemoveFriendRequest(1, friend_id);
+
+        return  sendRequest(request);
+    }
+
 
     public void sendMessage(Object msg) {
         instance.ctx.writeAndFlush(msg);

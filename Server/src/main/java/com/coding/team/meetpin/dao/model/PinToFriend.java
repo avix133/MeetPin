@@ -8,21 +8,24 @@ import java.io.Serializable;
 @Table(name = "pin_to_friend")
 public class PinToFriend implements Serializable {
 
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "to_user_id")
     private User user;
 
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "pin_id")
     private Pin pin;
 
-    protected PinToFriend() {}
+    public PinToFriend() {}
 
     public PinToFriend(Pin pin, User user) {
         this.pin = pin;
         this.user = user;
     }
 
-    @Id
-    @OneToOne
-    @JoinColumn(name = "to_user_id")
-    public User getUser() {
+    public User  getUser() {
         return user;
     }
 
@@ -30,9 +33,6 @@ public class PinToFriend implements Serializable {
         this.user = user;
     }
 
-    @Id
-    @OneToOne
-    @JoinColumn(name = "pin_id")
     public Pin getPin() {
         return pin;
     }
