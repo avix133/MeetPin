@@ -3,7 +3,6 @@ package com.coding.team.meetpin.activities
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Fragment
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -18,9 +17,7 @@ import android.provider.Settings
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
 import android.util.DisplayMetrics
 import android.widget.Toast
 import com.coding.team.meetpin.R

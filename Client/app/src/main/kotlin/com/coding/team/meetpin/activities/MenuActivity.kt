@@ -11,6 +11,7 @@ open class MenuActivity : AppCompatActivity() {
         override fun onCreateOptionsMenu(menu: Menu?): Boolean {
             val inflater = menuInflater
             inflater.inflate(R.menu.main_menu_with_map, menu)
+
             return super.onCreateOptionsMenu(menu)
         }
 

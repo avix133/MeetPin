@@ -1,7 +1,6 @@
 package com.coding.team.meetpin.activities
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.DisplayMetrics
 import com.coding.team.meetpin.R
 

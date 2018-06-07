@@ -2,12 +2,9 @@ package com.coding.team.meetpin.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.StrictMode
-import android.support.v4.view.ViewPager
 import android.webkit.WebView
 import android.widget.Button
 import com.coding.team.meetpin.R
-import com.coding.team.meetpin.client_server.netty.ClientHandler
 
 class MyProfileActivity : MenuActivity() {
 

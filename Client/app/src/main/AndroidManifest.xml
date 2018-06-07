@@ -40,6 +40,7 @@
         <activity android:name=".activities.FriendsListActivity" />
         <activity android:name=".activities.MainActivity" />
         <activity android:name=".activities.DebugActivity" />
+        <activity android:name=".activities.MenuActivity" />
         <activity android:name=".activities.MyProfileActivity" />
         <activity android:name=".activities.PinWindowActivity"
             android:theme="@style/AppTheme.PinPopupWindow"
