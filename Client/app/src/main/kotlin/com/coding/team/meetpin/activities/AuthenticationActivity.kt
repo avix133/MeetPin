@@ -24,6 +24,7 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
 
     private lateinit var logInButton: Button
     private lateinit var logOutButton: Button
+    private lateinit var debugLogInButton: Button
 
 
     override fun onConnectionFailed(connectionResult: ConnectionResult) {
@@ -36,6 +37,8 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
 
         logInButton = findViewById(R.id.logInButton)
         logOutButton = findViewById(R.id.logOutButton)
+        debugLogInButton = findViewById(R.id.debugLogInButton)
+
 
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -45,8 +48,8 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
         logInButton.setOnClickListener(this)
-
         logOutButton.setOnClickListener(this)
+        debugLogInButton.setOnClickListener(this)
 
     }
 
@@ -54,7 +57,7 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
         super.onStart()
         val account = GoogleSignIn.getLastSignedInAccount(this)
         println("In onStart -> Account email:" + account?.email.toString())
-        if(account != null && intent.extras==null) {
+        if (account != null && intent.extras == null) {
             val intent = Intent(applicationContext, MainActivity::class.java)
             intent.putExtra("FROM_ACTIVITY", "AuthenticationActivity")
             intent.putExtra("LoggedIn", true)
@@ -65,11 +68,18 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.logInButton ->
+            logInButton.id ->
                 signIn()
-            R.id.logOutButton ->
+            logOutButton.id ->
                 signOut()
+            debugLogInButton.id ->
+                debugLogIn()
         }
+    }
+
+    private fun debugLogIn() {
+        println("Debug log in")
+        logIn("test@test.com")
     }
 
     private fun signIn() {
@@ -96,7 +106,7 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             println("In onActivityResult -> " + task.toString())
-            println("Task success: "+ task.isSuccessful)
+            println("Task success: " + task.isSuccessful)
             handleSignInResult(task)
         } else {
             println("In onActivityResult -> Request code is: " + requestCode)
@@ -108,11 +118,7 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
             println("In handleSignInResult")
             val account = completedTask.getResult(ApiException::class.java)
             println("In handleSignInResult, account = " + account.toString())
-            val intent = Intent(applicationContext, MainActivity::class.java)
-            intent.putExtra("FROM_ACTIVITY", "AuthenticationActivity")
-            intent.putExtra("LoggedIn", true)
-            startActivity(intent)
-            updateUI(account)
+            logIn(account.email)
         } catch (e: ApiException) {
             println("Api exception: ")
             e.printStackTrace()
@@ -123,7 +129,7 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
     private fun updateUI(account: GoogleSignInAccount?) {
         val extras = intent.extras
         println("In updateUI")
-        if (account == null ){
+        if (account == null) {
             println("In updateUI: Account is null")
             logInButton.visibility = View.VISIBLE
             logOutButton.visibility = View.GONE
@@ -133,11 +139,16 @@ class AuthenticationActivity : AppCompatActivity(), GoogleApiClient.OnConnection
             logOutButton.visibility = View.VISIBLE
         } else {
             println("In updateUI: starting activity")
-            val intent = Intent(applicationContext, MainActivity::class.java)
-            intent.putExtra("FROM_ACTIVITY", "AuthenticationActivity")
-            intent.putExtra("LoggedIn", true)
-            startActivity(intent)
+            logIn(account.email)
         }
+    }
+
+    private fun logIn(email: String?) {
+        val intent = Intent(applicationContext, MainActivity::class.java)
+        intent.putExtra("FROM_ACTIVITY", "AuthenticationActivity")
+        intent.putExtra("AUTHENTICATION_EMAIL", email)
+        intent.putExtra("LoggedIn", true)
+        startActivity(intent)
     }
 
 }

@@ -1,23 +1,19 @@
 package com.coding.team.meetpin.activities
 
 import android.annotation.TargetApi
-import android.app.Activity
 import android.app.Notification
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcel
 import android.support.annotation.RequiresApi
-import android.support.v4.app.ActivityCompat
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import com.coding.team.meetpin.R
 
-class FriendsListActivity : AppCompatActivity() {
+class FriendsListActivity : MenuActivity() {
     lateinit var resultTextView : TextView
     lateinit var returnButton : Button
 

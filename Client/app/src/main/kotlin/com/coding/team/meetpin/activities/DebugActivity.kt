@@ -2,7 +2,6 @@ package com.coding.team.meetpin.activities
 
 import android.os.Bundle
 import android.os.StrictMode
-import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -17,7 +16,7 @@ import java.util.concurrent.TimeoutException
  */
 
 
-class DebugActivity : AppCompatActivity() {
+class DebugActivity : MenuActivity() {
 
     lateinit var sendButton: Button
     lateinit var sendEditText: EditText
