@@ -8,6 +8,7 @@ import java.util.concurrent.TimeoutException;
 import com.coding.team.meetpin.client_server.MeetPinService;
 import com.coding.team.meetpin.client_server.request.Request;
 import com.coding.team.meetpin.client_server.request.RequestType;
+import com.coding.team.meetpin.client_server.request.impl.AddPinRequest;
 import com.coding.team.meetpin.client_server.request.impl.AddressedToMePinRequest;
 import com.coding.team.meetpin.client_server.request.impl.FriendListRequest;
 import com.coding.team.meetpin.client_server.request.impl.GlobalPinRequest;
@@ -138,8 +139,8 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
     }
 
     @Override
-    public Future<DefaultResponse> inviteFriend(int friend_id) {
-        Request request = new InviteFriendRequest(1, friend_id);
+    public Future<DefaultResponse> inviteFriend(String email) {
+        Request request = new InviteFriendRequest(1, email);
 
         return sendRequest(request);
     }
@@ -151,6 +152,12 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
         return  sendRequest(request);
     }
 
+    @Override
+    public Future<DefaultResponse> addPin() {
+        Request request = new AddPinRequest(1);
+
+        return sendRequest(request);
+    }
 
     public void sendMessage(Object msg) {
         instance.ctx.writeAndFlush(msg);
