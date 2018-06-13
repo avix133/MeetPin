@@ -7,11 +7,11 @@ public class InviteFriendRequest implements Request {
 
     private static final long serialVersionUID = -4511945576735207817L;
     private int clientId;
-    private int userId;
+    private String email;
 
-    public InviteFriendRequest(final int clientId, final int userId) {
+    public InviteFriendRequest(final int clientId, final String email) {
         this.clientId = clientId;
-        this.userId = userId;
+        this.email = email;
     }
 
     @Override
@@ -24,7 +24,7 @@ public class InviteFriendRequest implements Request {
         return RequestType.INVITE_FRIEND;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getUserEmail() {
+        return email;
     }
 }

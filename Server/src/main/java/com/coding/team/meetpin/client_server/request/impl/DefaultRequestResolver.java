@@ -6,7 +6,7 @@ import com.coding.team.meetpin.client_server.request.RequestType;
 import com.coding.team.meetpin.client_server.response.Response;
 import com.coding.team.meetpin.client_server.response.impl.DefaultResponse;
 import com.coding.team.meetpin.dao.model.Pin;
-import com.coding.team.meetpin.dao.repository.FriendRepository;
+import com.coding.team.meetpin.dao.model.User;
 import com.coding.team.meetpin.dao.repository.PinRepository;
 import com.coding.team.meetpin.dao.repository.RelationshipRepository;
 import com.coding.team.meetpin.dao.repository.UserRepository;
@@ -14,6 +14,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.sql.Timestamp;
 
 /**
  * Description of class:
@@ -47,7 +49,9 @@ public class DefaultRequestResolver implements RequestResolver {
                 break;
             }
             case ADD_PIN: {
-//                response = addPin(Pin pin);
+                User u1 = userRepository.getOne(1);
+                Pin p1 = new Pin("testing testing", u1, 37.06465000, 21.94498000, new Timestamp(1527759414), new Timestamp(1527759414));
+                response = addPin(p1);
                 break;
             }
             case AUTHENTICATE: {
@@ -114,7 +118,7 @@ public class DefaultRequestResolver implements RequestResolver {
     }
 
     private Response inviteFriend(InviteFriendRequest inviteFriend) {
-        return new DefaultResponse(RequestType.INVITE_FRIEND, relationshipRepository.inviteFriend(inviteFriend.getClientId(), inviteFriend.getUserId()));
+        return new DefaultResponse(RequestType.INVITE_FRIEND, relationshipRepository.inviteFriend(inviteFriend.getClientId(), inviteFriend.getUserEmail()));
     }
 
     private Response removeFriend(RemoveFriendRequest removeFriend) {
