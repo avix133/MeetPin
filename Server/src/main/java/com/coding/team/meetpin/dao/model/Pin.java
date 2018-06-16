@@ -18,8 +18,10 @@ public class Pin implements Serializable {
 
     private String message;
 
+    @Column(precision = 10, scale = 2)
     private Double map_latitude;
 
+    @Column(precision = 11, scale = 3)
     private Double map_longitude;
 
     private Timestamp meeting_date;

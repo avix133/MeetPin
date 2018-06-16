@@ -30,7 +30,7 @@ public interface PinRepository extends JpaRepository<Pin, Integer> {
             "UNION " +
             "(SELECT p.* FROM pin p " +
             "INNER JOIN pin_to_friend f ON p.id = f.pin_id " +
-            "WHERE f.to_user_id = 4)", nativeQuery = true)
+            "WHERE f.to_user_id = :id)", nativeQuery = true)
     List<Pin> fetchDisplayPins(@Param("id") int user_id);
 }
 

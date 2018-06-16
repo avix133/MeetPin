@@ -112,7 +112,6 @@ class MapActivity : AppCompatActivity(),
         mMap.setOnCameraMoveListener(this)
         mMap.setOnCameraIdleListener(this)
 
-
         mMap.setOnMarkerClickListener(this)
     }
 

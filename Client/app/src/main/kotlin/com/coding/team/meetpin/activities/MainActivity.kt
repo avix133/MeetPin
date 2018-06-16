@@ -20,8 +20,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var logOutButton : Button
     private lateinit var clientHandler : ClientHandler
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -85,7 +83,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initClient(): ClientHandler {
 //        val client = Client("192.168.0.199", 8081)
-        val client = Client("192.168.55.103", 8081)
+        val client = Client("192.168.55.108", 8081)
         val clientHandler = ClientHandler.getInstance()
 
         println("Initializing client...")
