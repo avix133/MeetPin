@@ -110,7 +110,7 @@ public class Pin implements Serializable {
                 ", map_longitude=" + map_longitude +
                 ", meeting_date=" + meeting_date +
                 ", expire=" + expire +
-                ", expire=" + pinToGlobal +
+                ", pinToGlobal=" + pinToGlobal +
                 '}';
     }
 }
