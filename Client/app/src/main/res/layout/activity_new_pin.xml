@@ -10,47 +10,87 @@
     <Button
             android:text="Pick date"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="44dp"
             android:id="@+id/pickDateButton"
             android:onClick="pickDate"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/message" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/textPlace"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp" app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
             app:layout_constraintEnd_toStartOf="@+id/datePickerDialogBox" android:layout_marginEnd="8dp"
-            app:layout_constraintHorizontal_bias="0.296" app:layout_constraintVertical_bias="0.014"/>
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintVertical_bias="0.0" android:layout_marginLeft="16dp"
+            android:layout_marginRight="8dp"/>
+    <Button
+            android:text="Pick friends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pickFriendButton"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="16dp" android:layout_marginStart="16dp" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/getTextButton" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" android:layout_marginRight="8dp" app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintVertical_bias="0.618"/>
     <TextView
-            android:text="Date Picker Dialog"
             android:layout_width="216dp"
             android:layout_height="70dp"
             android:id="@+id/datePickerDialogBox"
             android:textAppearance="@android:style/TextAppearance.Large"
             android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="16dp" app:layout_constraintVertical_bias="0.39"/>
+            android:layout_marginEnd="28dp" app:layout_constraintVertical_bias="0.463" android:layout_marginRight="28dp"
+            tools:ignore="RtlCompat" app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="0.924"/>
     <EditText
             android:layout_width="330dp"
-            android:layout_height="159dp"
+            android:layout_height="84dp"
             android:inputType="textMultiLine"
             android:ems="10"
-            android:id="@+id/message" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/datePickerDialogBox" app:layout_constraintVertical_bias="0.066"
-            style="@style/Widget.AppCompat.EditText"/>
+            android:id="@+id/message"
+            style="@style/Widget.AppCompat.EditText" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/textPlace"
+            app:layout_constraintVertical_bias="0.19" app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"/>
     <Button
             android:text="Get text"
+            android:layout_width="88dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/getTextButton"
+            app:layout_constraintEnd_toStartOf="@+id/getTextTextView" android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp" android:layout_marginTop="56dp" app:layout_constraintTop_toBottomOf="@+id/pickDateButton"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="16dp" android:layout_marginStart="16dp"
+            app:layout_constraintHorizontal_bias="0.0"/>
+    <EditText
+            android:layout_width="215dp"
+            android:layout_height="75dp"
+            android:id="@+id/getTextTextView" android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/datePickerDialogBox"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+            app:layout_constraintHorizontal_bias="0.797" app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
+            app:layout_constraintVertical_bias="0.089"/>
+    <TextView
+            android:layout_width="219dp"
+            android:layout_height="51dp"
+            android:id="@+id/placeBox" android:layout_marginTop="20dp" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp" app:layout_constraintStart_toEndOf="@+id/textPlace" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="1.0" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/datePickerDialogBox" app:layout_constraintVertical_bias="0.634"/>
+    <TextView
+            android:text="PLACE"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:id="@+id/textPlace"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="16dp" android:layout_marginStart="16dp" app:layout_constraintVertical_bias="0.291"/>
+    <Button
+            android:text="SUBMIT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/getTextButton" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/pickDateButton" app:layout_constraintVertical_bias="0.118"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintHorizontal_bias="0.056" app:layout_constraintEnd_toEndOf="parent"/>
-    <EditText
-            android:text="EditTextView"
-            android:layout_width="215dp"
-            android:layout_height="216dp"
-            android:id="@+id/getTextTextView" android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/datePickerDialogBox"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintHorizontal_bias="0.937" app:layout_constraintVertical_bias="0.257"/>
+            android:id="@+id/submitButton" android:background="@color/colorAccent" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp" app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp" android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/getTextTextView"
+            app:layout_constraintHorizontal_bias="0.914" app:layout_constraintVertical_bias="0.915"/>
 </android.support.constraint.ConstraintLayout>

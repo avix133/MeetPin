@@ -70,7 +70,8 @@ class MapActivity : MenuActivity(),
         setContentView(R.layout.activity_map)
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map2) as SupportMapFragment
+                .findFragmentById(R.id.map
+                ) as SupportMapFragment
 
         mapFragment.getMapAsync(this)
         val displayMetrics = DisplayMetrics()
@@ -130,7 +131,11 @@ class MapActivity : MenuActivity(),
         marker.position = getMarkerPosition()
         val geocoder = Geocoder(applicationContext)
         address = geocoder.getFromLocation(p0!!.position.latitude, p0.position.longitude, 1)
-        Toast.makeText(applicationContext, address.get(0).getAddressLine(0), Toast.LENGTH_SHORT).show()
+        val intent:Intent = Intent(applicationContext, NewPinActivity::class.java)
+        intent.putExtra("FROM_ACTIVITY", "MapActivity")
+        intent.putExtra("ADDRESS", address.get(0).getAddressLine(0))
+        startActivity(intent)
+//        Toast.makeText(applicationContext, address.get(0).getAddressLine(0), Toast.LENGTH_SHORT).show()
     }
 
     override fun onCameraMoveStarted(p0: Int) {
