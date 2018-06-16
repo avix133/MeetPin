@@ -134,6 +134,8 @@ class MapActivity : MenuActivity(),
         val intent:Intent = Intent(applicationContext, NewPinActivity::class.java)
         intent.putExtra("FROM_ACTIVITY", "MapActivity")
         intent.putExtra("ADDRESS", address.get(0).getAddressLine(0))
+        intent.putExtra( "LATITUDE", p0!!.position.latitude)
+        intent.putExtra( "LONGITUDE", p0!!.position.longitude)
         startActivity(intent)
 //        Toast.makeText(applicationContext, address.get(0).getAddressLine(0), Toast.LENGTH_SHORT).show()
     }
