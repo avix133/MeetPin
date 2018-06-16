@@ -7,6 +7,7 @@ public enum RequestType implements Serializable {
     PIN_DATA,
     ADD_PIN,
     GLOBAL_PINS,
+    DISPLAY_PINS,
     ADDRESSED_TO_ME_PINS,
     FRIEND_LIST,
     PENDING_INVITATIONS,

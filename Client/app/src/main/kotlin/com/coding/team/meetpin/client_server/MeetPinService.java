@@ -6,6 +6,7 @@ import java.util.concurrent.Future;
 public interface MeetPinService {
     Future<DefaultResponse> getPinData(int pinId);
     Future<DefaultResponse> getGlobalPins();
+    Future<DefaultResponse> getDisplayPins();
     Future<DefaultResponse> getPinsAddressedToMe(int userId);
     boolean authenticate(String email);
 

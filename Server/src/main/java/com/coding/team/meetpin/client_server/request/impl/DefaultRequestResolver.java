@@ -28,7 +28,6 @@ import java.sql.Timestamp;
 public class DefaultRequestResolver implements RequestResolver {
     private static final Logger logger = LogManager.getLogger();
 
-
     //needs to have DataService
     @Autowired
     private PinRepository pinRepository;
@@ -38,7 +37,6 @@ public class DefaultRequestResolver implements RequestResolver {
 
     @Autowired
     private RelationshipRepository relationshipRepository;
-
 
     @Override
     public Response resolve(final Request request) {
@@ -62,22 +60,22 @@ public class DefaultRequestResolver implements RequestResolver {
                 response = getGlobalPins();
                 break;
             }
-
+            case DISPLAY_PINS: {
+                response = getDisplayPins((DisplayPinRequest) request);
+                break;
+            }
             case ADDRESSED_TO_ME_PINS: {
                 response = getPinsAddressedToMe((AddressedToMePinRequest) request);
                 break;
             }
-
             case FRIEND_LIST: {
                 response = getFriendList((FriendListRequest) request);
                 break;
             }
-
             case PENDING_INVITATIONS: {
                 response = getPendingInvitations((PendingInvitationsRequest) request);
                 break;
             }
-
             case INVITE_FRIEND: {
                 response = inviteFriend((InviteFriendRequest) request);
                 break;
@@ -88,17 +86,19 @@ public class DefaultRequestResolver implements RequestResolver {
                 break;
             }
         }
-
         return response;
-
     }
 
     private Response getPinData(PinDataRequest pinDataRequest) {
-        return new DefaultResponse(RequestType.PIN_DATA, pinRepository.findPinById(pinDataRequest.getPinId()).toString());
+        return new DefaultResponse(RequestType.PIN_DATA, pinRepository.findPinById(pinDataRequest.getPinId()));
     }
 
     private Response getGlobalPins() {
         return new DefaultResponse(RequestType.GLOBAL_PINS, pinRepository.fetchGlobalPins().toString());
+    }
+
+    private Response getDisplayPins(DisplayPinRequest displayPin) {
+        return new DefaultResponse(RequestType.DISPLAY_PINS, pinRepository.fetchDisplayPins(displayPin.getClientId()));
     }
 
     private Response addPin(Pin pin) {

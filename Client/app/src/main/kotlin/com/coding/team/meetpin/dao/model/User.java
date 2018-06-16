@@ -1,4 +1,4 @@
-package com.coding.team.meetpin.app;
+package com.coding.team.meetpin.dao.model;
 
 import java.io.Serializable;
 

@@ -3,8 +3,6 @@ package com.coding.team.meetpin.dao.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "pin")
@@ -121,6 +119,7 @@ public class Pin implements Serializable {
                 ", map_longitude=" + map_longitude +
                 ", meeting_date=" + meeting_date +
                 ", expire=" + expire +
+                ", pinToGlobal=" + pinToGlobal +
                 '}';
     }
 }

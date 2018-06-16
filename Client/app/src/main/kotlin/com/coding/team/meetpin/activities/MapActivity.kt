@@ -22,6 +22,8 @@ import android.support.v7.app.AppCompatActivity
 import android.util.DisplayMetrics
 import android.widget.Toast
 import com.coding.team.meetpin.R
+import com.coding.team.meetpin.client_server.netty.ClientHandler
+import com.coding.team.meetpin.dao.model.Pin
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
 import com.google.android.gms.common.GooglePlayServicesRepairableException
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -35,6 +37,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import java.util.concurrent.TimeUnit
 
 class MapActivity : AppCompatActivity(),
         OnMapReadyCallback,
@@ -84,10 +87,7 @@ class MapActivity : AppCompatActivity(),
         fab.setOnClickListener {
             loadPlacePicker()
         }
-
-
     }
-
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
@@ -95,6 +95,7 @@ class MapActivity : AppCompatActivity(),
         val cracow = LatLng(50.06, 19.94)
         getLocationPermission()
         getUserLocation()
+        displayAllPins()
 
         mMap.setOnMyLocationButtonClickListener(this)
         mMap.setOnMyLocationClickListener(this)
@@ -102,6 +103,7 @@ class MapActivity : AppCompatActivity(),
 
 //        mMap.addMarker(MarkerOptions().position(cracow).title("Marker in Cracow"))
 //        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cracow, 15f))
+
         mOption = MarkerOptions().position(getMarkerPosition()).draggable(true)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
         marker = mMap.addMarker(mOption)
@@ -118,6 +120,7 @@ class MapActivity : AppCompatActivity(),
     override fun onMarkerClick(p0: Marker?): Boolean {
         val intent = Intent(this, PinWindowActivity::class.java)
         intent.putExtra("FROM_ACTIVITY", "MapActivity")
+        intent.putExtra("MARKER_ID", p0!!.snippet)
         startActivity(intent)
         return false
     }
@@ -249,6 +252,25 @@ class MapActivity : AppCompatActivity(),
         }
 
 
+    }
+
+    private fun displayAllPins() {
+        val result: List<Pin> = ClientHandler.getInstance().getDisplayPins().get(5, TimeUnit.SECONDS).payload as List<Pin>
+
+        for ((index, value) in result.withIndex()) {
+            println(value)
+            val pin = LatLng(value.map_latitude, value.map_longitude)
+
+            marker = mMap.addMarker(MarkerOptions()
+                    .position(pin)
+                    .title(value.message)
+                    .snippet(value.id.toString())
+            )
+
+            if (value.pinToGlobal != null) {
+                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+            }
+        }
     }
 }
 

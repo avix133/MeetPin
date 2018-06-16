@@ -10,6 +10,7 @@ import com.coding.team.meetpin.client_server.request.Request;
 import com.coding.team.meetpin.client_server.request.RequestType;
 import com.coding.team.meetpin.client_server.request.impl.AddPinRequest;
 import com.coding.team.meetpin.client_server.request.impl.AddressedToMePinRequest;
+import com.coding.team.meetpin.client_server.request.impl.DisplayPinRequest;
 import com.coding.team.meetpin.client_server.request.impl.FriendListRequest;
 import com.coding.team.meetpin.client_server.request.impl.GlobalPinRequest;
 import com.coding.team.meetpin.client_server.request.impl.InviteFriendRequest;
@@ -116,12 +117,18 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
     }
 
     @Override
+    public Future<DefaultResponse> getDisplayPins() {
+        Request request = new DisplayPinRequest(4);
+
+        return sendRequest(request);
+    }
+
+    @Override
     public Future<DefaultResponse> getPinsAddressedToMe(int userId) {
         Request request = new AddressedToMePinRequest(clientId, userId);
 
         return sendRequest(request);
     }
-
 
     // from this point on clientId is hardcoded (to be changed later)
     @Override

@@ -1,8 +1,7 @@
-package com.coding.team.meetpin.app;
+package com.coding.team.meetpin.dao.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-
 
 public class Pin implements Serializable {
 
@@ -19,6 +18,8 @@ public class Pin implements Serializable {
     private Timestamp meeting_date;
 
     private Timestamp expire;
+
+    private PinToGlobal pinToGlobal;
 
     protected Pin() {}
 
@@ -83,6 +84,22 @@ public class Pin implements Serializable {
         this.expire = expire;
     }
 
+    public PinToGlobal getPinToGlobal() {
+        return pinToGlobal;
+    }
+
+    public void setPinToGlobal(PinToGlobal pinToGlobal) {
+
+        if (pinToGlobal == null) {
+            if (this.pinToGlobal != null) {
+                this.pinToGlobal.setPin_id(this.getId());
+            }
+        } else {
+            pinToGlobal.setPin_id(this.getId());
+        }
+        this.pinToGlobal = pinToGlobal;
+    }
+
     @Override
     public String toString() {
         return "Pin{" +
@@ -93,6 +110,7 @@ public class Pin implements Serializable {
                 ", map_longitude=" + map_longitude +
                 ", meeting_date=" + meeting_date +
                 ", expire=" + expire +
+                ", expire=" + pinToGlobal +
                 '}';
     }
 }
