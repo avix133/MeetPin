@@ -82,8 +82,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initClient(): ClientHandler {
-//        val client = Client("192.168.0.199", 8081)
-        val client = Client("192.168.55.108", 8081)
+        val client = Client("192.168.0.199", 8081)
         val clientHandler = ClientHandler.getInstance()
 
         println("Initializing client...")
