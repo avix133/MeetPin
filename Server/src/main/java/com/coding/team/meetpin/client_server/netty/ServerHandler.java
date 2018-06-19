@@ -3,8 +3,6 @@ package com.coding.team.meetpin.client_server.netty;
 import com.coding.team.meetpin.client_server.request.Request;
 import com.coding.team.meetpin.client_server.request.RequestResolver;
 import com.coding.team.meetpin.client_server.response.Response;
-import com.coding.team.meetpin.client_server.response.impl.DefaultResponse;
-import com.coding.team.meetpin.client_server.request.impl.PinDataRequest;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -27,6 +25,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
         logger.info("Received msg type: " + ((Request) msg).getType());
 
         Response response = requestResolver.resolve((Request) msg);
+        logger.info("Sending response: " + response.toString());
         sendResponse(ctx, response);
 
 //        sendResponse(ctx, new DefaultResponse(request.getType(), "PAYLOAD FROM SERVER - " + ((PinDataRequest)request).getPinId()));

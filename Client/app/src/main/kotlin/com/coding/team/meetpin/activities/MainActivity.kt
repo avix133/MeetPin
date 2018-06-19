@@ -16,14 +16,21 @@ class MainActivity : MenuActivity() {
         println("In MainActivity")
 
         val email = intent.getStringExtra("AUTHENTICATION_EMAIL")
-
-        Toast.makeText(applicationContext, "Logged as: $email", Toast.LENGTH_SHORT).show()
-
-        val intent = Intent(applicationContext, MapActivity::class.java)
-        intent.putExtra("FROM_ACTIVITY", "MainActivity")
-        startActivity(intent)
-
         initClient()
+        val serverAuthenticated = ClientHandler.getInstance().authenticate(email)
+
+        if (serverAuthenticated) {
+            Toast.makeText(applicationContext, "Logged as: $email", Toast.LENGTH_SHORT).show()
+            val intent = Intent(applicationContext, MapActivity::class.java)
+            intent.putExtra("FROM_ACTIVITY", "MainActivity")
+            startActivity(intent)
+        }
+        else {
+            Toast.makeText(applicationContext, "Something went wrong...", Toast.LENGTH_SHORT).show()
+            val intent = Intent(applicationContext, AuthenticationActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
 

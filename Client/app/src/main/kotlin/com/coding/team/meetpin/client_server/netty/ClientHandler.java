@@ -14,6 +14,7 @@ import com.coding.team.meetpin.client_server.request.impl.GlobalPinRequest;
 import com.coding.team.meetpin.client_server.request.impl.InviteFriendRequest;
 import com.coding.team.meetpin.client_server.request.impl.PendingInvitationsRequest;
 import com.coding.team.meetpin.client_server.request.impl.RemoveFriendRequest;
+import com.coding.team.meetpin.client_server.response.Response;
 import com.coding.team.meetpin.client_server.response.impl.DefaultResponse;
 import com.coding.team.meetpin.client_server.request.impl.AuthenticationRequest;
 import com.coding.team.meetpin.client_server.request.impl.PinDataRequest;
@@ -29,7 +30,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
     private ChannelHandlerContext ctx;
     private static ClientHandler instance = null;
     private int clientId = -1;
-    private ConcurrentHashMap<RequestType, Promise<DefaultResponse>> messageMap = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<RequestType, Promise<Response>> messageMap = new ConcurrentHashMap<>();
 
 
     private ClientHandler() {
@@ -51,7 +52,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         System.out.println("Client read: " + msg);
-        DefaultResponse response = (DefaultResponse) msg;
+        Response response = (Response) msg;
         synchronized (this) {
             if (messageMap != null) {
                 messageMap.get(response.getType()).setSuccess(response);
@@ -70,8 +71,8 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
         instance.ctx.close();
     }
 
-    private Future<DefaultResponse> sendRequest(Request request) {
-        Promise<DefaultResponse> promise = GlobalEventExecutor.INSTANCE.newPromise();
+    private Future<Response> sendRequest(Request request) {
+        Promise<Response> promise = GlobalEventExecutor.INSTANCE.newPromise();
         synchronized (this) {
             if (messageMap == null) {
                 promise.setFailure(new IllegalStateException());
@@ -91,36 +92,32 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
     @Override
     public boolean authenticate(String email) {
         Request request = new AuthenticationRequest(email);
-        Future<DefaultResponse> future = sendRequest(request);
+        Future<Response> future = sendRequest(request);
         try {
-            DefaultResponse response = future.get(10, TimeUnit.SECONDS);
+            Response response = future.get(10, TimeUnit.SECONDS);
             clientId = (int) response.getPayload();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (TimeoutException e) {
+        } catch (InterruptedException | NullPointerException | ExecutionException | TimeoutException e) {
             e.printStackTrace();
         }
-        return clientId > -1;
+        return this.clientId > -1;
     }
 
     @Override
-    public Future<DefaultResponse> getPinData(int pinId) {
+    public Future<Response> getPinData(int pinId) {
         Request request = new PinDataRequest(clientId, pinId);
 
         return sendRequest(request);
     }
 
     @Override
-    public Future<DefaultResponse> getGlobalPins() {
+    public Future<Response> getGlobalPins() {
         Request request = new GlobalPinRequest(clientId);
 
         return sendRequest(request);
     }
 
     @Override
-    public Future<DefaultResponse> getPinsAddressedToMe(int userId) {
+    public Future<Response> getPinsAddressedToMe(int userId) {
         Request request = new AddressedToMePinRequest(clientId, userId);
 
         return sendRequest(request);
@@ -129,28 +126,28 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
 
     // from this point on clientId is hardcoded (to be changed later)
     @Override
-    public Future<DefaultResponse> getFriendList() {
+    public Future<Response> getFriendList() {
         Request request = new FriendListRequest(1);
 
         return sendRequest(request);
     }
 
     @Override
-    public Future<DefaultResponse> getPendingInvitations() {
+    public Future<Response> getPendingInvitations() {
         Request request = new PendingInvitationsRequest(4);
 
         return sendRequest(request);
     }
 
     @Override
-    public Future<DefaultResponse> inviteFriend(int friend_id) {
+    public Future<Response> inviteFriend(int friend_id) {
         Request request = new InviteFriendRequest(1, friend_id);
 
         return sendRequest(request);
     }
 
     @Override
-    public Future<DefaultResponse> removeFriend(int friend_id) {
+    public Future<Response> removeFriend(int friend_id) {
         Request request = new RemoveFriendRequest(1, friend_id);
 
         return sendRequest(request);

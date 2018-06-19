@@ -23,4 +23,12 @@ public class DefaultResponse implements Response {
     public Object getPayload() {
         return payload;
     }
+
+    @Override
+    public String toString() {
+        return com.google.common.base.MoreObjects.toStringHelper(this)
+                .add("type", type)
+                .add("payload", payload)
+                .toString();
+    }
 }
