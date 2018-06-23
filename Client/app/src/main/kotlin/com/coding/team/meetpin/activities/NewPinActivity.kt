@@ -19,6 +19,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.coding.team.meetpin.R
 import com.coding.team.meetpin.app.User
+import com.coding.team.meetpin.client_server.netty.ClientHandler
 import com.coding.team.meetpin.client_server.request.impl.AuthenticationRequest
 import com.coding.team.meetpin.client_server.response.impl.DefaultResponse
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -27,45 +28,52 @@ import kotlinx.android.synthetic.main.activity_new_pin.datePickerDialogBox
 import java.text.FieldPosition
 import java.util.*
 import java.util.concurrent.Future
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
 
 class NewPinActivity : AppCompatActivity() {
-    lateinit var messageBox : EditText
+//    lateinit var messageBox : EditText
     lateinit var placeBox : TextView
     lateinit var pickDateButton : Button
-    lateinit var getTextButton : Button
+    lateinit var pickGlobalCheckbox : CheckBox
+//    lateinit var getTextButton : Button
     lateinit var pickFriendButton : Button
     lateinit var submitButton : Button
-    lateinit var getTextTextView : EditText
+//    lateinit var getTextTextView : EditText
     lateinit var pickedFriends : TextView
     lateinit var location : String
+    lateinit var authorDisplayed : TextView
     lateinit var author : GoogleSignInAccount
     private var authorId = -1
     lateinit var friendsList : Future<DefaultResponse>
-    lateinit var userList : List<User>
+    lateinit var userList : MutableList<User>
     private var invitedFriends : MutableSet<String> = hashSetOf()
     lateinit var fDialog: Dialog
     lateinit var submitFriendsButton : Button
     lateinit var vList : ListView
+    private var isGlobalPin:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_pin)
         pickDateButton = findViewById(R.id.pickDateButton)
-        messageBox = findViewById(R.id.message)
+//        messageBox = findViewById(R.id.message)
         pickFriendButton = findViewById(R.id.pickFriendButton)
-        getTextButton = findViewById(R.id.getTextButton)
+//        getTextButton = findViewById(R.id.getTextButton)
         placeBox = findViewById(R.id.placeBox)
         pickedFriends = findViewById(R.id.pickedFriend)
         submitButton = findViewById(R.id.submitButton)
-        getTextTextView = findViewById(R.id.getTextTextView)
+//        getTextTextView = findViewById(R.id.getTextTextView)
+        pickGlobalCheckbox = findViewById(R.id.globalPin)
+        authorDisplayed = findViewById(R.id.organizer_name_label)
         author = GoogleSignIn.getLastSignedInAccount(this)!!
-        userList = listOf(User("Dawid Tracz", "d.tk@gmail.com"), User("Aga Klim", "klk.mun@gmail.com"), User("Ada Ficek", "ada.ficek@gmail.com"),
+        userList = mutableListOf(User("Dawid Tracz", "d.tk@gmail.com"), User("Aga Klim", "klk.mun@gmail.com"), User("Ada Ficek", "ada.ficek@gmail.com"),
                 User("Dawid Traczko", "d.sdsdtk@gmail.com"), User("Aga sadsaKlim", "klksads.mun@gmail.com"), User("sdAda Ficek", "adakoko.ficek@gmail.com"),
                 User("Dawid Traczsss", "dxs.tk@xssgmail.com"), User("sssAga Klim", "klk.mun@gmail.cxxom"), User("Ada Ficekxx", "ada.ficekxxx@gmailsss.com"),
                 User("Dawid cxzTraczsss", "dxs.tk@xssgmail.comzcx"), User("sssAga Klimszcs", "klksks.mun@gmail.cxxom"), User("Ada Ficekxzsadsax", "adsksa.ficekxxx@gmailsss.com"))
 
         authorId = AuthenticationRequest(author?.email.toString()).clientId
-
+        authorDisplayed.text = authorId.toString()
         if(intent.extras != null)
             location = intent.getStringExtra("ADDRESS")
 
@@ -73,20 +81,33 @@ class NewPinActivity : AppCompatActivity() {
         fDialog = Dialog(this)
 
 
-
+        pickGlobalCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
+            isGlobalPin = isChecked
+        }
         pickDateButton.setOnClickListener {
             pickDate(this.findViewById(android.R.id.content))
         }
 
-        getTextButton.setOnClickListener {
-            getTextTextView.text = messageBox.text
-        }
+//        getTextButton.setOnClickListener {
+//            getTextTextView.text = messageBox.text
+//        }
         pickFriendButton.setOnClickListener{
-            val emailList : MutableList<String> = arrayListOf()
-            for (u in userList){
-                emailList.add(u.email)
+
+            val future = ClientHandler.getInstance().friendList
+            if (future != null) {
+                try {
+                    val response = future.get(5, TimeUnit.SECONDS)
+//                    sendTextView.text = response.payload as String
+                    System.out.println(response.payload as String)
+                } catch (e : TimeoutException) {
+                    println("Timeout!")
+                }
+
             }
-            showFriends(this.findViewById(android.R.id.content), emailList)
+            else {
+                Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+            }
+            showFriends(this.findViewById(android.R.id.content), userList)
 
         }
         submitButton.setOnClickListener{
@@ -95,11 +116,13 @@ class NewPinActivity : AppCompatActivity() {
             //place : intent.getStringExtra("LATITUDE") intent.getStringExtra("LONGITUDE")
             //message
             //authorId
+
             val intent: Intent = Intent(applicationContext, MapActivity::class.java)
             intent.putExtra("FROM_ACTIVITY", "NewPinActivity")
             startActivity(intent)
         }
     }
+
 
     @SuppressLint("SetTextI18n")
     fun pickDate(view : View)
@@ -114,8 +137,12 @@ class NewPinActivity : AppCompatActivity() {
         },year, month, day)
         datePickerDialog.show()
     }
-    fun showFriends(view: View, emailList: MutableList<String>){
+    fun showFriends(view: View, userList: MutableList<User>){
 //        Toast.makeText(applicationContext, emailList.toString(), Toast.LENGTH_SHORT).show()
+        val emailList : MutableList<String> = arrayListOf()
+        for (u in userList){
+            emailList.add(u.email)
+        }
         fDialog.setContentView(R.layout.friends_list)
         submitFriendsButton = fDialog.findViewById(R.id.submitFriendsButton)
         vList = fDialog.findViewById(R.id.listView)

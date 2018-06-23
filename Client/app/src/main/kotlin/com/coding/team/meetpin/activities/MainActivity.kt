@@ -30,7 +30,7 @@ class MainActivity : MenuActivity() {
 
 
     private fun initClient() {
-        val client = Client("192.168.1.139", 8081)
+        val client = Client("192.168.1.14", 8081)
         val clientHandler = ClientHandler.getInstance()
 
         println("Initializing client...")
