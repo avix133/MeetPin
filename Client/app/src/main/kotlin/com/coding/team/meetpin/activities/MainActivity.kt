@@ -1,6 +1,7 @@
 package com.coding.team.meetpin.activities
 
 import android.content.Intent
+import android.media.Image
 import android.os.Bundle
 import android.widget.Toast
 
@@ -36,7 +37,7 @@ class MainActivity : MenuActivity() {
 
 
     private fun initClient() {
-        val client = Client("192.168.1.139", 8081)
+        val client = Client("192.168.1.14", 8081)
         val clientHandler = ClientHandler.getInstance()
 
         println("Initializing client...")
