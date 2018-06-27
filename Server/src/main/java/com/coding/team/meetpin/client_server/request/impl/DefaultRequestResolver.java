@@ -5,7 +5,6 @@ import com.coding.team.meetpin.client_server.request.RequestResolver;
 import com.coding.team.meetpin.client_server.request.RequestType;
 import com.coding.team.meetpin.client_server.response.Response;
 import com.coding.team.meetpin.client_server.response.impl.DefaultResponse;
-import com.coding.team.meetpin.dao.model.Pin;
 import com.coding.team.meetpin.dao.model.User;
 import com.coding.team.meetpin.dao.repository.PinRepository;
 import com.coding.team.meetpin.dao.repository.RelationshipRepository;
@@ -15,8 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.sql.Timestamp;
 
 /**
  * Description of class:
@@ -48,13 +45,11 @@ public class DefaultRequestResolver implements RequestResolver {
                 break;
             }
             case ADD_PIN: {
-                User u1 = userRepository.getOne(1);
-                Pin p1 = new Pin("testing testing", u1, 37.06465000, 21.94498000, new Timestamp(1527759414), new Timestamp(1527759414));
-                response = addPin(p1);
+                response = addPin((AddPinRequest) request);
                 break;
             }
             case AUTHENTICATE: {
-                response = authenticate((AuthenticationRequest)request);
+                response = authenticate((AuthenticationRequest) request);
                 break;
             }
             case GLOBAL_PINS: {
@@ -102,12 +97,12 @@ public class DefaultRequestResolver implements RequestResolver {
         return new DefaultResponse(RequestType.DISPLAY_PINS, pinRepository.fetchDisplayPins(displayPin.getClientId()));
     }
 
-    private Response addPin(Pin pin) {
-        return new DefaultResponse(RequestType.ADD_PIN, pinRepository.save(pin));
+    private Response addPin(AddPinRequest addPinRequest) {
+        return new DefaultResponse(RequestType.ADD_PIN, pinRepository.save(addPinRequest.getPin()));
     }
 
     private Response getPinsAddressedToMe(AddressedToMePinRequest addressed) {
-        return new DefaultResponse(RequestType.ADDRESSED_TO_ME_PINS, pinRepository.fetchPinsAddressedToMe(addressed.getPinId()).toString());
+        return new DefaultResponse(RequestType.ADDRESSED_TO_ME_PINS, pinRepository.fetchPinsAddressedToMe(addressed.getClientId()));
     }
 
     private Response getFriendList(FriendListRequest friendList) {
