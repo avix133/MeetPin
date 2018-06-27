@@ -6,12 +6,12 @@ import com.coding.team.meetpin.client_server.response.Response;
 import com.coding.team.meetpin.dao.model.Pin;
 
 public interface MeetPinService {
+    boolean authenticate(String email);
+    Future<Response> acceptEvent(int pinId);
     Future<Response> getPinData(int pinId);
     Future<Response> getGlobalPins();
     Future<Response> getDisplayPins();
     Future<Response> getPinsAddressedToMe(int userId);
-    boolean authenticate(String email);
-
     Future<Response> getFriendList();
     Future<Response> getPendingInvitations();
     Future<Response> inviteFriend(String email);

@@ -5,11 +5,14 @@ import com.coding.team.meetpin.client_server.request.RequestResolver;
 import com.coding.team.meetpin.client_server.request.RequestType;
 import com.coding.team.meetpin.client_server.response.Response;
 import com.coding.team.meetpin.client_server.response.impl.DefaultResponse;
+import com.coding.team.meetpin.dao.model.PinAnswer;
 import com.coding.team.meetpin.dao.model.User;
+import com.coding.team.meetpin.dao.repository.AnswerRepository;
 import com.coding.team.meetpin.dao.repository.PinRepository;
 import com.coding.team.meetpin.dao.repository.RelationshipRepository;
 import com.coding.team.meetpin.dao.repository.UserRepository;
 import com.coding.team.meetpin.util.DatabaseUtils;
+import jdk.nashorn.internal.objects.AccessorPropertyDescriptor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,9 @@ public class DefaultRequestResolver implements RequestResolver {
 
     @Autowired
     private RelationshipRepository relationshipRepository;
+
+    @Autowired
+    private AnswerRepository answerRepository;
 
     @Override
     public Response resolve(final Request request) {
@@ -81,6 +87,11 @@ public class DefaultRequestResolver implements RequestResolver {
                 response = removeFriend((RemoveFriendRequest) request);
                 break;
             }
+
+            case ACCEPT_EVENT: {
+                response = acceptEvent((AcceptEventRequest) request);
+                break;
+            }
         }
         return response;
     }
@@ -119,6 +130,11 @@ public class DefaultRequestResolver implements RequestResolver {
 
     private Response removeFriend(RemoveFriendRequest removeFriend) {
         return new DefaultResponse(RequestType.REMOVE_FRIEND, relationshipRepository.removeFriend(removeFriend.getClientId(), removeFriend.getUserId()));
+    }
+
+    private Response acceptEvent(AcceptEventRequest acceptEventRequest) {
+        answerRepository.save(new PinAnswer())
+        return new DefaultResponse(RequestType.REMOVE_FRIEND, );
     }
 
     private Response authenticate(AuthenticationRequest authenticationRequest) {

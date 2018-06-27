@@ -9,6 +9,8 @@ package com.coding.team.meetpin.util;
  */
 public class DatabaseUtils {
     public static String getUsernameFromEmail(String email) {
-        return email.split("@")[0];
+        if (email != null)
+            return email.split("@")[0];
+        return email;
     }
 }

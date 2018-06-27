@@ -8,6 +8,7 @@ import java.util.concurrent.TimeoutException;
 import com.coding.team.meetpin.client_server.MeetPinService;
 import com.coding.team.meetpin.client_server.request.Request;
 import com.coding.team.meetpin.client_server.request.RequestType;
+import com.coding.team.meetpin.client_server.request.impl.AcceptEventRequest;
 import com.coding.team.meetpin.client_server.request.impl.AddPinRequest;
 import com.coding.team.meetpin.client_server.request.impl.AddressedToMePinRequest;
 import com.coding.team.meetpin.client_server.request.impl.AuthenticationRequest;
@@ -105,6 +106,12 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
     }
 
     @Override
+    public Future<Response> acceptEvent(final int pinId) {
+        Request request = new AcceptEventRequest(clientId, pinId);
+        return sendRequest(request);
+    }
+
+    @Override
     public Future<Response> getPinData(int pinId) {
         Request request = new PinDataRequest(clientId, pinId);
         return sendRequest(request);
@@ -123,7 +130,6 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
     }
 
 
-    // from this point on clientId is hardcoded (to be changed later)
     @Override
     public Future<Response> getFriendList() {
         Request request = new FriendListRequest(clientId);
