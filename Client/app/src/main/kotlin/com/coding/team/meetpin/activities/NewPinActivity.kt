@@ -18,10 +18,10 @@ import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import com.coding.team.meetpin.R
-import com.coding.team.meetpin.app.User
 import com.coding.team.meetpin.client_server.netty.ClientHandler
 import com.coding.team.meetpin.client_server.request.impl.AuthenticationRequest
 import com.coding.team.meetpin.client_server.response.impl.DefaultResponse
+import com.coding.team.meetpin.dao.model.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import kotlinx.android.synthetic.main.activity_new_pin.datePickerDialogBox
