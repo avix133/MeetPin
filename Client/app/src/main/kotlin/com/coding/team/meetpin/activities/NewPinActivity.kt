@@ -6,14 +6,12 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.CheckBox
-import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
@@ -25,21 +23,17 @@ import com.coding.team.meetpin.dao.model.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import kotlinx.android.synthetic.main.activity_new_pin.datePickerDialogBox
-import java.text.FieldPosition
 import java.util.*
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
 class NewPinActivity : AppCompatActivity() {
-//    lateinit var messageBox : EditText
     lateinit var placeBox : TextView
     lateinit var pickDateButton : Button
     lateinit var pickGlobalCheckbox : CheckBox
-//    lateinit var getTextButton : Button
     lateinit var pickFriendButton : Button
     lateinit var submitButton : Button
-//    lateinit var getTextTextView : EditText
     lateinit var pickedFriends : TextView
     lateinit var location : String
     lateinit var authorDisplayed : TextView
@@ -57,13 +51,10 @@ class NewPinActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_pin)
         pickDateButton = findViewById(R.id.pickDateButton)
-//        messageBox = findViewById(R.id.message)
         pickFriendButton = findViewById(R.id.pickFriendButton)
-//        getTextButton = findViewById(R.id.getTextButton)
         placeBox = findViewById(R.id.placeBox)
         pickedFriends = findViewById(R.id.pickedFriend)
         submitButton = findViewById(R.id.submitButton)
-//        getTextTextView = findViewById(R.id.getTextTextView)
         pickGlobalCheckbox = findViewById(R.id.globalPin)
         authorDisplayed = findViewById(R.id.organizer_name_label)
         author = GoogleSignIn.getLastSignedInAccount(this)!!

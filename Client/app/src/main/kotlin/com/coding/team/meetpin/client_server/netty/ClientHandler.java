@@ -69,7 +69,6 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();
-        instance.ctx.close();
     }
 
     private Future<Response> sendRequest(Request request) {
@@ -95,6 +94,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
         Request request = new AuthenticationRequest(email);
         Future<Response> future = sendRequest(request);
         try {
+            assert future != null;
             Response response = future.get(10, TimeUnit.SECONDS);
             clientId = (int) response.getPayload();
         } catch (InterruptedException | NullPointerException | ExecutionException | TimeoutException e) {
