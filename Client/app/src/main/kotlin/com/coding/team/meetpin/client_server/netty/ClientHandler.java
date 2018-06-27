@@ -19,6 +19,7 @@ import com.coding.team.meetpin.client_server.request.impl.PendingInvitationsRequ
 import com.coding.team.meetpin.client_server.request.impl.PinDataRequest;
 import com.coding.team.meetpin.client_server.request.impl.RemoveFriendRequest;
 import com.coding.team.meetpin.client_server.response.Response;
+import com.coding.team.meetpin.dao.model.Pin;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.concurrent.Future;
@@ -117,7 +118,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
 
     @Override
     public Future<Response> getPinsAddressedToMe(int userId) {
-        Request request = new AddressedToMePinRequest(clientId, userId);
+        Request request = new AddressedToMePinRequest(clientId);
         return sendRequest(request);
     }
 
@@ -125,37 +126,37 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
     // from this point on clientId is hardcoded (to be changed later)
     @Override
     public Future<Response> getFriendList() {
-        Request request = new FriendListRequest(1);
+        Request request = new FriendListRequest(clientId);
         return sendRequest(request);
     }
 
     @Override
     public Future<Response> getPendingInvitations() {
-        Request request = new PendingInvitationsRequest(4);
+        Request request = new PendingInvitationsRequest(clientId);
         return sendRequest(request);
     }
 
     @Override
     public Future<Response> inviteFriend(String email) {
-        Request request = new InviteFriendRequest(1, email);
+        Request request = new InviteFriendRequest(clientId, email);
         return sendRequest(request);
     }
 
     @Override
     public Future<Response> removeFriend(int friend_id) {
-        Request request = new RemoveFriendRequest(1, friend_id);
+        Request request = new RemoveFriendRequest(clientId, friend_id);
         return sendRequest(request);
     }
 
     @Override
-    public Future<Response> addPin() {
-        Request request = new AddPinRequest(1);
+    public Future<Response> addPin(Pin pin) {
+        Request request = new AddPinRequest(clientId, pin);
         return sendRequest(request);
     }
 
     @Override
     public Future<Response> getDisplayPins() {
-        Request request = new DisplayPinRequest(1);
+        Request request = new DisplayPinRequest(clientId);
         return sendRequest(request);
     }
 

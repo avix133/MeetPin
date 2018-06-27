@@ -8,7 +8,7 @@ public class AddressedToMePinRequest implements Request {
     private static final long serialVersionUID = 7726095073783947094L;
     private int clientId;
 
-    public AddressedToMePinRequest(int clientId, final int pinId) {
+    public AddressedToMePinRequest(int clientId) {
         this.clientId = clientId;
     }
 
