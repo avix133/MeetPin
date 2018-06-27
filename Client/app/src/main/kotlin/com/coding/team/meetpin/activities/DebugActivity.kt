@@ -8,6 +8,9 @@ import android.widget.TextView
 import android.widget.Toast
 import com.coding.team.meetpin.R
 import com.coding.team.meetpin.client_server.netty.ClientHandler
+import com.coding.team.meetpin.client_server.response.Response
+import io.netty.handler.codec.DecoderException
+import io.netty.util.concurrent.Future
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
@@ -39,22 +42,28 @@ class DebugActivity : MenuActivity() {
         sendButton.setOnClickListener(
                 {
                     println("Sending: " + sendEditText.text.toString())
-                    val future = ClientHandler.getInstance().getPinData(sendEditText.text.toString().toInt())
-                    if (future != null) {
-                        try {
-                            val response = future.get(5, TimeUnit.SECONDS)
-                            if (response.payload != null) {
-                                sendTextView.text = response.payload as String
-                                System.out.println(response.payload as String)
+                    try {
+                        val future = ClientHandler.getInstance().getPinData(sendEditText.text.toString().toInt())
+                        if (future != null) {
+                            try {
+                                val response = future.get(5, TimeUnit.SECONDS)
+                                if (response.payload != null) {
+                                    sendTextView.text = response.payload as String
+                                    System.out.println(response.payload as String)
+                                }
+                            } catch (e : TimeoutException) {
+                                println("Timeout!")
                             }
-                        } catch (e : TimeoutException) {
-                            println("Timeout!")
                         }
+                        else {
+                            Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+                        }
+                    } catch (e :Exception) {
+                        e.printStackTrace()
+//                            Jesli chcemy coś scastowac to klasy na serverze i cliencie muszą być w tych samych package! (i muszą być takie same)
+                        Toast.makeText(applicationContext, "Decoder exception! Dawid left you some notes about it. ", Toast.LENGTH_SHORT).show()
+                    }
 
-                    }
-                    else {
-                        Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_SHORT).show()
-                    }
 
 
                 })

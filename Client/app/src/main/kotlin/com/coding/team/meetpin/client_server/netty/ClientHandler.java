@@ -18,6 +18,7 @@ import com.coding.team.meetpin.client_server.response.Response;
 import com.coding.team.meetpin.client_server.response.impl.DefaultResponse;
 import com.coding.team.meetpin.client_server.request.impl.AuthenticationRequest;
 import com.coding.team.meetpin.client_server.request.impl.PinDataRequest;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.concurrent.Future;
@@ -68,7 +69,6 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();
-        instance.ctx.close();
     }
 
     private Future<Response> sendRequest(Request request) {
