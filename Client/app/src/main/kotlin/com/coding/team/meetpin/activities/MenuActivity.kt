@@ -23,14 +23,20 @@ open class MenuActivity : AppCompatActivity() {
                     startActivity(intent)
                     return true
                 }
+                R.id.mapButton -> {
+                    val intent = Intent(applicationContext, MapActivity::class.java)
+                    intent.putExtra("FROM_ACTIVITY", "MainActivity")
+                    startActivity(intent)
+                    return true
+                }
                 R.id.friendsListButton -> {
                     val intent = Intent(applicationContext, FriendsListActivity::class.java)
                     intent.putExtra("FROM_ACTIVITY", "MainActivity")
                     startActivity(intent)
                     return true
                 }
-                R.id.mapButton -> {
-                    val intent = Intent(applicationContext, MapActivity::class.java)
+                R.id.inviteFriendButton -> {
+                    val intent = Intent(applicationContext, InviteFriendsActivity::class.java)
                     intent.putExtra("FROM_ACTIVITY", "MainActivity")
                     startActivity(intent)
                     return true
@@ -39,12 +45,6 @@ open class MenuActivity : AppCompatActivity() {
                     val intent = Intent(applicationContext, AuthenticationActivity::class.java)
                     intent.putExtra("FROM_ACTIVITY", "MainActivity")
                     intent.putExtra("LOGGED_IN", true)
-                    startActivity(intent)
-                    return true
-                }
-                R.id.debugButton -> {
-                    val intent = Intent(applicationContext, DebugActivity::class.java)
-                    intent.putExtra("FROM_ACTIVITY", "MainActivity")
                     startActivity(intent)
                     return true
                 }

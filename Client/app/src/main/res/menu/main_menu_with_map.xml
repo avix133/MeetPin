@@ -10,16 +10,16 @@
           android:title="@string/action_friends"
           android:orderInCategory="100"
           app:showAsAction="never"/>
+    <item android:id="@+id/inviteFriendButton"
+          android:title="@string/invite_friends"
+          android:orderInCategory="100"
+          app:showAsAction="never"/>
     <item android:id="@+id/mapButton"
           android:title="@string/action_map"
           android:orderInCategory="100"
           app:showAsAction="never"/>
     <item android:id="@+id/logOutButton"
           android:title="@string/action_log_out"
-          android:orderInCategory="100"
-          app:showAsAction="never"/>
-    <item android:id="@+id/debugButton"
-          android:title="@string/action_debug"
           android:orderInCategory="100"
           app:showAsAction="never"/>
 </menu>

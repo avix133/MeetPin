@@ -15,7 +15,7 @@ import com.coding.team.meetpin.R
 import com.coding.team.meetpin.dao.model.User
 
 class FriendsInvitationListActivity: MenuActivity() {
-    lateinit var returnButton : Button
+
     lateinit var friendsButton : Button
     lateinit var userList : List<User>
     lateinit var invitationListView : ListView
@@ -25,13 +25,8 @@ class FriendsInvitationListActivity: MenuActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_invitation_friends_list)
 
-        returnButton = findViewById(R.id.returnButton)
         friendsButton = findViewById(R.id.friendsListButton)
-        returnButton.setOnClickListener( {
-            val intent = Intent(applicationContext, MainActivity::class.java)
-            intent.putExtra("FROM_ACTIVITY", "FriendsListActivity")
-            startActivity(intent)
-        })
+
         friendsButton.setOnClickListener( {
             val intent = Intent(applicationContext, FriendsListActivity::class.java)
             intent.putExtra("FROM_ACTIVITY", "FriendsInvitationListActivity")
@@ -48,6 +43,9 @@ class FriendsInvitationListActivity: MenuActivity() {
         invitationListView = findViewById(R.id.invitationList)
         val adapter = MyListAdapter(this, R.layout.invitation_friend, invitationList)
         invitationListView.adapter = adapter
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
     private class MyListAdapter(context: Context, var resource: Int, var objects: MutableList<String>) : ArrayAdapter<String>(context, resource, objects) {
@@ -67,5 +65,10 @@ class FriendsInvitationListActivity: MenuActivity() {
 
             return view
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 }
