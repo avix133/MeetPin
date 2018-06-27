@@ -10,6 +10,7 @@ import com.coding.team.meetpin.dao.model.User;
 import com.coding.team.meetpin.dao.repository.PinRepository;
 import com.coding.team.meetpin.dao.repository.RelationshipRepository;
 import com.coding.team.meetpin.dao.repository.UserRepository;
+import com.coding.team.meetpin.util.DatabaseUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class DefaultRequestResolver implements RequestResolver {
                 break;
             }
             case AUTHENTICATE: {
-//                response = authenticate((AuthenticationRequest)request);
+                response = authenticate((AuthenticationRequest)request);
                 break;
             }
             case GLOBAL_PINS: {
@@ -123,6 +124,14 @@ public class DefaultRequestResolver implements RequestResolver {
 
     private Response removeFriend(RemoveFriendRequest removeFriend) {
         return new DefaultResponse(RequestType.REMOVE_FRIEND, relationshipRepository.removeFriend(removeFriend.getClientId(), removeFriend.getUserId()));
+    }
+
+    private Response authenticate(AuthenticationRequest authenticationRequest) {
+        String email = authenticationRequest.getEmail();
+        User user = userRepository.findUserByEmail(email);
+        if (user == null)
+            user = userRepository.save(new User(DatabaseUtils.getUsernameFromEmail(email), email));
+        return new DefaultResponse(RequestType.AUTHENTICATE, user.getId());
     }
 
 }

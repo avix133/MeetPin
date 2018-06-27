@@ -18,7 +18,6 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
 import android.util.DisplayMetrics
 import android.widget.Toast
 import com.coding.team.meetpin.R
@@ -39,7 +38,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import java.util.concurrent.TimeUnit
 
-class MapActivity : AppCompatActivity(),
+class MapActivity : MenuActivity(),
         OnMapReadyCallback,
         GoogleMap.OnMyLocationButtonClickListener,
         ActivityCompat.OnRequestPermissionsResultCallback,
@@ -63,7 +62,6 @@ class MapActivity : AppCompatActivity(),
     private lateinit var marker: Marker
     private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var mLastKnownLocation: Location
-
     // Default location (Cracow, Poland)
     private val mDefaultZoom = 15.0f
     private val mDefaultLocation = LatLng(50.06, 19.94)
@@ -115,7 +113,6 @@ class MapActivity : AppCompatActivity(),
         mMap.setOnMarkerClickListener(this)
     }
 
-
     override fun onMarkerClick(p0: Marker?): Boolean {
         val intent = Intent(this, PinWindowActivity::class.java)
         intent.putExtra("FROM_ACTIVITY", "MapActivity")
@@ -153,9 +150,10 @@ class MapActivity : AppCompatActivity(),
     }
 
     private fun getMarkerPosition(): LatLng {
-        return mMap.projection.fromScreenLocation(Point((PERSENTAGE_POS_X *maxX).toInt(), (PERSENTAGE_POS_Y*maxY).toInt()))
+        return mMap.projection.fromScreenLocation(Point((PERSENTAGE_POS_X * maxX).toInt(), (PERSENTAGE_POS_Y * maxY).toInt()))
         //return mMap.projection.fromScreenLocation(Point(MARKER_POS_X, maxY - MARKER_POS_Y))
     }
+
     private fun getLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
@@ -170,7 +168,7 @@ class MapActivity : AppCompatActivity(),
 
     @SuppressLint("MissingPermission")
     private fun getUserLocation() {
-        if(mLocationPermissionGranted) {
+        if (mLocationPermissionGranted) {
             val userLocation = mFusedLocationProviderClient.lastLocation
             userLocation.addOnCompleteListener(this, { task ->
                 if (task.isSuccessful) {
@@ -199,20 +197,18 @@ class MapActivity : AppCompatActivity(),
     }
 
     private fun enableLocationServices() {
-        val locationManager  = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val gpsEnabled : Boolean =  locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val gpsEnabled: Boolean = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
-        if(!gpsEnabled ) {
+        if (!gpsEnabled) {
 
             var dialog = AlertDialog.Builder(this)
                     .setMessage("Enable Your Location")
-                    .setPositiveButton("Location Settings", DialogInterface.OnClickListener {
-                        paramDialogInterface, paramInt ->
+                    .setPositiveButton("Location Settings", DialogInterface.OnClickListener { paramDialogInterface, paramInt ->
                         val myIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                         startActivity(myIntent)
                     })
-                    .setNegativeButton("Cancel", DialogInterface.OnClickListener {
-                        paramDialogInterface, paramInt -> })
+                    .setNegativeButton("Cancel", DialogInterface.OnClickListener { paramDialogInterface, paramInt -> })
 
             dialog.show()
         } else {
@@ -225,11 +221,9 @@ class MapActivity : AppCompatActivity(),
 
         try {
             startActivityForResult(builder.build(this@MapActivity), PLACE_PICKER_REQUEST)
-        }
-        catch (ex: GooglePlayServicesRepairableException){
+        } catch (ex: GooglePlayServicesRepairableException) {
             ex.printStackTrace()
-        }
-        catch (ex: GooglePlayServicesNotAvailableException){
+        } catch (ex: GooglePlayServicesNotAvailableException) {
             ex.printStackTrace()
         }
     }
@@ -240,17 +234,15 @@ class MapActivity : AppCompatActivity(),
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == PLACE_PICKER_REQUEST) {
-            if(resultCode == Activity.RESULT_OK){
-                val place = PlacePicker.getPlace(this,data)
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == Activity.RESULT_OK) {
+                val place = PlacePicker.getPlace(this, data)
                 val toastMsg = String.format("%s", place.name)
                 Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show()
                 changeMapPosition(place.latLng)
 
             }
         }
-
-
     }
 
     private fun displayAllPins() {

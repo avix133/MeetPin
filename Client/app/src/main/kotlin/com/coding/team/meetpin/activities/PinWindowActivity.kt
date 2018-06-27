@@ -3,7 +3,6 @@ package com.coding.team.meetpin.activities
 import android.annotation.SuppressLint
 import android.location.Geocoder
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.DisplayMetrics
 import android.widget.ImageView
 import android.widget.TextView
@@ -15,7 +14,7 @@ import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.concurrent.TimeUnit
 
-class PinWindowActivity : AppCompatActivity() {
+class PinWindowActivity : MenuActivity() {
 
     private lateinit var ownerLabel : TextView
     private lateinit var ownerText : TextView

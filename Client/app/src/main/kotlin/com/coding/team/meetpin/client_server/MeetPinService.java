@@ -1,19 +1,19 @@
 package com.coding.team.meetpin.client_server;
 
+import com.coding.team.meetpin.client_server.response.Response;
 import com.coding.team.meetpin.client_server.response.impl.DefaultResponse;
 import java.util.concurrent.Future;
 
 public interface MeetPinService {
-    Future<DefaultResponse> getPinData(int pinId);
-    Future<DefaultResponse> getGlobalPins();
+    Future<Response> getPinData(int pinId);
+    Future<Response> getGlobalPins();
     Future<DefaultResponse> getDisplayPins();
-    Future<DefaultResponse> getPinsAddressedToMe(int userId);
+    Future<Response> getPinsAddressedToMe(int userId);
     boolean authenticate(String email);
 
-    Future<DefaultResponse> getFriendList();
-    Future<DefaultResponse> getPendingInvitations();
-    Future<DefaultResponse> inviteFriend(String email);
-    Future<DefaultResponse> removeFriend(int friendId);
-    Future<DefaultResponse> addPin();
-
+    Future<Response> getFriendList();
+    Future<Response> getPendingInvitations();
+    Future<Response> inviteFriend(int friendId);
+    Future<Response> removeFriend(int friendId););
+    Future<Response> addPin();
 }
