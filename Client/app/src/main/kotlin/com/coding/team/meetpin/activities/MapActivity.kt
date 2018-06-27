@@ -254,9 +254,15 @@ class MapActivity : MenuActivity(),
     }
 
     private fun displayAllPins() {
-        val result: List<Pin> = ClientHandler.getInstance().getDisplayPins().get(5, TimeUnit.SECONDS).payload as List<Pin>
+        var result: List<Pin> = emptyList()
 
-        for ((index, value) in result.withIndex()) {
+        try {
+            result = ClientHandler.getInstance().getDisplayPins().get(5, TimeUnit.SECONDS).payload as List<Pin>
+        } catch (ex: Exception) {
+            println(ex.printStackTrace())
+        }
+
+        for ( value in result.listIterator()) {
             println(value)
             val pin = LatLng(value.map_latitude, value.map_longitude)
 
