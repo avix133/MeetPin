@@ -73,9 +73,7 @@ class MapActivity : MenuActivity(),
         setContentView(R.layout.activity_map)
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map
-                ) as SupportMapFragment
-
+                .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -87,7 +85,11 @@ class MapActivity : MenuActivity(),
         fab.setOnClickListener {
             loadPlacePicker()
         }
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
+
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
@@ -95,7 +97,6 @@ class MapActivity : MenuActivity(),
         val cracow = LatLng(50.06, 19.94)
         getLocationPermission()
         getUserLocation()
-        displayAllPins()
 
         mMap.setOnMyLocationButtonClickListener(this)
         mMap.setOnMyLocationClickListener(this)
@@ -103,7 +104,6 @@ class MapActivity : MenuActivity(),
 
 //        mMap.addMarker(MarkerOptions().position(cracow).title("Marker in Cracow"))
 //        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cracow, 15f))
-
         mOption = MarkerOptions().position(getMarkerPosition()).draggable(true)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
         marker = mMap.addMarker(mOption)
@@ -111,6 +111,7 @@ class MapActivity : MenuActivity(),
         mMap.setOnCameraMoveStartedListener(this)
         mMap.setOnCameraMoveListener(this)
         mMap.setOnCameraIdleListener(this)
+
 
         mMap.setOnMarkerClickListener(this)
     }
@@ -276,6 +277,11 @@ class MapActivity : MenuActivity(),
                 marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
             }
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 }
 

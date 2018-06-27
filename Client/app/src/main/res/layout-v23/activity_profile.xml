@@ -5,45 +5,44 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.coding.team.meetpin.activities.MyProfileActivity"
+        tools:context="com.coding.team.meetpin.activities.MainActivity"
         tools:layout_editor_absoluteY="81dp">
 
     <Button
             android:id="@+id/mapButton"
-            android:layout_width="wrap_content"
+            android:layout_width="116dp"
             android:layout_height="wrap_content"
             android:text="Map"
-            android:textColor="#fff"
-            android:background="@color/colorAccent"
-            style="@style/Widget.AppCompat.Button" app:layout_constraintTop_toBottomOf="@+id/joey"
+            style="@android:style/Widget.Material.Button.Colored" app:layout_constraintTop_toBottomOf="@+id/joey"
             app:layout_constraintBottom_toTopOf="@+id/friendsListButton" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="16dp" android:layout_marginStart="16dp"/>
 
     <Button
             android:id="@+id/friendsListButton"
-            android:layout_width="wrap_content"
+            android:layout_width="116dp"
             android:layout_height="wrap_content"
             android:text="Friends"
-            android:textColor="#fff"
-            android:background="@color/colorAccent"
-            style="@style/Widget.AppCompat.Button" app:layout_constraintTop_toBottomOf="@+id/mapButton"
+            style="@android:style/Widget.Material.Button.Colored" app:layout_constraintTop_toBottomOf="@+id/mapButton"
             app:layout_constraintBottom_toTopOf="@+id/logOutButton" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="16dp" android:layout_marginStart="16dp"/>
 
     <WebView
             android:id="@+id/joey"
-            android:visibility="visible"
-            android:layout_height="237dp" android:layout_width="380dp" app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="266dp"
+            android:layout_height="204dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp" android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:layout_marginLeft="110dp" android:layout_marginStart="110dp" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="288dp" app:layout_constraintHorizontal_bias="1.0" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="19dp"/>
     <Button
             android:text="Log Out"
-            android:layout_width="wrap_content"
+            android:layout_width="116dp"
             android:layout_height="wrap_content"
-            android:textColor="#fff"
-            android:background="@color/colorAccent"
             android:id="@+id/logOutButton"
-            style="@style/Widget.AppCompat.Button"
+            style="@style/Widget.AppCompat.Button.Colored"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/friendsListButton" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="16dp" android:layout_marginStart="16dp"/>

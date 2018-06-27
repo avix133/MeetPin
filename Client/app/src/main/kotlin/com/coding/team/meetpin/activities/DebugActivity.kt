@@ -8,9 +8,6 @@ import android.widget.TextView
 import android.widget.Toast
 import com.coding.team.meetpin.R
 import com.coding.team.meetpin.client_server.netty.ClientHandler
-import com.coding.team.meetpin.client_server.response.Response
-import io.netty.handler.codec.DecoderException
-import io.netty.util.concurrent.Future
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
@@ -63,11 +60,13 @@ class DebugActivity : MenuActivity() {
 //                            Jesli chcemy coś scastowac to klasy na serverze i cliencie muszą być w tych samych package! (i muszą być takie same)
                         Toast.makeText(applicationContext, "Decoder exception! Dawid left you some notes about it. ", Toast.LENGTH_SHORT).show()
                     }
-
-
-
                 })
-
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
+    }
 }
