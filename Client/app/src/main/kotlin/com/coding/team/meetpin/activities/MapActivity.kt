@@ -87,6 +87,9 @@ class MapActivity : MenuActivity(),
         fab.setOnClickListener {
             loadPlacePicker()
         }
+        val intent = Intent(applicationContext, FriendsListActivity::class.java)
+        intent.putExtra("FROM_ACTIVITY", "MapActivity")
+        startActivity(intent)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
