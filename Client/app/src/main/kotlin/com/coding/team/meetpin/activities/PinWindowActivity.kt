@@ -39,7 +39,7 @@ class PinWindowActivity : MenuActivity() {
         val width = dm.widthPixels
         val height = dm.heightPixels
 
-        window.setLayout((width * .8).toInt(), (height * .4).toInt()) //pass .8 and .4 as val
+        window.setLayout((width * .8).toInt(), (height * .5).toInt()) //pass .8 and .4 as val
 
         ownerLabel = findViewById(R.id.pinned_by_label)
         ownerText = findViewById(R.id.organizer_name_label)

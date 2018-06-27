@@ -133,8 +133,7 @@ public class DefaultRequestResolver implements RequestResolver {
     }
 
     private Response acceptEvent(AcceptEventRequest acceptEventRequest) {
-        answerRepository.save(new PinAnswer())
-        return new DefaultResponse(RequestType.REMOVE_FRIEND, );
+        return new DefaultResponse(RequestType.REMOVE_FRIEND, answerRepository.addAnswer(acceptEventRequest.getPinId(), acceptEventRequest.getClientId(), 1));
     }
 
     private Response authenticate(AuthenticationRequest authenticationRequest) {
