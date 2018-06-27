@@ -36,12 +36,14 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MapActivity" />
+        <activity android:name=".activities.DebugActivity" />
+        <activity android:name=".activities.FriendsInvitationListActivity"/>
         <activity android:name=".activities.FriendsListActivity" />
         <activity android:name=".activities.MainActivity" />
-        <activity android:name=".activities.DebugActivity" />
+        <activity android:name=".activities.MapActivity" />
         <activity android:name=".activities.MenuActivity" />
         <activity android:name=".activities.MyProfileActivity" />
+        <activity android:name=".activities.NewPinActivity"/>
         <activity android:name=".activities.PinWindowActivity"
             android:theme="@style/AppTheme.PinPopupWindow"
         />
@@ -53,8 +55,6 @@
                 android:name="com.google.android.geo.API_KEY"
                 android:value="AIzaSyD8QIWSUULWroQ-wwWWGpSIZP6AxJHq5gM"/>
 
-        <activity android:name=".activities.NewPinActivity">
-        </activity>
     </application>
 
 </manifest>
