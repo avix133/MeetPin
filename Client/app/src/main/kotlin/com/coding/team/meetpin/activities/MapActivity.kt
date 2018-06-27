@@ -84,9 +84,6 @@ class MapActivity : MenuActivity(),
         fab.setOnClickListener {
             loadPlacePicker()
         }
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
 
@@ -271,11 +268,6 @@ class MapActivity : MenuActivity(),
                 marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
             }
         }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return super.onSupportNavigateUp()
     }
 }
 
