@@ -12,7 +12,10 @@ import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import com.coding.team.meetpin.R
+import com.coding.team.meetpin.client_server.netty.ClientHandler
 import com.coding.team.meetpin.dao.model.User
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
 
 class FriendsInvitationListActivity: MenuActivity() {
     lateinit var returnButton : Button
@@ -37,10 +40,40 @@ class FriendsInvitationListActivity: MenuActivity() {
             intent.putExtra("FROM_ACTIVITY", "FriendsInvitationListActivity")
             startActivity(intent)
         })
-        userList = listOf(User("Dawid Tracz", "d.tk@gmail.com"), User("Aga Klim", "klk.mun@gmail.com"), User("Ada Ficek", "ada.ficek@gmail.com"),
-                User("Dawid Traczko", "d.sdsdtk@gmail.com"), User("Aga sadsaKlim", "klksads.mun@gmail.com"), User("sdAda Ficek", "adakoko.ficek@gmail.com"),
-                User("Dawid Traczsss", "dxs.tk@xssgmail.com"), User("sssAga Klim", "klk.mun@gmail.cxxom"), User("Ada Ficekxx", "ada.ficekxxx@gmailsss.com"),
-                User("Dawid cxzTraczsss", "dxs.tk@xssgmail.comzcx"), User("sssAga Klimszcs", "klksks.mun@gmail.cxxom"), User("Ada Ficekxzsadsax", "adsksa.ficekxxx@gmailsss.com"))
+        userList = listOf<User>()
+        println("Sending: ")
+        try {
+            val future = ClientHandler.getInstance().pendingInvitations
+            if (future != null) {
+                try {
+                    val response = future.get(5, TimeUnit.SECONDS)
+                    if (response.payload != null) {
+                        try {
+                            userList = response.payload as List<User>
+                            System.out.println(userList.toString())
+                        }catch (e:Exception){
+                            Toast.makeText(applicationContext, "Something went wrong with casting", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(applicationContext, FriendsListActivity::class.java)
+                            intent.putExtra("FROM_ACTIVITY", "FriendsListActivity")
+                            startActivity(intent)
+                        }
+                    }
+                } catch (e : TimeoutException) {
+                    println("Timeout!")
+                }
+            }
+            else {
+                Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e :Exception) {
+            e.printStackTrace()
+//                            Jesli chcemy coś scastowac to klasy na serverze i cliencie muszą być w tych samych package! (i muszą być takie same)
+            Toast.makeText(applicationContext, "Decoder exception! Dawid left you some notes about it. ", Toast.LENGTH_SHORT).show()
+        }
+//        userList = listOf(User("Dawid Tracz", "d.tk@gmail.com"), User("Aga Klim", "klk.mun@gmail.com"), User("Ada Ficek", "ada.ficek@gmail.com"),
+//                User("Dawid Traczko", "d.sdsdtk@gmail.com"), User("Aga sadsaKlim", "klksads.mun@gmail.com"), User("sdAda Ficek", "adakoko.ficek@gmail.com"),
+//                User("Dawid Traczsss", "dxs.tk@xssgmail.com"), User("sssAga Klim", "klk.mun@gmail.cxxom"), User("Ada Ficekxx", "ada.ficekxxx@gmailsss.com"),
+//                User("Dawid cxzTraczsss", "dxs.tk@xssgmail.comzcx"), User("sssAga Klimszcs", "klksks.mun@gmail.cxxom"), User("Ada Ficekxzsadsax", "adsksa.ficekxxx@gmailsss.com"))
 
         for (u in userList){
             invitationList.add(u.username)

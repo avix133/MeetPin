@@ -73,7 +73,9 @@ class MapActivity : MenuActivity(),
         setContentView(R.layout.activity_map)
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map) as SupportMapFragment
+                .findFragmentById(R.id.map
+                ) as SupportMapFragment
+
         mapFragment.getMapAsync(this)
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -90,7 +92,6 @@ class MapActivity : MenuActivity(),
         supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
-
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
@@ -105,6 +106,7 @@ class MapActivity : MenuActivity(),
 
 //        mMap.addMarker(MarkerOptions().position(cracow).title("Marker in Cracow"))
 //        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cracow, 15f))
+
         mOption = MarkerOptions().position(getMarkerPosition()).draggable(true)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
         marker = mMap.addMarker(mOption)
@@ -112,7 +114,6 @@ class MapActivity : MenuActivity(),
         mMap.setOnCameraMoveStartedListener(this)
         mMap.setOnCameraMoveListener(this)
         mMap.setOnCameraIdleListener(this)
-
 
         mMap.setOnMarkerClickListener(this)
     }
