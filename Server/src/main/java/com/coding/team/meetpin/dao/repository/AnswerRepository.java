@@ -2,6 +2,7 @@ package com.coding.team.meetpin.dao.repository;
 
 import com.coding.team.meetpin.dao.model.PinAnswer;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -10,6 +11,7 @@ import javax.transaction.Transactional;
 public interface AnswerRepository extends JpaRepository<PinAnswer, Integer> {
 
     @Transactional
+    @Modifying
     @Query(value="INSERT INTO pin_answer (pin_id, user_id, answer)" +
             "VALUES (:pinId, :userId, :answer)",
             nativeQuery = true)

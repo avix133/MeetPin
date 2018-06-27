@@ -101,7 +101,7 @@ public class DefaultRequestResolver implements RequestResolver {
     }
 
     private Response getGlobalPins() {
-        return new DefaultResponse(RequestType.GLOBAL_PINS, pinRepository.fetchGlobalPins().toString());
+        return new DefaultResponse(RequestType.GLOBAL_PINS, pinRepository.fetchGlobalPins());
     }
 
     private Response getDisplayPins(DisplayPinRequest displayPin) {
@@ -117,11 +117,11 @@ public class DefaultRequestResolver implements RequestResolver {
     }
 
     private Response getFriendList(FriendListRequest friendList) {
-        return new DefaultResponse(RequestType.FRIEND_LIST, relationshipRepository.fetchFriendList(friendList.getClientId()).toString());
+        return new DefaultResponse(RequestType.FRIEND_LIST, relationshipRepository.fetchFriendList(friendList.getClientId()));
     }
 
     private Response getPendingInvitations(PendingInvitationsRequest pendingInvitations) {
-        return new DefaultResponse(RequestType.PENDING_INVITATIONS, relationshipRepository.fetchPendingInvitations(pendingInvitations.getClientId()).toString());
+        return new DefaultResponse(RequestType.PENDING_INVITATIONS, relationshipRepository.fetchPendingInvitations(pendingInvitations.getClientId()));
     }
 
     private Response inviteFriend(InviteFriendRequest inviteFriend) {
@@ -133,7 +133,7 @@ public class DefaultRequestResolver implements RequestResolver {
     }
 
     private Response acceptEvent(AcceptEventRequest acceptEventRequest) {
-        return new DefaultResponse(RequestType.REMOVE_FRIEND, answerRepository.addAnswer(acceptEventRequest.getPinId(), acceptEventRequest.getClientId(), true));
+        return new DefaultResponse(RequestType.ACCEPT_EVENT, answerRepository.addAnswer(acceptEventRequest.getPinId(), acceptEventRequest.getClientId(), true));
     }
 
     private Response authenticate(AuthenticationRequest authenticationRequest) {
