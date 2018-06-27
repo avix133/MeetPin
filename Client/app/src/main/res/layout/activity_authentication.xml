@@ -20,7 +20,7 @@
                 android:id="@+id/logInButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#F6563A"
+                android:background="#786085"
                 android:text="Sign in with G+"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"/>
@@ -29,7 +29,7 @@
                 android:id="@+id/logOutButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#F6563A"
+                android:background="#786085"
                 android:text="Sign out"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"/>

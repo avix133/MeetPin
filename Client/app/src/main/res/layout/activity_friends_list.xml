@@ -6,16 +6,6 @@
                                              android:layout_height="match_parent"
                                              tools:context="com.coding.team.meetpin.activities.FriendsListActivity"
                                              tools:layout_editor_absoluteY="81dp">
-
-    <Button
-            android:id="@+id/returnButton"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:text="Return"
-            android:layout_marginBottom="428dp"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.756"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="36dp"/>
     <Button
             android:text="Friends inviations"
             android:layout_width="wrap_content"
