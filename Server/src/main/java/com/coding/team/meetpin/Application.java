@@ -34,7 +34,7 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        logger.info("Elo wariaty");
+        logger.info("--= MeetPin Service! =--");
 
         ServerHandler serverHandler = new ServerHandler(defaultRequestResolver);
         Server server = new Server(8081, serverHandler);

@@ -13,7 +13,7 @@ public interface AnswerRepository extends JpaRepository<PinAnswer, Integer> {
     @Query(value="INSERT INTO pin_answer (pin_id, user_id, answer)" +
             "VALUES (:pinId, :userId, :answer)",
             nativeQuery = true)
-    PinAnswer addAnswer(@Param("pinId") int pinId, @Param("userId") int userId, @Param("answer") boolean answer);
+    int addAnswer(@Param("pinId") int pinId, @Param("userId") int userId, @Param("answer") boolean answer);
 
     @Query("SELECT a FROM PinAnswer a " +
         "WHERE a.pin = :pinId "  +

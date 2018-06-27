@@ -97,6 +97,7 @@ class MapActivity : MenuActivity(),
         val cracow = LatLng(50.06, 19.94)
         getLocationPermission()
         getUserLocation()
+        displayAllPins()
 
         mMap.setOnMyLocationButtonClickListener(this)
         mMap.setOnMyLocationClickListener(this)

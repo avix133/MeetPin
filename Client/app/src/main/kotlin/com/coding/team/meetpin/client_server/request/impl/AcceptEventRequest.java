@@ -2,7 +2,6 @@ package com.coding.team.meetpin.client_server.request.impl;
 
 import com.coding.team.meetpin.client_server.request.Request;
 import com.coding.team.meetpin.client_server.request.RequestType;
-import com.coding.team.meetpin.dao.model.Pin;
 
 public class AcceptEventRequest implements Request {
 
@@ -22,7 +21,7 @@ public class AcceptEventRequest implements Request {
 
     @Override
     public RequestType getType() {
-        return RequestType.ADD_PIN;
+        return RequestType.ACCEPT_EVENT;
     }
 
     public int getPinId() {
