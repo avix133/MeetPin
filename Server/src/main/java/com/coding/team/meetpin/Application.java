@@ -3,6 +3,7 @@ package com.coding.team.meetpin;
 import com.coding.team.meetpin.client_server.netty.Server;
 import com.coding.team.meetpin.client_server.netty.ServerHandler;
 import com.coding.team.meetpin.client_server.request.impl.DefaultRequestResolver;
+import com.coding.team.meetpin.dao.repository.PinRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class Application implements CommandLineRunner {
     @Autowired
     private DefaultRequestResolver defaultRequestResolver;
 
+    @Autowired
+    private PinRepository repository;
+
     private static final Logger logger = LogManager.getLogger();
 
     public static void main(String[] args) {
@@ -34,6 +38,8 @@ public class Application implements CommandLineRunner {
 
         ServerHandler serverHandler = new ServerHandler(defaultRequestResolver);
         Server server = new Server(8081, serverHandler);
+
+        System.out.println(repository.fetchDisplayPins(4));
 
         try {
             server.start();

@@ -52,7 +52,9 @@
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
                 android:value="AIzaSyD8QIWSUULWroQ-wwWWGpSIZP6AxJHq5gM"/>
+
+        <activity android:name=".activities.NewPinActivity">
+        </activity>
     </application>
 
 </manifest>
-

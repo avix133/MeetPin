@@ -1,35 +1,24 @@
 package com.coding.team.meetpin.dao.model;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-@Entity
-@Table(name = "pin")
 public class Pin implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
     private User user;
 
     private String message;
 
-    @Column(precision = 10, scale = 2)
     private Double map_latitude;
 
-    @Column(precision = 11, scale = 3)
     private Double map_longitude;
 
     private Timestamp meeting_date;
 
     private Timestamp expire;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
     private PinToGlobal pinToGlobal;
 
     protected Pin() {}
@@ -115,7 +104,7 @@ public class Pin implements Serializable {
     public String toString() {
         return "Pin{" +
                 "id=" + id +
-                ", user=" + user.getId() +
+                ", user=" + user +
                 ", message='" + message + '\'' +
                 ", map_latitude=" + map_latitude +
                 ", map_longitude=" + map_longitude +

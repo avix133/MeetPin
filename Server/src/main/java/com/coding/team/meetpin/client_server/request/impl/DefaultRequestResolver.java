@@ -16,6 +16,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
+
 /**
  * Description of class:
  * <p>
@@ -27,7 +29,6 @@ import org.springframework.stereotype.Component;
 public class DefaultRequestResolver implements RequestResolver {
     private static final Logger logger = LogManager.getLogger();
 
-
     //needs to have DataService
     @Autowired
     private PinRepository pinRepository;
@@ -38,7 +39,6 @@ public class DefaultRequestResolver implements RequestResolver {
     @Autowired
     private RelationshipRepository relationshipRepository;
 
-
     @Override
     public Response resolve(final Request request) {
         Response response = null;
@@ -48,7 +48,9 @@ public class DefaultRequestResolver implements RequestResolver {
                 break;
             }
             case ADD_PIN: {
-//                response = addPin(Pin pin);
+                User u1 = userRepository.getOne(1);
+                Pin p1 = new Pin("testing testing", u1, 37.06465000, 21.94498000, new Timestamp(1527759414), new Timestamp(1527759414));
+                response = addPin(p1);
                 break;
             }
             case AUTHENTICATE: {
@@ -59,22 +61,22 @@ public class DefaultRequestResolver implements RequestResolver {
                 response = getGlobalPins();
                 break;
             }
-
+            case DISPLAY_PINS: {
+                response = getDisplayPins((DisplayPinRequest) request);
+                break;
+            }
             case ADDRESSED_TO_ME_PINS: {
                 response = getPinsAddressedToMe((AddressedToMePinRequest) request);
                 break;
             }
-
             case FRIEND_LIST: {
                 response = getFriendList((FriendListRequest) request);
                 break;
             }
-
             case PENDING_INVITATIONS: {
                 response = getPendingInvitations((PendingInvitationsRequest) request);
                 break;
             }
-
             case INVITE_FRIEND: {
                 response = inviteFriend((InviteFriendRequest) request);
                 break;
@@ -85,9 +87,7 @@ public class DefaultRequestResolver implements RequestResolver {
                 break;
             }
         }
-
         return response;
-
     }
 
     private Response getPinData(PinDataRequest pinDataRequest) {
@@ -96,6 +96,10 @@ public class DefaultRequestResolver implements RequestResolver {
 
     private Response getGlobalPins() {
         return new DefaultResponse(RequestType.GLOBAL_PINS, pinRepository.fetchGlobalPins().toString());
+    }
+
+    private Response getDisplayPins(DisplayPinRequest displayPin) {
+        return new DefaultResponse(RequestType.DISPLAY_PINS, pinRepository.fetchDisplayPins(displayPin.getClientId()));
     }
 
     private Response addPin(Pin pin) {
@@ -115,7 +119,7 @@ public class DefaultRequestResolver implements RequestResolver {
     }
 
     private Response inviteFriend(InviteFriendRequest inviteFriend) {
-        return new DefaultResponse(RequestType.INVITE_FRIEND, relationshipRepository.inviteFriend(inviteFriend.getClientId(), inviteFriend.getUserId()));
+        return new DefaultResponse(RequestType.INVITE_FRIEND, relationshipRepository.inviteFriend(inviteFriend.getClientId(), inviteFriend.getUserEmail()));
     }
 
     private Response removeFriend(RemoveFriendRequest removeFriend) {

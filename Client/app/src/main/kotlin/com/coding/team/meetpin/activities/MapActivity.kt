@@ -21,6 +21,8 @@ import android.support.v7.app.AlertDialog
 import android.util.DisplayMetrics
 import android.widget.Toast
 import com.coding.team.meetpin.R
+import com.coding.team.meetpin.client_server.netty.ClientHandler
+import com.coding.team.meetpin.dao.model.Pin
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
 import com.google.android.gms.common.GooglePlayServicesRepairableException
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -34,6 +36,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import java.util.concurrent.TimeUnit
 
 class MapActivity : MenuActivity(),
         OnMapReadyCallback,
@@ -70,7 +73,9 @@ class MapActivity : MenuActivity(),
         setContentView(R.layout.activity_map)
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map) as SupportMapFragment
+                .findFragmentById(R.id.map
+                ) as SupportMapFragment
+
         mapFragment.getMapAsync(this)
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -84,13 +89,13 @@ class MapActivity : MenuActivity(),
         }
     }
 
-
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
         val cracow = LatLng(50.06, 19.94)
         getLocationPermission()
         getUserLocation()
+        displayAllPins()
 
         mMap.setOnMyLocationButtonClickListener(this)
         mMap.setOnMyLocationClickListener(this)
@@ -98,6 +103,7 @@ class MapActivity : MenuActivity(),
 
 //        mMap.addMarker(MarkerOptions().position(cracow).title("Marker in Cracow"))
 //        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cracow, 15f))
+
         mOption = MarkerOptions().position(getMarkerPosition()).draggable(true)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
         marker = mMap.addMarker(mOption)
@@ -106,13 +112,13 @@ class MapActivity : MenuActivity(),
         mMap.setOnCameraMoveListener(this)
         mMap.setOnCameraIdleListener(this)
 
-
         mMap.setOnMarkerClickListener(this)
     }
 
     override fun onMarkerClick(p0: Marker?): Boolean {
         val intent = Intent(this, PinWindowActivity::class.java)
         intent.putExtra("FROM_ACTIVITY", "MapActivity")
+        intent.putExtra("MARKER_ID", p0!!.snippet)
         startActivity(intent)
         return false
     }
@@ -129,7 +135,13 @@ class MapActivity : MenuActivity(),
         marker.position = getMarkerPosition()
         val geocoder = Geocoder(applicationContext)
         address = geocoder.getFromLocation(p0!!.position.latitude, p0.position.longitude, 1)
-        Toast.makeText(applicationContext, address.get(0).getAddressLine(0), Toast.LENGTH_SHORT).show()
+        val intent:Intent = Intent(applicationContext, NewPinActivity::class.java)
+        intent.putExtra("FROM_ACTIVITY", "MapActivity")
+        intent.putExtra("ADDRESS", address.get(0).getAddressLine(0))
+        intent.putExtra( "LATITUDE", p0!!.position.latitude)
+        intent.putExtra( "LONGITUDE", p0!!.position.longitude)
+        startActivity(intent)
+//        Toast.makeText(applicationContext, address.get(0).getAddressLine(0), Toast.LENGTH_SHORT).show()
     }
 
     override fun onCameraMoveStarted(p0: Int) {
@@ -237,6 +249,25 @@ class MapActivity : MenuActivity(),
                 Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show()
                 changeMapPosition(place.latLng)
 
+            }
+        }
+    }
+
+    private fun displayAllPins() {
+        val result: List<Pin> = ClientHandler.getInstance().getDisplayPins().get(5, TimeUnit.SECONDS).payload as List<Pin>
+
+        for ((index, value) in result.withIndex()) {
+            println(value)
+            val pin = LatLng(value.map_latitude, value.map_longitude)
+
+            marker = mMap.addMarker(MarkerOptions()
+                    .position(pin)
+                    .title(value.message)
+                    .snippet(value.id.toString())
+            )
+
+            if (value.pinToGlobal != null) {
+                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
             }
         }
     }
