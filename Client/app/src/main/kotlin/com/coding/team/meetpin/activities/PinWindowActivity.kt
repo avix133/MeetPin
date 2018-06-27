@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.location.Geocoder
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.coding.team.meetpin.R
@@ -24,6 +25,7 @@ class PinWindowActivity : MenuActivity() {
     private lateinit var dateLabel : TextView
     private lateinit var dateText : TextView
     private lateinit var participantsLabel : TextView
+    private lateinit var beThereButton : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -47,11 +49,16 @@ class PinWindowActivity : MenuActivity() {
         dateLabel = findViewById(R.id.date_label)
         dateText = findViewById(R.id.date_text_view)
         participantsLabel = findViewById(R.id.participants_label)
+        beThereButton = findViewById(R.id.be_there_button)
 
         val pinId: String? = intent.getStringExtra("MARKER_ID")
 
         try {
             val result: Pin = ClientHandler.getInstance().getPinData(pinId!!.toInt()).get(5, TimeUnit.SECONDS).payload as Pin
+
+            beThereButton.setOnClickListener{
+                ClientHandler.getInstance().acceptEvent(result.id)
+            }
             setPinOwner(result)
             setMeetingDate(result)
             setLocation(result)
