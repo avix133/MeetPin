@@ -8,16 +8,17 @@ import java.util.concurrent.TimeoutException;
 import com.coding.team.meetpin.client_server.MeetPinService;
 import com.coding.team.meetpin.client_server.request.Request;
 import com.coding.team.meetpin.client_server.request.RequestType;
+import com.coding.team.meetpin.client_server.request.impl.AddPinRequest;
 import com.coding.team.meetpin.client_server.request.impl.AddressedToMePinRequest;
+import com.coding.team.meetpin.client_server.request.impl.AuthenticationRequest;
+import com.coding.team.meetpin.client_server.request.impl.DisplayPinRequest;
 import com.coding.team.meetpin.client_server.request.impl.FriendListRequest;
 import com.coding.team.meetpin.client_server.request.impl.GlobalPinRequest;
 import com.coding.team.meetpin.client_server.request.impl.InviteFriendRequest;
 import com.coding.team.meetpin.client_server.request.impl.PendingInvitationsRequest;
+import com.coding.team.meetpin.client_server.request.impl.PinDataRequest;
 import com.coding.team.meetpin.client_server.request.impl.RemoveFriendRequest;
 import com.coding.team.meetpin.client_server.response.Response;
-import com.coding.team.meetpin.client_server.response.impl.DefaultResponse;
-import com.coding.team.meetpin.client_server.request.impl.AuthenticationRequest;
-import com.coding.team.meetpin.client_server.request.impl.PinDataRequest;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.concurrent.Future;
@@ -105,21 +106,18 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
     @Override
     public Future<Response> getPinData(int pinId) {
         Request request = new PinDataRequest(clientId, pinId);
-
         return sendRequest(request);
     }
 
     @Override
     public Future<Response> getGlobalPins() {
         Request request = new GlobalPinRequest(clientId);
-
         return sendRequest(request);
     }
 
     @Override
     public Future<Response> getPinsAddressedToMe(int userId) {
         Request request = new AddressedToMePinRequest(clientId, userId);
-
         return sendRequest(request);
     }
 
@@ -128,35 +126,36 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
     @Override
     public Future<Response> getFriendList() {
         Request request = new FriendListRequest(1);
-
         return sendRequest(request);
     }
 
     @Override
     public Future<Response> getPendingInvitations() {
         Request request = new PendingInvitationsRequest(4);
-
         return sendRequest(request);
     }
 
     @Override
     public Future<Response> inviteFriend(String email) {
         Request request = new InviteFriendRequest(1, email);
-
         return sendRequest(request);
     }
 
     @Override
     public Future<Response> removeFriend(int friend_id) {
         Request request = new RemoveFriendRequest(1, friend_id);
-
         return sendRequest(request);
     }
 
     @Override
     public Future<Response> addPin() {
         Request request = new AddPinRequest(1);
+        return sendRequest(request);
+    }
 
+    @Override
+    public Future<Response> getDisplayPins() {
+        Request request = new DisplayPinRequest(1);
         return sendRequest(request);
     }
 
