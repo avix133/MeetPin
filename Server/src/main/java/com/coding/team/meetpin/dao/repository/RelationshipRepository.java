@@ -15,7 +15,7 @@ public interface RelationshipRepository extends JpaRepository<Relationship, Inte
     @Query("SELECT u FROM User u " +
             "INNER JOIN Relationship r " +
             "ON u.id = r.user_two " +
-            "WHERE r.action_user = :id " +
+            "WHERE r.action_user <> :id " +
             "AND r.status = FALSE")
     List<User> fetchPendingInvitations(@Param("id") int user_id);
 
@@ -29,7 +29,7 @@ public interface RelationshipRepository extends JpaRepository<Relationship, Inte
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO relationship (user_one_id, user_two_id, action_user_id, status) " +
-            "SELECT :user_one, u.id, :user_one, 0 " +
+            "SELECT IF(:user_one < u.id, :user_one, u.id) , IF(:user_one > u.id, :user_one, u.id), :user_one, 0 " +
             "FROM user u " +
             "WHERE u.email = :email",
             nativeQuery = true)
