@@ -4,6 +4,7 @@
 /home/dawid/UJ/MeetPin/Server/src/main/java/com/coding/team/meetpin/client_server/request/impl/PinDataRequest.java
 /home/dawid/UJ/MeetPin/Server/src/main/java/com/coding/team/meetpin/dao/model/Pin.java
 /home/dawid/UJ/MeetPin/Server/src/main/java/com/coding/team/meetpin/client_server/response/Response.java
+/home/dawid/UJ/MeetPin/Server/src/main/java/com/coding/team/meetpin/client_server/request/impl/AcceptEventRequest.java
 /home/dawid/UJ/MeetPin/Server/src/main/java/com/coding/team/meetpin/client_server/response/impl/DefaultResponse.java
 /home/dawid/UJ/MeetPin/Server/src/main/java/com/coding/team/meetpin/client_server/request/RequestResolver.java
 /home/dawid/UJ/MeetPin/Server/src/main/java/com/coding/team/meetpin/client_server/request/RequestType.java
@@ -27,6 +28,5 @@
 /home/dawid/UJ/MeetPin/Server/src/main/java/com/coding/team/meetpin/client_server/netty/ServerHandler.java
 /home/dawid/UJ/MeetPin/Server/src/main/java/com/coding/team/meetpin/dao/model/PinToGlobal.java
 /home/dawid/UJ/MeetPin/Server/src/main/java/com/coding/team/meetpin/dao/repository/PinRepository.java
-/home/dawid/UJ/MeetPin/Server/src/main/java/com/coding/team/meetpin/dao/repository/FriendRepository.java
 /home/dawid/UJ/MeetPin/Server/src/main/java/com/coding/team/meetpin/client_server/request/Request.java
 /home/dawid/UJ/MeetPin/Server/src/main/java/com/coding/team/meetpin/dao/model/PinAnswer.java

@@ -17,6 +17,7 @@ com/coding/team/meetpin/client_server/request/RequestResolver.class
 com/coding/team/meetpin/dao/repository/RelationshipRepository.class
 com/coding/team/meetpin/client_server/request/impl/FriendListRequest.class
 com/coding/team/meetpin/client_server/request/impl/AddressedToMePinRequest.class
+com/coding/team/meetpin/client_server/request/impl/AcceptEventRequest.class
 com/coding/team/meetpin/dao/repository/UserRepository.class
 com/coding/team/meetpin/dao/model/PinToGlobal.class
 com/coding/team/meetpin/client_server/request/impl/PinDataRequest.class
@@ -25,7 +26,6 @@ com/coding/team/meetpin/client_server/request/impl/RemoveFriendRequest.class
 com/coding/team/meetpin/dao/model/PinToFriend.class
 com/coding/team/meetpin/client_server/request/impl/AddPinRequest.class
 com/coding/team/meetpin/dao/model/Relationship.class
-com/coding/team/meetpin/dao/repository/FriendRepository.class
 com/coding/team/meetpin/client_server/request/impl/DefaultRequestResolver$1.class
 com/coding/team/meetpin/client_server/netty/Server$1.class
 com/coding/team/meetpin/client_server/request/Request.class
