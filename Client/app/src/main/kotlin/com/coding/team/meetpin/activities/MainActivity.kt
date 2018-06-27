@@ -20,7 +20,7 @@ class MainActivity : MenuActivity() {
         Toast.makeText(applicationContext, "Logged as: $email", Toast.LENGTH_SHORT).show()
 
         val intent = Intent(applicationContext, MapActivity::class.java)
-        intent.putExtra("FROM_ACTIVITY", "MainActivity")
+        intent.putExtra("FROM_ACTIVITY", "MapFragmentActivity")
         startActivity(intent)
 
         initClient()

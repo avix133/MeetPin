@@ -16,6 +16,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.ActivityCompat
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.util.DisplayMetrics
@@ -82,6 +83,9 @@ class MapActivity : MenuActivity(),
         fab.setOnClickListener {
             loadPlacePicker()
         }
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
 
@@ -239,6 +243,11 @@ class MapActivity : MenuActivity(),
 
             }
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 }
 

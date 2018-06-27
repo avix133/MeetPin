@@ -31,6 +31,9 @@ class FriendsListActivity : MenuActivity() {
                     startActivity(intent)
                 }
         )
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -48,5 +51,10 @@ class FriendsListActivity : MenuActivity() {
                 getSystemService(
                         Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.notify(101, notification)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 }

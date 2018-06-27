@@ -14,14 +14,11 @@ import java.util.concurrent.TimeoutException
 /**
  * Created by dawid on 18.04.18.
  */
-
-
 class DebugActivity : MenuActivity() {
 
     lateinit var sendButton: Button
     lateinit var sendEditText: EditText
     lateinit var sendTextView: TextView
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,11 +27,9 @@ class DebugActivity : MenuActivity() {
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
 
-
         sendButton = findViewById(R.id.debugSendButton)
         sendEditText = findViewById(R.id.debugSendEditText)
         sendTextView = findViewById(R.id.debugSendTextView)
-
 
         sendButton.setOnClickListener(
                 {
@@ -53,10 +48,13 @@ class DebugActivity : MenuActivity() {
                     else {
                         Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_SHORT).show()
                     }
-
-
                 })
-
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
+    }
 }

@@ -11,7 +11,6 @@ class MyProfileActivity : MenuActivity() {
 
     private lateinit var mapButton: Button
     private lateinit var friendsButton: Button
-    private lateinit var debugButton: Button
     private lateinit var joey: WebView
     private lateinit var logOutButton : Button
 
@@ -35,7 +34,6 @@ class MyProfileActivity : MenuActivity() {
 
             mapButton = findViewById(R.id.mapButton)
             friendsButton = findViewById(R.id.friendsListButton)
-            debugButton = findViewById(R.id.debugButton)
             logOutButton = findViewById(R.id.logOutButton)
             joey = findViewById(R.id.joey)
             joey.loadUrl("file:///android_asset/Joey.html")
@@ -54,13 +52,6 @@ class MyProfileActivity : MenuActivity() {
                         intent.putExtra("FROM_ACTIVITY", "MainActivity")
                         startActivity(intent)
                     })
-            debugButton.setOnClickListener(
-                    {
-                        val intent = Intent(applicationContext, DebugActivity::class.java)
-                        intent.putExtra("FROM_ACTIVITY", "MainActivity")
-                        startActivity(intent)
-                    }
-            )
             logOutButton.setOnClickListener(
                     {
                         val intent = Intent(applicationContext, AuthenticationActivity::class.java)
@@ -70,6 +61,13 @@ class MyProfileActivity : MenuActivity() {
                     }
             )
         }
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
+    }
 }

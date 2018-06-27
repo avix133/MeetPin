@@ -5,7 +5,7 @@
     android:id="@+id/pin_window"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#6475bef3"
+    android:background="@color/colorPrimaryDark"
     tools:layout_editor_absoluteY="81dp">
     <!--android:background="@drawable/pin_window_rounded">-->
 
