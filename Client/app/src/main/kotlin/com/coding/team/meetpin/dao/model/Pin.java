@@ -1,7 +1,7 @@
 package com.coding.team.meetpin.dao.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.sql.Date;
 
 public class Pin implements Serializable {
 
@@ -15,15 +15,15 @@ public class Pin implements Serializable {
 
     private Double map_longitude;
 
-    private Timestamp meeting_date;
+    private Date meeting_date;
 
-    private Timestamp expire;
+    private Date expire;
 
     private PinToGlobal pinToGlobal;
 
     protected Pin() {}
 
-    public Pin(String message, User user, Double map_latitude, Double map_longitude, Timestamp meeting_date, Timestamp expire) {
+    public Pin(String message, User user, Double map_latitude, Double map_longitude, Date meeting_date, Date expire) {
         this.message = message;
         this.user = user;
         this.map_latitude = map_latitude;
@@ -68,19 +68,19 @@ public class Pin implements Serializable {
         this.map_longitude = map_longitude;
     }
 
-    public Timestamp getMeeting_date() {
+    public Date getMeeting_date() {
         return meeting_date;
     }
 
-    public void setMeeting_date(Timestamp meeting_date) {
+    public void setMeeting_date(Date meeting_date) {
         this.meeting_date = meeting_date;
     }
 
-    public Timestamp getExpire() {
+    public Date getExpire() {
         return expire;
     }
 
-    public void setExpire(Timestamp expire) {
+    public void setExpire(Date expire) {
         this.expire = expire;
     }
 

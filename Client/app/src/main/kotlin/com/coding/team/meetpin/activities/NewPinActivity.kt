@@ -19,33 +19,38 @@ import com.coding.team.meetpin.R
 import com.coding.team.meetpin.client_server.netty.ClientHandler
 import com.coding.team.meetpin.client_server.request.impl.AuthenticationRequest
 import com.coding.team.meetpin.client_server.response.impl.DefaultResponse
+import com.coding.team.meetpin.dao.model.Pin
 import com.coding.team.meetpin.dao.model.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import kotlinx.android.synthetic.main.activity_new_pin.datePickerDialogBox
+import java.sql.Date
+import java.sql.Timestamp
 import java.util.*
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
 class NewPinActivity : AppCompatActivity() {
-    lateinit var placeBox : TextView
-    lateinit var pickDateButton : Button
-    lateinit var pickGlobalCheckbox : CheckBox
-    lateinit var pickFriendButton : Button
-    lateinit var submitButton : Button
-    lateinit var pickedFriends : TextView
-    lateinit var location : String
-    lateinit var authorDisplayed : TextView
-    lateinit var author : GoogleSignInAccount
+    lateinit var placeBox: TextView
+    lateinit var pickDateButton: Button
+    lateinit var pickGlobalCheckbox: CheckBox
+    lateinit var pickFriendButton: Button
+    lateinit var submitButton: Button
+    lateinit var pickedFriends: TextView
+    lateinit var messageBox: TextView
+    lateinit var location: String
+    lateinit var authorDisplayed: TextView
+    lateinit var author: GoogleSignInAccount
     private var authorId = -1
-    lateinit var friendsList : Future<DefaultResponse>
-    lateinit var userList : MutableList<User>
-    private var invitedFriends : MutableSet<String> = hashSetOf()
+    lateinit var friendsList: Future<DefaultResponse>
+    lateinit var userList: List<User>
+    private var invitedFriends: MutableSet<String> = hashSetOf()
     lateinit var fDialog: Dialog
-    lateinit var submitFriendsButton : Button
-    lateinit var vList : ListView
-    private var isGlobalPin:Boolean = false
+    lateinit var submitFriendsButton: Button
+    lateinit var vList: ListView
+    private var isGlobalPin: Boolean = false
+    lateinit var datePickerDialog: DatePickerDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,15 +62,12 @@ class NewPinActivity : AppCompatActivity() {
         submitButton = findViewById(R.id.submitButton)
         pickGlobalCheckbox = findViewById(R.id.globalPin)
         authorDisplayed = findViewById(R.id.organizer_name_label)
+        messageBox = findViewById(R.id.messageBox)
         author = GoogleSignIn.getLastSignedInAccount(this)!!
-        userList = mutableListOf(User("Dawid Tracz", "d.tk@gmail.com"), User("Aga Klim", "klk.mun@gmail.com"), User("Ada Ficek", "ada.ficek@gmail.com"),
-                User("Dawid Traczko", "d.sdsdtk@gmail.com"), User("Aga sadsaKlim", "klksads.mun@gmail.com"), User("sdAda Ficek", "adakoko.ficek@gmail.com"),
-                User("Dawid Traczsss", "dxs.tk@xssgmail.com"), User("sssAga Klim", "klk.mun@gmail.cxxom"), User("Ada Ficekxx", "ada.ficekxxx@gmailsss.com"),
-                User("Dawid cxzTraczsss", "dxs.tk@xssgmail.comzcx"), User("sssAga Klimszcs", "klksks.mun@gmail.cxxom"), User("Ada Ficekxzsadsax", "adsksa.ficekxxx@gmailsss.com"))
 
         authorId = AuthenticationRequest(author?.email.toString()).clientId
         authorDisplayed.text = authorId.toString()
-        if(intent.extras != null)
+        if (intent.extras != null)
             location = intent.getStringExtra("ADDRESS")
 
         placeBox.text = location
@@ -79,34 +81,37 @@ class NewPinActivity : AppCompatActivity() {
             pickDate(this.findViewById(android.R.id.content))
         }
 
-//        getTextButton.setOnClickListener {
-//            getTextTextView.text = messageBox.text
-//        }
-        pickFriendButton.setOnClickListener{
+        pickFriendButton.setOnClickListener {
 
-            val future = ClientHandler.getInstance().friendList
-            if (future != null) {
-                try {
-                    val response = future.get(5, TimeUnit.SECONDS)
-//                    sendTextView.text = response.payload as String
-                    System.out.println(response.payload as String)
-                } catch (e : TimeoutException) {
-                    println("Timeout!")
-                }
+            try {
+                userList = ClientHandler.getInstance().getFriendList().get(5, TimeUnit.SECONDS).payload as List<User>
+                showFriends(this.findViewById(android.R.id.content), userList)
+            } catch (e: Exception) {
 
             }
-            else {
-                Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_SHORT).show()
-            }
-            showFriends(this.findViewById(android.R.id.content), userList)
 
         }
-        submitButton.setOnClickListener{
+        submitButton.setOnClickListener {
             //addPin: dayOfMonth,  monthOfYear, year
             //          invitedFriend
             //place : intent.getStringExtra("LATITUDE") intent.getStringExtra("LONGITUDE")
             //message
             //authorId
+            Toast.makeText(applicationContext, datePickerDialog.toString(), Toast.LENGTH_SHORT).show()
+            val expire = Calendar.getInstance()
+            expire.add(Calendar.DATE, +7)
+            try {
+                val dateP = datePickerDialog.datePicker
+                ClientHandler.getInstance().addPin(Pin(messageBox.text.toString(),
+                        User("", ""),
+                        intent.getDoubleExtra("LATITUDE", 0.0),
+                        intent.getDoubleExtra("LONGTITUDE", 0.0),
+                        java.sql.Date(Calendar.getInstance().timeInMillis),
+                        java.sql.Date(Calendar.getInstance().timeInMillis)))
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
 
             val intent: Intent = Intent(applicationContext, MapActivity::class.java)
             intent.putExtra("FROM_ACTIVITY", "NewPinActivity")
@@ -116,22 +121,22 @@ class NewPinActivity : AppCompatActivity() {
 
 
     @SuppressLint("SetTextI18n")
-    fun pickDate(view : View)
-    {
+    fun pickDate(view: View) {
         val calendar = Calendar.getInstance()
         val day = calendar.get(Calendar.DAY_OF_MONTH)
         val month = calendar.get(Calendar.MONTH)
         val year = calendar.get(Calendar.YEAR)
 
-        val datePickerDialog = DatePickerDialog(this, android.R.style.Theme_Holo_Dialog, DatePickerDialog.OnDateSetListener { datePicker, year, monthOfYear, dayOfMonth ->
+        datePickerDialog = DatePickerDialog(this, android.R.style.Theme_Holo_Dialog, DatePickerDialog.OnDateSetListener { datePicker, year, monthOfYear, dayOfMonth ->
             datePickerDialogBox.text = " " + dayOfMonth + "." + monthOfYear + "." + year
-        },year, month, day)
+        }, year, month, day)
         datePickerDialog.show()
     }
-    fun showFriends(view: View, userList: MutableList<User>){
+
+    fun showFriends(view: View, userList: List<User>) {
 //        Toast.makeText(applicationContext, emailList.toString(), Toast.LENGTH_SHORT).show()
-        val emailList : MutableList<String> = arrayListOf()
-        for (u in userList){
+        val emailList: MutableList<String> = arrayListOf()
+        for (u in userList) {
             emailList.add(u.email)
         }
         fDialog.setContentView(R.layout.friends_list)
@@ -143,11 +148,11 @@ class NewPinActivity : AppCompatActivity() {
         vList.setAdapter(adapter)
 
 
-        submitFriendsButton.setOnClickListener{
+        submitFriendsButton.setOnClickListener {
             var selected = ""
-            val cntChoise= vList.count
+            val cntChoise = vList.count
             val sparseBooleanArray = vList.checkedItemPositions
-            for (i:Int in 0..(cntChoise-1))
+            for (i: Int in 0..(cntChoise - 1))
                 if (sparseBooleanArray.get(i))
                     selected += vList.getItemAtPosition(i).toString() + "\n"
 //                    invitedFriends.add(vList.getItemAtPosition(i).toString() )
