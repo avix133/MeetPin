@@ -23,6 +23,7 @@ import com.coding.team.meetpin.dao.model.Pin
 import com.coding.team.meetpin.dao.model.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import kotlinx.android.synthetic.main.activity_invite_friends.invite
 import kotlinx.android.synthetic.main.activity_new_pin.datePickerDialogBox
 import java.sql.Date
 import java.sql.Timestamp
@@ -45,7 +46,7 @@ class NewPinActivity : AppCompatActivity() {
     private var authorId = -1
     lateinit var friendsList: Future<DefaultResponse>
     lateinit var userList: List<User>
-    private var invitedFriends: MutableSet<String> = hashSetOf()
+    private var invitedFriends: MutableList<User> = mutableListOf()
     lateinit var fDialog: Dialog
     lateinit var submitFriendsButton: Button
     lateinit var vList: ListView
@@ -106,10 +107,10 @@ class NewPinActivity : AppCompatActivity() {
                 val pin = Pin(messageBox.text.toString(),
                         user,
                         intent.getDoubleExtra("LATITUDE", 0.0),
-                        intent.getDoubleExtra("LONGTITUDE", 0.0),
+                        intent.getDoubleExtra("LONGITUDE", 0.0),
                         java.sql.Date(calendar.timeInMillis),
                         java.sql.Date(calendar.timeInMillis))
-                ClientHandler.getInstance().addPin(pin, isGlobalPin, userList)
+                ClientHandler.getInstance().addPin(pin, isGlobalPin, invitedFriends)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -156,11 +157,10 @@ class NewPinActivity : AppCompatActivity() {
             val sparseBooleanArray = vList.checkedItemPositions
             for (i: Int in 0..(cntChoise - 1))
                 if (sparseBooleanArray.get(i))
-                    selected += vList.getItemAtPosition(i).toString() + "\n"
-//                    invitedFriends.add(vList.getItemAtPosition(i).toString() )
-//            pickedFriends.text = invitedFriends.toString()
-            pickedFriends.text = selected
-//            Toast.makeText(fDialog.context, invitedFriends.toString(), Toast.LENGTH_SHORT).show()
+                    for (u in userList) {
+                        if (u.email == vList.getItemAtPosition(i).toString())
+                            invitedFriends.add(u)
+                    }
             fDialog.dismiss()
         }
         fDialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

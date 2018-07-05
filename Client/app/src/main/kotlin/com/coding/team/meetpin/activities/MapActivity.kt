@@ -126,13 +126,17 @@ class MapActivity : MenuActivity(),
         marker = mMap.addMarker(mOption)
         marker.position = getMarkerPosition()
         val geocoder = Geocoder(applicationContext)
-        address = geocoder.getFromLocation(p0!!.position.latitude, p0.position.longitude, 1)
-        val intent:Intent = Intent(applicationContext, NewPinActivity::class.java)
-        intent.putExtra("FROM_ACTIVITY", "MapActivity")
-        intent.putExtra("ADDRESS", address.get(0).getAddressLine(0))
-        intent.putExtra( "LATITUDE", p0!!.position.latitude)
-        intent.putExtra( "LONGITUDE", p0!!.position.longitude)
-        startActivity(intent)
+        try {
+            address = geocoder.getFromLocation(p0!!.position.latitude, p0.position.longitude, 1)
+            val intent: Intent = Intent(applicationContext, NewPinActivity::class.java)
+            intent.putExtra("FROM_ACTIVITY", "MapActivity")
+            intent.putExtra("ADDRESS", address.get(0).getAddressLine(0))
+            intent.putExtra("LATITUDE", p0!!.position.latitude)
+            intent.putExtra("LONGITUDE", p0!!.position.longitude)
+            startActivity(intent)
+        } catch (e: Exception) {
+
+        }
 //        Toast.makeText(applicationContext, address.get(0).getAddressLine(0), Toast.LENGTH_SHORT).show()
     }
 

@@ -118,6 +118,7 @@ public class DefaultRequestResolver implements RequestResolver {
     }
 
     private Response addPin(AddPinRequest addPinRequest) {
+        logger.info("Recipients: " + addPinRequest.getRecipients());
         Pin pin = addPinRequest.getPin();
         if ( addPinRequest.isGlobal()) {
             PinToGlobal global = new PinToGlobal(pin.getId());
