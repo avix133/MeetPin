@@ -1,7 +1,6 @@
 package com.coding.team.meetpin.activities
 
 import android.annotation.SuppressLint
-import android.location.Geocoder
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.widget.Button
@@ -10,8 +9,6 @@ import android.widget.TextView
 import com.coding.team.meetpin.R
 import com.coding.team.meetpin.client_server.netty.ClientHandler
 import com.coding.team.meetpin.dao.model.Pin
-import com.coding.team.meetpin.dao.model.User
-import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.concurrent.TimeUnit
 

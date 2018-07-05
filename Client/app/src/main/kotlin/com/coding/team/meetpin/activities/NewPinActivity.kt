@@ -16,6 +16,7 @@ import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import com.coding.team.meetpin.R
+import com.coding.team.meetpin.R.id.datePickerDialogBox
 import com.coding.team.meetpin.client_server.netty.ClientHandler
 import com.coding.team.meetpin.client_server.request.impl.AuthenticationRequest
 import com.coding.team.meetpin.client_server.response.impl.DefaultResponse
@@ -23,13 +24,10 @@ import com.coding.team.meetpin.dao.model.Pin
 import com.coding.team.meetpin.dao.model.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import kotlinx.android.synthetic.main.activity_new_pin.datePickerDialogBox
 import java.sql.Date
-import java.sql.Timestamp
 import java.util.*
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
-import java.util.concurrent.TimeoutException
 
 class NewPinActivity : AppCompatActivity() {
     lateinit var placeBox: TextView
@@ -101,13 +99,17 @@ class NewPinActivity : AppCompatActivity() {
             val expire = Calendar.getInstance()
             expire.add(Calendar.DATE, +7)
             try {
-                val dateP = datePickerDialog.datePicker
+                val calendar = Calendar.getInstance()
+                calendar.set(Calendar.YEAR, datePickerDialog.datePicker.year)
+                calendar.set(Calendar.MONTH,datePickerDialog.datePicker.month)
+                calendar.set(Calendar.DAY_OF_MONTH, datePickerDialog.datePicker.dayOfMonth)
+
                 ClientHandler.getInstance().addPin(Pin(messageBox.text.toString(),
                         User("", ""),
                         intent.getDoubleExtra("LATITUDE", 0.0),
                         intent.getDoubleExtra("LONGTITUDE", 0.0),
-                        java.sql.Date(Calendar.getInstance().timeInMillis),
-                        java.sql.Date(Calendar.getInstance().timeInMillis)))
+                        java.sql.Date(calendar.timeInMillis),
+                        java.sql.Date(calendar.timeInMillis)))
             } catch (e: Exception) {
                 e.printStackTrace()
             }
