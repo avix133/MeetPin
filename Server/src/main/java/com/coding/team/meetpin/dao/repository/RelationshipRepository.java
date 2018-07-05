@@ -24,7 +24,8 @@ public interface RelationshipRepository extends JpaRepository<Relationship, Inte
     @Query("SELECT u FROM User u " +
             "INNER JOIN Relationship r " +
             "ON u.id = r.user_two OR u.id = r.user_one " +
-            "WHERE u.id <> :id AND r.action_user = :id " +
+            "WHERE u.id <> :id AND r.action_user <> :id " +
+            "AND (r.user_one = :id OR r.user_two = :id) " +
             "AND r.status = FALSE")
     List<User> fetchPendingInvitations(@Param("id") int user_id);
 
