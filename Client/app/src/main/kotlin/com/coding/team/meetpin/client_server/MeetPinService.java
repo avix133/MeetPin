@@ -17,4 +17,5 @@ public interface MeetPinService {
     Future<Response> inviteFriend(String email);
     Future<Response> removeFriend(int friendId);
     Future<Response> addPin(Pin pin);
+    Future<Response> acceptFriendRequest(String username);
 }

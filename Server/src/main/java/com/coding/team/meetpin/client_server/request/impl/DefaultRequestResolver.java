@@ -5,14 +5,12 @@ import com.coding.team.meetpin.client_server.request.RequestResolver;
 import com.coding.team.meetpin.client_server.request.RequestType;
 import com.coding.team.meetpin.client_server.response.Response;
 import com.coding.team.meetpin.client_server.response.impl.DefaultResponse;
-import com.coding.team.meetpin.dao.model.PinAnswer;
 import com.coding.team.meetpin.dao.model.User;
 import com.coding.team.meetpin.dao.repository.AnswerRepository;
 import com.coding.team.meetpin.dao.repository.PinRepository;
 import com.coding.team.meetpin.dao.repository.RelationshipRepository;
 import com.coding.team.meetpin.dao.repository.UserRepository;
 import com.coding.team.meetpin.util.DatabaseUtils;
-import jdk.nashorn.internal.objects.AccessorPropertyDescriptor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,8 +90,17 @@ public class DefaultRequestResolver implements RequestResolver {
                 response = acceptEvent((AcceptEventRequest) request);
                 break;
             }
+
+            case ACCEPT_FRIEND_REQUEST: {
+                response = acceptFriendRequest((AcceptFriendRequest) request);
+                break;
+            }
         }
         return response;
+    }
+
+    private Response acceptFriendRequest(AcceptFriendRequest acceptFriendRequest) {
+        return new DefaultResponse(RequestType.ACCEPT_FRIEND_REQUEST, relationshipRepository.acceptFriendRequest(acceptFriendRequest.getClientId(), acceptFriendRequest.getUsername()));
     }
 
     private Response getPinData(PinDataRequest pinDataRequest) {

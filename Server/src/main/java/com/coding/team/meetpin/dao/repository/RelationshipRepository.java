@@ -12,10 +12,19 @@ import java.util.List;
 
 public interface RelationshipRepository extends JpaRepository<Relationship, Integer> {
 
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE relationship r " +
+            "INNER JOIN user u ON u.id = r.user_two_id " +
+            "SET r.status = 1 " +
+            "WHERE r.action_user_id = :user_one AND u.username = :username",
+            nativeQuery = true)
+    int acceptFriendRequest(@Param("user_one") int user_one, @Param("username") String username);
+
     @Query("SELECT u FROM User u " +
             "INNER JOIN Relationship r " +
             "ON u.id = r.user_two " +
-            "WHERE r.action_user <> :id " +
+            "WHERE r.action_user = :id " +
             "AND r.status = FALSE")
     List<User> fetchPendingInvitations(@Param("id") int user_id);
 

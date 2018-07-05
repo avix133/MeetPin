@@ -13,5 +13,6 @@ public enum RequestType implements Serializable {
     PENDING_INVITATIONS,
     INVITE_FRIEND,
     REMOVE_FRIEND,
-    ACCEPT_EVENT
+    ACCEPT_EVENT,
+    ACCEPT_FRIEND_REQUEST
 }

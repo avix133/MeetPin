@@ -50,7 +50,6 @@ class FriendsInvitationListActivity : MenuActivity() {
             Toast.makeText(applicationContext, "Something went wrong... ", Toast.LENGTH_SHORT).show()
         }
 
-
         for (u in userList) {
             invitationList.add(u.username)
         }
@@ -64,14 +63,21 @@ class FriendsInvitationListActivity : MenuActivity() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val layoutInflater: LayoutInflater = LayoutInflater.from(context)
             val view: View = layoutInflater.inflate(resource, null)
-            var name: TextView = view.findViewById(R.id.friendName)
+            val name: TextView = view.findViewById(R.id.friendName)
             val button: Button = view.findViewById(R.id.invitationButton)
 
             name.text = objects[position]
 
             button.setOnClickListener {
-                Toast.makeText(context, name.text, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Request accepted!!!", Toast.LENGTH_LONG).show()
 
+                try {
+                    ClientHandler.getInstance().acceptFriendRequest(name.text.toString()).get(5, TimeUnit.SECONDS).payload.toString()
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Toast.makeText(context, "Something went wrong... ", Toast.LENGTH_SHORT).show()
+                }
             }
 
             return view

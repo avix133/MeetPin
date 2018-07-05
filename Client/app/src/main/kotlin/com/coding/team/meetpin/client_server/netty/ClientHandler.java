@@ -9,6 +9,7 @@ import com.coding.team.meetpin.client_server.MeetPinService;
 import com.coding.team.meetpin.client_server.request.Request;
 import com.coding.team.meetpin.client_server.request.RequestType;
 import com.coding.team.meetpin.client_server.request.impl.AcceptEventRequest;
+import com.coding.team.meetpin.client_server.request.impl.AcceptFriendRequest;
 import com.coding.team.meetpin.client_server.request.impl.AddPinRequest;
 import com.coding.team.meetpin.client_server.request.impl.AddressedToMePinRequest;
 import com.coding.team.meetpin.client_server.request.impl.AuthenticationRequest;
@@ -166,6 +167,11 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
         return sendRequest(request);
     }
 
+    @Override
+    public Future<Response> acceptFriendRequest(String username) {
+        Request request = new AcceptFriendRequest(clientId, username);
+        return sendRequest(request);
+    }
     public void sendMessage(Object msg) {
         instance.ctx.writeAndFlush(msg);
     }
