@@ -11,6 +11,7 @@ class MyProfileActivity : MenuActivity() {
 
     private lateinit var mapButton: Button
     private lateinit var friendsButton: Button
+    private lateinit var inviteFriendButton: Button
     private lateinit var joey: WebView
     private lateinit var logOutButton : Button
 
@@ -34,6 +35,7 @@ class MyProfileActivity : MenuActivity() {
 
             mapButton = findViewById(R.id.mapButton)
             friendsButton = findViewById(R.id.friendsListButton)
+            inviteFriendButton = findViewById(R.id.inviteFriendButton)
             logOutButton = findViewById(R.id.logOutButton)
             joey = findViewById(R.id.joey)
             joey.loadUrl("file:///android_asset/Joey.html")
@@ -49,6 +51,13 @@ class MyProfileActivity : MenuActivity() {
                     {
                         println("Friends")
                         val intent = Intent(applicationContext, FriendsListActivity::class.java)
+                        intent.putExtra("FROM_ACTIVITY", "MainActivity")
+                        startActivity(intent)
+                    })
+            inviteFriendButton.setOnClickListener(
+                    {
+                        println("Friends")
+                        val intent = Intent(applicationContext, InviteFriendsActivity::class.java)
                         intent.putExtra("FROM_ACTIVITY", "MainActivity")
                         startActivity(intent)
                     })
