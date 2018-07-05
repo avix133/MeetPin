@@ -1,5 +1,6 @@
 package com.coding.team.meetpin.client_server.netty;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -22,6 +23,7 @@ import com.coding.team.meetpin.client_server.request.impl.PinDataRequest;
 import com.coding.team.meetpin.client_server.request.impl.RemoveFriendRequest;
 import com.coding.team.meetpin.client_server.response.Response;
 import com.coding.team.meetpin.dao.model.Pin;
+import com.coding.team.meetpin.dao.model.User;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.concurrent.Future;
@@ -156,8 +158,8 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
     }
 
     @Override
-    public Future<Response> addPin(Pin pin) {
-        Request request = new AddPinRequest(clientId, pin);
+    public Future<Response> addPin(Pin pin, boolean global, List<User> recipients) {
+        Request request = new AddPinRequest(clientId, pin, global, recipients);
         return sendRequest(request);
     }
 

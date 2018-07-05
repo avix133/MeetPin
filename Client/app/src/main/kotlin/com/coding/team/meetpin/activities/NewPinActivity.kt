@@ -92,11 +92,6 @@ class NewPinActivity : AppCompatActivity() {
 
         }
         submitButton.setOnClickListener {
-            //addPin: dayOfMonth,  monthOfYear, year
-            //          invitedFriend
-            //place : intent.getStringExtra("LATITUDE") intent.getStringExtra("LONGITUDE")
-            //message
-            //authorId
             Toast.makeText(applicationContext, datePickerDialog.toString(), Toast.LENGTH_SHORT).show()
             val expire = Calendar.getInstance()
             expire.add(Calendar.DATE, +7)
@@ -108,12 +103,13 @@ class NewPinActivity : AppCompatActivity() {
                 calendar.set(Calendar.YEAR, datePickerDialog.datePicker.year)
                 calendar.set(Calendar.MONTH,datePickerDialog.datePicker.month)
                 calendar.set(Calendar.DAY_OF_MONTH, datePickerDialog.datePicker.dayOfMonth)
-                ClientHandler.getInstance().addPin(Pin(messageBox.text.toString(),
+                val pin = Pin(messageBox.text.toString(),
                         user,
                         intent.getDoubleExtra("LATITUDE", 0.0),
                         intent.getDoubleExtra("LONGTITUDE", 0.0),
                         java.sql.Date(calendar.timeInMillis),
-                        java.sql.Date(calendar.timeInMillis)))
+                        java.sql.Date(calendar.timeInMillis))
+                ClientHandler.getInstance().addPin(pin, isGlobalPin, userList)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

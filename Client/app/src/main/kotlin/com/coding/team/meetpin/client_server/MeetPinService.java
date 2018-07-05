@@ -1,9 +1,11 @@
 package com.coding.team.meetpin.client_server;
 
+import java.util.List;
 import java.util.concurrent.Future;
 
 import com.coding.team.meetpin.client_server.response.Response;
 import com.coding.team.meetpin.dao.model.Pin;
+import com.coding.team.meetpin.dao.model.User;
 
 public interface MeetPinService {
     boolean authenticate(String email);
@@ -16,6 +18,6 @@ public interface MeetPinService {
     Future<Response> getPendingInvitations();
     Future<Response> inviteFriend(String email);
     Future<Response> removeFriend(int friendId);
-    Future<Response> addPin(Pin pin);
+    Future<Response> addPin(Pin pin, boolean global, List<User> recipients);
     Future<Response> acceptFriendRequest(String username);
 }
