@@ -102,8 +102,10 @@ class NewPinActivity : AppCompatActivity() {
             expire.add(Calendar.DATE, +7)
             try {
                 val dateP = datePickerDialog.datePicker
+                val user = User("", "")
+                user.id = ClientHandler.getInstance().clientId
                 ClientHandler.getInstance().addPin(Pin(messageBox.text.toString(),
-                        User("", ""),
+                        user,
                         intent.getDoubleExtra("LATITUDE", 0.0),
                         intent.getDoubleExtra("LONGTITUDE", 0.0),
                         java.sql.Date(Calendar.getInstance().timeInMillis),

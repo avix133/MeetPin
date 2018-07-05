@@ -32,7 +32,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter implements MeetP
 
     private ChannelHandlerContext ctx;
     private static ClientHandler instance = null;
-    private int clientId = -1;
+    public int clientId = -1;
     private ConcurrentHashMap<RequestType, Promise<Response>> messageMap = new ConcurrentHashMap<>();
 
 
