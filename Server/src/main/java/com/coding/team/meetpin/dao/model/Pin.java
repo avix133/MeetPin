@@ -3,7 +3,6 @@ package com.coding.team.meetpin.dao.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
-import java.sql.Timestamp;
 
 @Entity
 @Table(name = "pin")

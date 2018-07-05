@@ -15,23 +15,23 @@ public interface RelationshipRepository extends JpaRepository<Relationship, Inte
     @Modifying
     @Transactional
     @Query(value = "UPDATE relationship r " +
-            "INNER JOIN user u ON u.id = r.user_two_id " +
+            "INNER JOIN user u ON u.id = r.user_two_id OR u.id = r.user_one_id " +
             "SET r.status = 1 " +
-            "WHERE r.action_user_id = :user_one AND u.username = :username",
+            "WHERE r.user_one_id = :user_one OR r.user_two_id = :user_one AND u.username = :username",
             nativeQuery = true)
     int acceptFriendRequest(@Param("user_one") int user_one, @Param("username") String username);
 
     @Query("SELECT u FROM User u " +
             "INNER JOIN Relationship r " +
-            "ON u.id = r.user_two " +
-            "WHERE r.action_user = :id " +
+            "ON u.id = r.user_two OR u.id = r.user_one " +
+            "WHERE u.id <> :id AND r.action_user = :id " +
             "AND r.status = FALSE")
     List<User> fetchPendingInvitations(@Param("id") int user_id);
 
     @Query("SELECT u FROM User u " +
             "INNER JOIN Relationship r " +
-            "ON u.id = r.user_two " +
-            "WHERE r.action_user = :id " +
+            "ON u.id = r.user_two OR u.id = r.user_one " +
+            "WHERE NOT u.id = :id AND (r.user_one = :id OR r.user_two = :id) " +
             "AND r.status = TRUE")
     List<User> fetchFriendList(@Param("id") int user_id);
 

@@ -101,13 +101,16 @@ class NewPinActivity : AppCompatActivity() {
             val expire = Calendar.getInstance()
             expire.add(Calendar.DATE, +7)
             try {
-                val dateP = datePickerDialog.datePicker
+                val calendar = Calendar.getInstance()
+                calendar.set(Calendar.YEAR, datePickerDialog.datePicker.year)
+                calendar.set(Calendar.MONTH,datePickerDialog.datePicker.month)
+                calendar.set(Calendar.DAY_OF_MONTH, datePickerDialog.datePicker.dayOfMonth)
                 ClientHandler.getInstance().addPin(Pin(messageBox.text.toString(),
                         User("", ""),
                         intent.getDoubleExtra("LATITUDE", 0.0),
                         intent.getDoubleExtra("LONGTITUDE", 0.0),
-                        java.sql.Date(Calendar.getInstance().timeInMillis),
-                        java.sql.Date(Calendar.getInstance().timeInMillis)))
+                        java.sql.Date(calendar.timeInMillis),
+                        java.sql.Date(calendar.timeInMillis)))
             } catch (e: Exception) {
                 e.printStackTrace()
             }
