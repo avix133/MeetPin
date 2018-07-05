@@ -6,17 +6,17 @@ import com.coding.team.meetpin.client_server.request.RequestType;
 import com.coding.team.meetpin.client_server.response.Response;
 import com.coding.team.meetpin.client_server.response.impl.DefaultResponse;
 import com.coding.team.meetpin.dao.model.Pin;
+import com.coding.team.meetpin.dao.model.PinToFriend;
 import com.coding.team.meetpin.dao.model.PinToGlobal;
 import com.coding.team.meetpin.dao.model.User;
-import com.coding.team.meetpin.dao.repository.AnswerRepository;
-import com.coding.team.meetpin.dao.repository.PinRepository;
-import com.coding.team.meetpin.dao.repository.RelationshipRepository;
-import com.coding.team.meetpin.dao.repository.UserRepository;
+import com.coding.team.meetpin.dao.repository.*;
 import com.coding.team.meetpin.util.DatabaseUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * Description of class:
@@ -41,6 +41,9 @@ public class DefaultRequestResolver implements RequestResolver {
 
     @Autowired
     private AnswerRepository answerRepository;
+
+    @Autowired
+    private PinToFriendRepository pinToFriendRepository;
 
     @Override
     public Response resolve(final Request request) {
@@ -119,9 +122,16 @@ public class DefaultRequestResolver implements RequestResolver {
 
     private Response addPin(AddPinRequest addPinRequest) {
         Pin pin = addPinRequest.getPin();
-        if ( addPinRequest.isGlobal()) {
+        List<User> recipients = addPinRequest.getRecipients();
+
+        pinRepository.save(pin);
+        if (addPinRequest.isGlobal()) {
             PinToGlobal global = new PinToGlobal(pin.getId());
             pin.setPinToGlobal(global);
+        } else if (!recipients.isEmpty()) {
+            for (User dude : recipients) {
+                pinToFriendRepository.save(new PinToFriend(pin, dude));
+            }
         }
         return new DefaultResponse(RequestType.ADD_PIN, pinRepository.save(pin));
     }
