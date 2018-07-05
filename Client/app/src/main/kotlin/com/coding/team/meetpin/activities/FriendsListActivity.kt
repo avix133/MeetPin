@@ -21,27 +21,18 @@ import java.util.concurrent.TimeoutException
 
 class FriendsListActivity : MenuActivity() {
 
-    lateinit var returnButton: Button
-    lateinit var invitationButton: Button
-    lateinit var userList: List<User>
-    lateinit var friendsListView: ListView
-    private var friendsList: MutableList<String> = arrayListOf()
+    lateinit var invitationButton : Button
+    lateinit var userList : List<User>
+    lateinit var friendsListView : ListView
+    private var friendsList : MutableList<String> = arrayListOf()
 
     @TargetApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_friends_list)
-
-        returnButton = findViewById(R.id.returnButton)
         invitationButton = findViewById(R.id.invitationButton)
-        returnButton.setOnClickListener(
-                {
-                    val intent = Intent(applicationContext, MainActivity::class.java)
-                    intent.putExtra("FROM_ACTIVITY", "FriendsListActivity")
-                    startActivity(intent)
-                }
-        )
-        invitationButton.setOnClickListener({
+
+        invitationButton.setOnClickListener( {
             val intent = Intent(applicationContext, FriendsInvitationListActivity::class.java)
             intent.putExtra("FROM_ACTIVITY", "FriendsListActivity")
             startActivity(intent)
@@ -63,6 +54,9 @@ class FriendsListActivity : MenuActivity() {
         friendsListView = findViewById(R.id.friendsList)
         val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, friendsList)
         friendsListView.adapter = adapter
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -80,5 +74,10 @@ class FriendsListActivity : MenuActivity() {
                 getSystemService(
                         Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(101, notification)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 }

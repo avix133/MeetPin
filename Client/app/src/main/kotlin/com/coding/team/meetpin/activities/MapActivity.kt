@@ -62,7 +62,7 @@ class MapActivity : MenuActivity(),
     private lateinit var marker: Marker
     private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var mLastKnownLocation: Location
-    // Default location (Cracow, Poland)
+
     private val mDefaultZoom = 15.0f
     private val mDefaultLocation = LatLng(50.06, 19.94)
     private val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -73,29 +73,22 @@ class MapActivity : MenuActivity(),
         setContentView(R.layout.activity_map)
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map
-                ) as SupportMapFragment
-
+                .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         maxY = displayMetrics.heightPixels
         maxX = displayMetrics.widthPixels
-        //println( maxX )
-        //println( maxX )
+
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
             loadPlacePicker()
         }
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        val cracow = LatLng(50.06, 19.94)
         getLocationPermission()
         getUserLocation()
         displayAllPins()
@@ -103,12 +96,8 @@ class MapActivity : MenuActivity(),
         mMap.setOnMyLocationButtonClickListener(this)
         mMap.setOnMyLocationClickListener(this)
 
-
-//        mMap.addMarker(MarkerOptions().position(cracow).title("Marker in Cracow"))
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cracow, 15f))
-
         mOption = MarkerOptions().position(getMarkerPosition()).draggable(true)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
         marker = mMap.addMarker(mOption)
         mMap.setOnMarkerDragListener(this)
         mMap.setOnCameraMoveStartedListener(this)
@@ -194,7 +183,6 @@ class MapActivity : MenuActivity(),
         } else {
             mMap.moveCamera(CameraUpdateFactory
                     .newLatLngZoom(mDefaultLocation, mDefaultZoom))
-            mMap.addMarker(MarkerOptions().position(mDefaultLocation).title("Marker in Cracow"))
         }
     }
 
@@ -279,11 +267,6 @@ class MapActivity : MenuActivity(),
                 marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
             }
         }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return super.onSupportNavigateUp()
     }
 }
 

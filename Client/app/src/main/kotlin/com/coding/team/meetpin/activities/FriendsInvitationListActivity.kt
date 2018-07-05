@@ -17,25 +17,20 @@ import com.coding.team.meetpin.dao.model.User
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
-class FriendsInvitationListActivity : MenuActivity() {
-    lateinit var returnButton: Button
-    lateinit var friendsButton: Button
-    lateinit var userList: List<User>
-    lateinit var invitationListView: ListView
-    private var invitationList: MutableList<String> = arrayListOf()
+class FriendsInvitationListActivity: MenuActivity() {
+
+    lateinit var friendsButton : Button
+    lateinit var userList : List<User>
+    lateinit var invitationListView : ListView
+    private var invitationList : MutableList<String> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_invitation_friends_list)
 
-        returnButton = findViewById(R.id.returnButton)
         friendsButton = findViewById(R.id.friendsListButton)
-        returnButton.setOnClickListener({
-            val intent = Intent(applicationContext, MainActivity::class.java)
-            intent.putExtra("FROM_ACTIVITY", "FriendsListActivity")
-            startActivity(intent)
-        })
-        friendsButton.setOnClickListener({
+
+        friendsButton.setOnClickListener( {
             val intent = Intent(applicationContext, FriendsListActivity::class.java)
             intent.putExtra("FROM_ACTIVITY", "FriendsInvitationListActivity")
             startActivity(intent)
@@ -56,6 +51,9 @@ class FriendsInvitationListActivity : MenuActivity() {
         invitationListView = findViewById(R.id.invitationList)
         val adapter = MyListAdapter(this, R.layout.invitation_friend, invitationList)
         invitationListView.adapter = adapter
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
     private class MyListAdapter(context: Context, var resource: Int, var objects: MutableList<String>) : ArrayAdapter<String>(context, resource, objects) {
@@ -82,5 +80,10 @@ class FriendsInvitationListActivity : MenuActivity() {
 
             return view
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 }
