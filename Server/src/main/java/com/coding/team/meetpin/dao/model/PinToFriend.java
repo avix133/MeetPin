@@ -8,44 +8,43 @@ import java.io.Serializable;
 @Table(name = "pin_to_friend")
 public class PinToFriend implements Serializable {
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "to_user_id")
-    private User user;
 
     @Id
-    @ManyToOne
-    @JoinColumn(name = "pin_id")
-    private Pin pin;
+    @Column(name = "to_user_id")
+    private int userId;
+
+    @Id
+    @Column(name = "pin_id")
+    private int pinId;
 
     public PinToFriend() {}
 
-    public PinToFriend(Pin pin, User user) {
-        this.pin = pin;
-        this.user = user;
+    public PinToFriend(int pinId, int userId) {
+        this.pinId = pinId;
+        this.userId = userId;
     }
 
-    public User  getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public Pin getPin() {
-        return pin;
+    public int getPinId() {
+        return pinId;
     }
 
-    public void setPin(Pin pin) {
-        this.pin = pin;
+    public void setPinId(int pin) {
+        this.pinId = pin;
     }
 
     @Override
     public String toString() {
         return "PinToFriend{" +
-                "user=" + user +
-                ", pin=" + pin +
+                "userId=" + userId +
+                ", pin=" + pinId +
                 '}';
     }
 }

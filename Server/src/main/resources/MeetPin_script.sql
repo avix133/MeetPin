@@ -18,9 +18,9 @@ CREATE SCHEMA IF NOT EXISTS `meetpin` DEFAULT CHARACTER SET utf8 ;
 USE `meetpin` ;
 
 -- -----------------------------------------------------
--- Table `meetpin`.`user`
+-- Table `meetpin`.`userId`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `meetpin`.`user` (
+CREATE TABLE IF NOT EXISTS `meetpin`.`userId` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
@@ -45,17 +45,17 @@ CREATE TABLE IF NOT EXISTS `meetpin`.`relationship` (
   INDEX `fk_rel_idx` (`action_user_id` ASC),
   CONSTRAINT `fk_rel_user_one`
     FOREIGN KEY (`user_one_id`)
-    REFERENCES `meetpin`.`user` (`id`)
+    REFERENCES `meetpin`.`userId` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_rel_user_two`
     FOREIGN KEY (`user_two_id`)
-    REFERENCES `meetpin`.`user` (`id`)
+    REFERENCES `meetpin`.`userId` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_rel_user_action`
     FOREIGN KEY (`action_user_id`)
-    REFERENCES `meetpin`.`user` (`id`)
+    REFERENCES `meetpin`.`userId` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `meetpin`.`pin` (
   INDEX `fk_user_idx` (`user_id` ASC),
   CONSTRAINT `fk_pin_user`
     FOREIGN KEY (`user_id`)
-    REFERENCES `meetpin`.`user` (`id`)
+    REFERENCES `meetpin`.`userId` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `meetpin`.`pin_to_friend` (
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_friend`
     FOREIGN KEY (`to_user_id`)
-    REFERENCES `meetpin`.`user` (`id`)
+    REFERENCES `meetpin`.`userId` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `meetpin`.`pin_answer` (
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_answer`
     FOREIGN KEY (`user_id`)
-    REFERENCES `meetpin`.`user` (`id`)
+    REFERENCES `meetpin`.`userId` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

@@ -1,5 +1,7 @@
 package com.coding.team.meetpin.client_server.request.impl;
 
+import java.util.List;
+
 import com.coding.team.meetpin.client_server.request.Request;
 import com.coding.team.meetpin.client_server.request.RequestResolver;
 import com.coding.team.meetpin.client_server.request.RequestType;
@@ -9,14 +11,17 @@ import com.coding.team.meetpin.dao.model.Pin;
 import com.coding.team.meetpin.dao.model.PinToFriend;
 import com.coding.team.meetpin.dao.model.PinToGlobal;
 import com.coding.team.meetpin.dao.model.User;
-import com.coding.team.meetpin.dao.repository.*;
+import com.coding.team.meetpin.dao.repository.AnswerRepository;
+import com.coding.team.meetpin.dao.repository.PinRepository;
+import com.coding.team.meetpin.dao.repository.PinToFriendRepository;
+import com.coding.team.meetpin.dao.repository.PinToGlobalRepository;
+import com.coding.team.meetpin.dao.repository.RelationshipRepository;
+import com.coding.team.meetpin.dao.repository.UserRepository;
 import com.coding.team.meetpin.util.DatabaseUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * Description of class:
@@ -44,6 +49,9 @@ public class DefaultRequestResolver implements RequestResolver {
 
     @Autowired
     private PinToFriendRepository pinToFriendRepository;
+
+    @Autowired
+    private PinToGlobalRepository pinToGlobalRepository;
 
     @Override
     public Response resolve(final Request request) {
@@ -122,19 +130,23 @@ public class DefaultRequestResolver implements RequestResolver {
 
     private Response addPin(AddPinRequest addPinRequest) {
         logger.info("Recipients: " + addPinRequest.getRecipients());
+        logger.info("Pin: " + addPinRequest.getPin());
         Pin pin = addPinRequest.getPin();
         List<User> recipients = addPinRequest.getRecipients();
 
         pinRepository.save(pin);
         if (addPinRequest.isGlobal()) {
             PinToGlobal global = new PinToGlobal(pin.getId());
-            pin.setPinToGlobal(global);
-        } else if (!recipients.isEmpty()) {
+            pinToGlobalRepository.save(global);
+        }
+        if (!recipients.isEmpty()) {
+            User u = userRepository.findUserById(pin.getUser().getId());
+            pin.setUser(u);
             for (User dude : recipients) {
-                pinToFriendRepository.save(new PinToFriend(pin, dude));
+                pinToFriendRepository.save(new PinToFriend(pin.getId(), dude.getId()));
             }
         }
-        return new DefaultResponse(RequestType.ADD_PIN, pinRepository.save(pin));
+        return new DefaultResponse(RequestType.ADD_PIN, pin);
     }
 
     private Response getPinsAddressedToMe(AddressedToMePinRequest addressed) {

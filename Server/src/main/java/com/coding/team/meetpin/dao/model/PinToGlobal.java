@@ -8,6 +8,7 @@ import java.io.Serializable;
 @Table(name = "pin_to_global")
 public class PinToGlobal implements Serializable {
 
+
     @Id
     @Column(name = "pin_id")
     private int pin_id;
